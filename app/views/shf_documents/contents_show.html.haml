@@ -1,0 +1,16 @@
+.shf-document.show#shf-document
+
+  %header.entry-header
+    %h1.entry-title= t('.page_title', document_title: @page)
+
+  .post-title-divider
+    %span
+
+  .entry-content
+    != @contents
+
+    .row.center.item-nav-buttons#item-nav-buttons
+      - if policy(ShfDocument).contents_update?
+        = link_to "#{t('shf_documents.edit_shf_document_contents')}",
+                  contents_edit_path(page: @page),
+                  class: 'btn btn-default edit-shf-document'
