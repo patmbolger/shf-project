@@ -6,5 +6,3 @@
   - HighVoltage.page_ids.each do |page|
     %li{ class: li_class }
       = link_to page.capitalize, contents_show_path(page: page)
-  %br
-  (#{t('shf_documents.missing_special_letters')})
