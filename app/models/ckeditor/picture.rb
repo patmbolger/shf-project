@@ -12,7 +12,7 @@ class Ckeditor::Picture < Ckeditor::Asset
 
   belongs_to :company
   validates_presence_of :company,
-                        if: lambda { |obj| /company/.match(@@category) }
+                        if: lambda { /company/.match(@@category) }
 
   @@category = nil
   @@company_id = nil
