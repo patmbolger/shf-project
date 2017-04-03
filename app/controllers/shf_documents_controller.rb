@@ -3,8 +3,8 @@ class ShfDocumentsController < ApplicationController
   before_action :set_shf_document, only:  [ :show, :edit, :update, :destroy ]
   before_action :authorize_shf_doc, only: [ :show, :edit, :update, :destroy ]
   before_action :authorize_shf_doc_class,
-    only: [:index, :new, :create, :historika_meeting_minutes,
-           :contents_show, :contents_edit, :contents_update]
+                  only: [:index, :new, :create,
+                         :contents_show, :contents_edit, :contents_update]
 
 
   def index
@@ -68,6 +68,8 @@ class ShfDocumentsController < ApplicationController
 
   def contents_edit
     Ckeditor::Picture.images_category = 'member_pages'
+    Ckeditor::Picture.for_company_id = nil
+    
     find_and_render_page_contents
   end
 
@@ -94,10 +96,8 @@ class ShfDocumentsController < ApplicationController
 
   def page_and_file_path
     page = params[:page]
-    file_path = page_path(page) + '.html'
 
-    # remove statement below before pull request
-    file_path += '.haml' if /old_pages/.match(file_path)
+    file_path = page_path(page) + '.html'
 
     file_path.sub!('/en/', '') # strip locale prefix if present
 
