@@ -536,6 +536,8 @@ sv:
 
     contents_access_error: 'Det uppstod ett fel att komma åt filen: %{message}'
 
+    missing_special_letters: 'I dokumenttitlar ovan, bokstäverna å, ä och ö visas som a, a och o, respektive.'
+
     index:
       page_title: 'Styrelseprotokoll'
       instructions: 'Här hittar du våra senaste styrelsemötesprotokoll. Klicka på titeln på ett dokument för att visa det. Beroende på dina webbläsarinställningar kan det öppnas i ett nytt fönster eller så laddas det ner.'
