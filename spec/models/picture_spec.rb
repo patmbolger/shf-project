@@ -65,6 +65,10 @@ RSpec.describe Ckeditor::Picture, type: :model do
 
   describe 'class and instance methods - member pages images' do
     before(:each) do
+      Ckeditor::Picture.images_category = 'company_1'
+      Ckeditor::Picture.for_company_id = company1.id
+      picture1
+      picture3
       Ckeditor::Picture.images_category = 'member_pages'
       Ckeditor::Picture.for_company_id = nil
       picture5
@@ -72,12 +76,10 @@ RSpec.describe Ckeditor::Picture, type: :model do
     end
 
     it 'sets class vars' do
-      expect(Ckeditor::Picture.class_variable_get(:@@category)).
-        to eq('member_pages')
-      expect(Ckeditor::Picture.class_variable_get(:@@company_id)).
-        to be_nil
+      expect(Ckeditor::Picture.class_variable_get(:@@category)).to eq('member_pages')
+      expect(Ckeditor::Picture.class_variable_get(:@@company_id)).to be_nil
     end
-    
+
     it 'fetches images for member pages' do
       Ckeditor::Picture.images_category = 'member_pages'
 

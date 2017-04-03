@@ -63,14 +63,14 @@ class ShfDocumentsController < ApplicationController
   end
 
   def contents_show
-    find_and_render_page_contents
+    page_and_page_contents
   end
 
   def contents_edit
     Ckeditor::Picture.images_category = 'member_pages'
     Ckeditor::Picture.for_company_id = nil
-    
-    find_and_render_page_contents
+
+    page_and_page_contents
   end
 
   def contents_update
@@ -104,7 +104,7 @@ class ShfDocumentsController < ApplicationController
     [ page, File.join(Rails.root, 'app', 'views', file_path) ]
   end
 
-  def find_and_render_page_contents
+  def page_and_page_contents
     @page, file_path = page_and_file_path
     @contents = File.new(file_path).read
   rescue => e
