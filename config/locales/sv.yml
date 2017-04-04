@@ -524,19 +524,19 @@ sv:
   shf_documents:
 
     new_shf_document: &new_shf_document Nytt dokument
-    new_shf_minutes:  &new_shf_minutes Lägg till mötesprotokoll Document
+    new_shf_minutes:  &new_shf_minutes Lägg till mötesprotokoll
     edit_shf_document: Redigera info om dokument
     view_shf_document: Information om dokument
     all_shf_documents: Alla uppladdade dokument
     all_shf_minutes: Alla mötesprotokoll
-    edit_shf_document_contents: Redigera SHF dokumentinnehållet
+    edit_shf_document_contents: Redigera dokumentinnehållet
 
     invalid_upload_type: *invalid_upload_type
     file_too_large: *file_too_large_5MB
 
     contents_access_error: 'Det uppstod ett fel att komma åt filen: %{message}'
 
-    missing_special_letters: 'I dokumenttitlar ovan, bokstäverna å, ä och ö visas som a, a och o, respektive.'
+    missing_special_letters: 'Vi beklagar, men för tillfället kan systemet inte visa åäö i undersidornas titlar.'
 
     index:
       page_title: 'Styrelseprotokoll'
