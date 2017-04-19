@@ -43,6 +43,7 @@ RSpec.describe Company, type: :model do
     it { is_expected.to have_db_column :email }
     it { is_expected.to have_db_column :website }
     it { is_expected.to have_db_column :description }
+    it { is_expected.to have_db_column :address_visibility }
   end
 
   describe 'Validations' do
@@ -50,6 +51,8 @@ RSpec.describe Company, type: :model do
     it { is_expected.to validate_length_of(:company_number).is_equal_to(10) }
     it { is_expected.to allow_value('user@example.com').for(:email) }
     it { is_expected.not_to allow_value('userexample.com').for(:email) }
+    it { is_expected.to validate_inclusion_of(:address_visibility)
+      .in_array(Company::ADDRESS_VISIBILITY) }
 
   end
 
