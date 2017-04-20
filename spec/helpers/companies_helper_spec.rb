@@ -110,4 +110,24 @@ RSpec.describe CompaniesHelper, type: :helper do
 
   end
 
+  describe '#address_visibility_array' do
+    let(:selection_array) do
+      [ [ I18n.t('address_visibility.street'), 'street' ],
+        [ I18n.t('address_visibility.post_code'), 'post_code'],
+        [ I18n.t('address_visibility.city'), 'city' ],
+        [ I18n.t('address_visibility.kommun'), 'kommun' ],
+        [ I18n.t('address_visibility.none'), 'none' ] ]
+    end
+    it 'returns swedish selections array' do
+      I18n.locale = 'sv'
+      expect(selection_array[0][0]).to eq 'Gata'
+      expect(address_visibility_array).to match_array selection_array
+    end
+    it 'returns english selections array' do
+      I18n.locale = 'en'
+      expect(selection_array[0][0]).to eq 'Street'
+      expect(address_visibility_array).to match_array selection_array
+    end
+  end
+
 end

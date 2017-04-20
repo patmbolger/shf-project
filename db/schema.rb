@@ -67,10 +67,10 @@ ActiveRecord::Schema.define(version: 20170418213009) do
     t.string   "phone_number"
     t.string   "email"
     t.string   "website"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at",                                    null: false
+    t.datetime "updated_at",                                    null: false
     t.text     "description"
-    t.string   "address_visibility", default: "street"
+    t.string   "address_visibility", default: "street_address"
     t.index ["company_number"], name: "index_companies_on_company_number", unique: true, using: :btree
   end
 

@@ -10,9 +10,9 @@ class Company < ApplicationRecord
   validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: [:create, :update]
   validate :swedish_organisationsnummer
 
-  ADDRESS_VISIBILITY = %w(Gata Ort Kommun Ingen) # street, city, kommun, none
+  ADDRESS_VISIBILITY = %w(street_address post_code city kommun none)
 
-  validates :address_visibility, inclusion: ADDRESS_VISIBILITY
+  validates :address_visibility, inclusion: ADDRESS_VISIBILITY, allow_nil: true
 
   before_save :sanitize_website
 
