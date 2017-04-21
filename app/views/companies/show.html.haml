@@ -29,7 +29,8 @@
 
 
         .address
-          - if fields = show_address_fields(current_user, @company)
+          - fields, visibility = show_address_fields(current_user, @company)
+          - if fields
 
             %h2 #{t('.address')}:
 
@@ -41,15 +42,22 @@
               - if field[:method]
 
                 -# if the latter, call value method on that object
-                - val = val&.method(field[:method]).call
+                - val = val&.method(field[:method])&.call
 
               = field_or_none t(".#{field[:label]}"), val,
                               tag_options: { class: field[:name] }
 
+            - if visibility
+
+              = field_or_none t('companies.address_visibility'),
+                              t("address_visibility.#{@company.address_visibility}"),
+                              tag_options: { class: 'address_visibility' }
+
       .col-md-7
-        = render partial: 'map_companies',
-                 locals: { markers: location_and_markers_for([@company],
-                 link_name: false )}
+        - if fields
+          = render partial: 'map_companies',
+                   locals: { markers: location_and_markers_for([@company],
+                   link_name: false )}
 
 
 

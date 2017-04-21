@@ -12,7 +12,7 @@ class Company < ApplicationRecord
 
   ADDRESS_VISIBILITY = %w(street_address post_code city kommun none)
 
-  validates :address_visibility, inclusion: ADDRESS_VISIBILITY, allow_nil: true
+  validates :address_visibility, inclusion: ADDRESS_VISIBILITY
 
   before_save :sanitize_website
 
@@ -46,6 +46,8 @@ class Company < ApplicationRecord
     end
 
   end
+
+  scope :address_visible, -> { where('address_visibility != ?', 'none') }
 
 
   def destroy_checks

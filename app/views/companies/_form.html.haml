@@ -34,10 +34,13 @@
 
     .form-group
       .col-sm-4
+
         = address_form.label :kommun_id, "#{t('companies.show.kommun')}"
         %br
         = address_form.collection_select(:kommun_id, Kommun.all, :id, :name)
+
       .col-sm-4
+
         = address_form.label :region_id, "#{t('companies.operations_region')}",
                              class: 'wpcf7-form-control'
 
@@ -46,13 +49,14 @@
 
         %br
         = address_form.collection_select(:region_id, Region.all, :id, :name)
+
       .col-sm-4
+      
         = f.label :address_visibility, "#{t('companies.address_visibility')}"
         %span.glyphicon.glyphicon-info-sign{ title: "#{t('.visibility_tooltip')}",
                                              data: {toggle: 'tooltip'} }
         %br
-        = f.select(:address_visibility,
-                   options_for_select(address_visibility_array))
+        = f.select(:address_visibility, address_visibility_array)
 
   %br
   %br
