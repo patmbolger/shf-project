@@ -78,7 +78,7 @@ module CompaniesHelper
   #        - method: name of value method to call on attribute (non-nil for association)
   #    - nil if no fields are to be shown
   #  Return value two:
-  #    - true if address visibility value is to be shown
+  #    - true if address_visibility value is to be shown
   #    - false otherwise
   def show_address_fields(user, company)
 

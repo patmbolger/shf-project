@@ -130,4 +130,49 @@ RSpec.describe CompaniesHelper, type: :helper do
     end
   end
 
+  describe '#show_address_fields' do
+    let(:admin)   { create(:user, admin: true) }
+    let(:member)  { create(:member_with_membership_app) }
+    let(:visitor) { create(:user) }
+    let(:company) { create(:company) }
+
+    let(:all_fields) do
+      [ { name: 'street_address', label: 'street', method: nil },
+        { name: 'post_code', label: 'post_code', method: nil },
+        { name: 'city', label: 'city', method: nil },
+        { name: 'kommun', label: 'kommun', method: 'name' },
+        { name: 'region', label: 'region', method: 'name' } ]
+    end
+
+    it 'returns all fields for admin user' do
+      # The helper method returns two values, so these will be in an array
+      expect(show_address_fields(admin, nil)).to match_array [ all_fields, true ]
+    end
+
+    it 'returns all fields for member associated with company' do
+      company = member.membership_applications[0].company
+      expect(show_address_fields(member, company))
+        .to match_array [ all_fields, true ]
+    end
+
+    it 'for visitor, returns fields consistent with address visibility' do
+
+      (0..Company::ADDRESS_VISIBILITY.length-1).each do |idx|
+
+        company.address_visibility = Company::ADDRESS_VISIBILITY[idx]
+
+        fields, visibility = show_address_fields(visitor, company)
+
+        expect(visibility).to be false
+
+        case company.address_visibility
+        when 'none'
+          expect(fields).to be nil
+        else
+          expect(fields).to match_array all_fields[idx, 5]
+        end
+      end
+    end
+  end
+
 end
