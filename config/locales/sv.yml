@@ -412,12 +412,12 @@ sv:
         flera län, eller "Online" om det fungerar oftast (eller uteslutande) på nätet.
       visibility_tooltip: Nivå av detaljer som ses av besökare (inklusive kartor).
         Ställ till 'Ingen' för ingen adress sikt.
+      org_nr_tooltip: Endast siffror (ej bindestreck)
 
     company_name: Företagsnamn
     telephone_number: Telefonnummer
     operations_region: *region
     website_include_http: Företagets webbplats
-    org_nr_no_hyphens: Endast siffror (ej bindestreck)
     description: Beskrivning av företaget
     address_visibility: Adress Synlighet
 

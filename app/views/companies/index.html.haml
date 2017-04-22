@@ -10,7 +10,7 @@
 
     .row
       = render 'map_companies',
-               markers: location_and_markers_for(@all_visible_address_companies)
+               markers: location_and_markers_for(@all_visible_companies)
 
 
     - unless current_user.try(:admin)

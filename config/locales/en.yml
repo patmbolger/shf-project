@@ -412,12 +412,12 @@ en:
         in several counties, or "Online" if it operates mostly (or solely) online.
       visibility_tooltip: Level of detail as seen by visitor (including maps).
         Set to 'None' for no address visibility.
+      org_nr_tooltip: Numbers only (no hyphens)
 
     company_name: Company name
     telephone_number: Phone number
     operations_region: County of operations
     website_include_http: Company website
-    org_nr_no_hyphens: Numbers only (no hyphens)
     description: Customized Company Description
     address_visibility: Address Visibility
 

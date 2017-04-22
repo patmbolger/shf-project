@@ -13,9 +13,9 @@ class CompaniesController < ApplicationController
                           .complete
                           .includes(:addresses, :business_categories)
 
-    @all_visible_address_companies = @all_companies.address_visible
+    @all_visible_companies = @all_companies.address_visible
 
-    @all_visible_address_companies.each { | co | geocode_if_needed co  }
+    @all_visible_companies.each { | co | geocode_if_needed co  }
 
     @companies = @all_companies.page(params[:page]).per_page(10)
 
@@ -84,6 +84,7 @@ class CompaniesController < ApplicationController
       if @company.previous_changes.include?('address_visibility') && !address.changed?
         address.reload # get latest version of company object
         address.geocode_best_possible
+        address.save
       end
 
       redirect_to @company, notice: t('.success')
