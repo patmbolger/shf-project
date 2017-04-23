@@ -20,6 +20,18 @@ RSpec.describe Company, type: :model do
                      company_number: '4268582063')
   end
 
+  let(:complete_co2) do
+    create(:company, name: 'Complete Company 2',
+                     company_number: '5560360793',
+                     address_visibility: 'city')
+  end
+
+  let(:complete_co3) do
+    create(:company, name: 'Complete Company 3',
+                     company_number: '5569467466',
+                     address_visibility: 'none')
+  end
+
   let!(:complete_companies) { [complete_co] }
 
   let!(:incomplete_companies) do
@@ -77,6 +89,16 @@ RSpec.describe Company, type: :model do
       expect(complete_scope & incomplete_companies).to match_array([])
     end
 
+  end
+
+  describe 'address_visible scope' do
+    it 'only returns companies that are complete' do
+      complete_co2
+      complete_co3
+      scope_records = Company.address_visible
+      expect(scope_records).
+        to match_array [ no_name, nil_region, complete_co, complete_co2 ]
+    end
   end
 
 

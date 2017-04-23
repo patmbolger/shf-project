@@ -47,6 +47,9 @@ class Address < ApplicationRecord
   def address_array
     # This should only be called for address associated with a company
 
+    # Returns an array of address field values (strings) that starts with
+    # with address_visibility level set for the associated company.
+
     visibility_level = addressable.address_visibility
 
     address_pattern = %w(street_address post_code city kommun)

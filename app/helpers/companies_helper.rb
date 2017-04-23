@@ -67,7 +67,13 @@ module CompaniesHelper
     end
   end
 
-  # if user == company member || user == admin, show all fields
+  # `show_address_fields` returns an array used in company show view to
+  # loop through and display all address fields for a company,
+  # consistent with:
+  #  1) type of user, and,
+  #  2) `address_visibility` set for the company
+  #
+  # If user == company member || user == admin, show all fields
   # else show all fields consistent with address_visibility.
   # Two return values:
   #  Return value one:
