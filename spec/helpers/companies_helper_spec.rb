@@ -112,7 +112,7 @@ RSpec.describe CompaniesHelper, type: :helper do
 
   describe '#address_visibility_array' do
     let(:selection_array) do
-      [ [ I18n.t('address_visibility.street'), 'street' ],
+      [ [ I18n.t('address_visibility.street_address'), 'street_address' ],
         [ I18n.t('address_visibility.post_code'), 'post_code'],
         [ I18n.t('address_visibility.city'), 'city' ],
         [ I18n.t('address_visibility.kommun'), 'kommun' ],

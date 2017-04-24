@@ -61,10 +61,13 @@ class Address < ApplicationRecord
     return [] unless start_index
 
     if kommun
-      [street_address, post_code, city, kommun.name, sverige_if_nil][start_index..4]
+      ary = [street_address, post_code, city, kommun.name,
+             sverige_if_nil][start_index..4]
     else
-      [street_address, post_code, city, sverige_if_nil][start_index..3]
+      ary = [street_address, post_code, city,
+             sverige_if_nil][start_index..3]
     end
+    ary.delete_if {|f| f.blank?}
   end
 
   def entire_address
