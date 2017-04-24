@@ -44,3 +44,6 @@ Feature: All companies are geocoded before being shown on the view all companies
     Then all addresses for the company named "No More Snarky Barky" should be geocoded
     And all addresses for the company named "Bowsers" should be geocoded
     And all addresses for the company named "CompanyNotVisible" should not be geocoded
+    And I should see "No More Snarky Barky"
+    And I should see "Bowsers"
+    And I should see "CompanyNotVisible"
