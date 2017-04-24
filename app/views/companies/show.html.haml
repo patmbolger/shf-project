@@ -48,7 +48,7 @@
                               tag_options: { class: field[:name] }
 
             - if visibility
-            
+
               - value_class = (@company.address_visibility == 'none' ? 'no' : 'yes')
 
               = field_or_none t('companies.address_visibility'),
