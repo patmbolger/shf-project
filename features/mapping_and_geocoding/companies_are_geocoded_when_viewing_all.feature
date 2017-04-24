@@ -1,7 +1,8 @@
 Feature: All companies are geocoded before being shown on the view all companies page
   As a visitor,
   so all companies are mapped when I look at the list of them,
-  geocode any companies that aren't yet geocoded before everything is displayed.
+  geocode any companies that aren't yet geocoded before everything is displayed,
+  unless a company address visibility is set to 'none'
 
   Background:
     Given the following regions exist:
