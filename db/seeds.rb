@@ -223,8 +223,8 @@ if Rails.env.production?
     User.create!(email: email, password: pwd, admin: true)
   rescue => e
     puts e.inspect
-    raise SeedAdminENVError, SEED_ERROR_MSG
-    return false
+    # raise SeedAdminENVError, SEED_ERROR_MSG
+    # return false
   end
 else
   email = 'admin@sverigeshundforetagare.se'
