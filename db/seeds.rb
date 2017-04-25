@@ -224,7 +224,7 @@ if Rails.env.production?
   rescue => e
     puts e.inspect
     # raise SeedAdminENVError, SEED_ERROR_MSG
-    # return false
+    return
   end
 else
   email = 'admin@sverigeshundforetagare.se'
