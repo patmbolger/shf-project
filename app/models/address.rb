@@ -54,6 +54,8 @@ class Address < ApplicationRecord
 
     address_pattern = %w(street_address post_code city kommun)
 
+    pattern_length = address_pattern.length
+
     start_index = address_pattern.find_index do |field|
       field == visibility_level
     end
@@ -61,11 +63,11 @@ class Address < ApplicationRecord
     return [] unless start_index
 
     if kommun
-      ary = [street_address, post_code, city, kommun.name,
-             sverige_if_nil][start_index..4]
+      ary = [ street_address, post_code, city, kommun.name,
+              sverige_if_nil][start_index..pattern_length ]
     else
-      ary = [street_address, post_code, city,
-             sverige_if_nil][start_index..3]
+      ary = [ street_address, post_code, city,
+              sverige_if_nil][start_index..(pattern_length-1) ]
     end
     ary.delete_if {|f| f.blank?}
   end
