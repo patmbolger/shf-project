@@ -85,7 +85,7 @@ class ShfDocumentsController < ApplicationController
     member_page.update_attribute(:title, params[:title])
 
     redirect_to contents_show_path(page),
-                notice: t('.success', document_title: page.capitalize)
+                notice: t('.success', document_title: member_page.title)
 
   rescue => e
     helpers.flash_message(:alert,

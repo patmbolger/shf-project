@@ -23,7 +23,7 @@ RSpec.describe MemberPage, type: :model do
       expect { MemberPage.title('page_name') }.to change(MemberPage, :count).by(1)
     end
 
-    it 'returns file name as default title' do
+    it 'returns capitalized file name as default title' do
       expect(MemberPage.title('page_name')).to eq 'Page_name'
     end
 
