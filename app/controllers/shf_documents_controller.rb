@@ -107,6 +107,7 @@ class ShfDocumentsController < ApplicationController
   def page_and_page_contents
     @page, file_path = page_and_file_path
     @contents = File.new(file_path).read
+    @title = MemberPage.title(@page)
   rescue => e
     helpers.flash_message(:alert,
                           t('shf_documents.contents_access_error',

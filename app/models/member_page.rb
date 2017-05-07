@@ -1,7 +1,7 @@
 class MemberPage < ApplicationRecord
   validates_presence_of :filename
   # Note that we are not checking for uniqueness of filename - this is because
-  # all of the member page files are maintaind in a single directory (accessed
+  # all of the member page files are maintained in a single directory (accessed
   # by HighVoltage) and hence the OS will ensure unique filenames
 
   def self.title(file_name)
