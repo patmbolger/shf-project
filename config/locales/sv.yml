@@ -539,7 +539,7 @@ sv:
     view_shf_document: Information om dokument
     all_shf_documents: Alla uppladdade dokument
     all_shf_minutes: Alla mötesprotokoll
-    edit_shf_document_contents: Redigera dokumentinnehållet
+    edit_member_page: Redigera sida
 
     invalid_upload_type: *invalid_upload_type
     file_too_large: *file_too_large_5MB

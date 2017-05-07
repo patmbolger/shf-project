@@ -539,7 +539,7 @@ en:
     view_shf_document: View the SHF document details
     all_shf_documents: All SHF Documents
     all_shf_minutes: All Meeting Minutes
-    edit_shf_document_contents: Edit the document contents
+    edit_member_page: Edit page
 
     invalid_upload_type: Sorry, this is not a file type you can upload.
     file_too_large: *file_too_large_5MB

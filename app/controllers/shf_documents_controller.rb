@@ -81,6 +81,9 @@ class ShfDocumentsController < ApplicationController
       file.write(contents)
     end
 
+    member_page = MemberPage.find_by filename: page
+    member_page.update_attribute(:title, params[:title])
+
     redirect_to contents_show_path(page),
                 notice: t('.success', document_title: page.capitalize)
 
