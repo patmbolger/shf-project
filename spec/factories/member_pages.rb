@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :member_page do
-    filename "MyString"
-    title "MyString"
+    filename 'test_file_name'
+    title 'test_page_title'
   end
 end
