@@ -601,8 +601,8 @@ sv:
       page_title: 'Redigera medlemssida: %{document_title}'
 
     contents_form:
-      member_page_title: Medlemssida Titel
-      member_page_contents: MInnehållsförteckning
+      member_page_title: Titel
+      member_page_contents: Innehåll
 
     contents_update:
       success: '%{document_title} uppdaterades utan problem.'
