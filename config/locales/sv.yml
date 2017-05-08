@@ -409,8 +409,8 @@ sv:
 
     form:
       region_tooltip: Välj "Sverige" om företaget är verksamt i
-        flera län, eller "Online" om det fungerar oftast (eller uteslutande) på nätet = om det (i huvudak) finns på nätet
-      visibility_tooltip: Nivå av detaljer som ses av besökare (inklusive kartor). Ställ till 'Ingen' för ingen adress sikt. = Hur detaljerat din adress visas för besökare (inkl kartor). Välj 'Ingen' för att inte visa din adress för besökare alls.
+       flera län, eller "Online" om det (i huvudsak) finns på nätet
+      visibility_tooltip: Hur detaljerat din adress visas för besökare (inkl kartor). Välj 'Ingen' för att inte visa din adress för besökare alls.
       org_nr_tooltip: Endast siffror (ej bindestreck)
 
     company_name: Företagsnamn
