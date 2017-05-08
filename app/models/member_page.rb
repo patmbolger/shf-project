@@ -12,9 +12,7 @@ class MemberPage < ApplicationRecord
     member_page.title
   end
 
-  private
-
-  def self.find_or_create(file_name)
+  private_class_method def self.find_or_create(file_name)
     member_page = find_by filename: file_name
 
     return member_page if member_page
