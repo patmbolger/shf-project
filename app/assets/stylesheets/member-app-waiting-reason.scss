@@ -1,7 +1,12 @@
-.member_app_waiting_reasons {
+#member_app_waiting_reasons {
 
-  input.wpcf7-form-control.is-custom {
-    width: 3rem;
+  select {
+    height: 110%;
+  }
+
+  input[type="text"]{
+    padding: 0.3rem 0.3rem;
+    width: 35rem;
   }
 
 }
