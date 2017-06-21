@@ -1,9 +1,9 @@
--# submit the changed reason via xhr (javascript) whenever the change from the )
--#  Do not make user press a "save" or "submit" button for just these changes.
-= form_for @membership_application, html: { id: 'member_app_waiting_reasons', multipart: true}, url: membership_application_path do |f|
+-# submit the changed reason via xhr (javascript) when a member_app_waiting_reasons_id is selected from the list or custom_reason_text is changed.
+  Do not make user press a "save" or "submit" button for just these changes.
+= form_for @membership_application, html: { id: 'member-app-waiting-reasons', multipart: true}, url: membership_application_path do |f|
   .row
 
-    .reason_waiting_information
+    .reason-waiting-information
       .col-sm-4
         = f.label( :member_app_waiting_reasons, t('membership_applications.need_info.reason_title'))
         = f.collection_select(:member_app_waiting_reasons_id,
@@ -18,7 +18,7 @@
 
 
       .col-sm-8
-        %div#other_text_field
+        #other-text-field
           = f.label( :reason_waiting_custom_text, t('membership_applications.need_info.other_reason_label') )
           = f.text_field :custom_reason_text,
           data: {remote: true, url: membership_application_path, method: 'put'}
@@ -57,14 +57,14 @@
         document.getElementById("membership_application_custom_reason_text").value = "";
     }
 
-    $('#other_text_field').toggle(showEm);
+    $('#other-text-field').toggle(showEm);
   };
 
 
 
   let initialize_hide_or_show = (function() {
 
-    $('#other_text_field').hide(); // start with this hidden.
+    $('#other-text-field').hide(); // start with this hidden.
 
     $('#membership_application_member_app_waiting_reasons_id').change(hideOrShow);
 

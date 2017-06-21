@@ -45,7 +45,7 @@ module MembershipApplicationsHelper
 
   def reason_method(method_prefix, locale)
     possible_method = "#{method_prefix}_#{locale}".to_sym
-    method_name = (AdminOnly::MemberAppWaitingReason.new.respond_to?(possible_method) ? possible_method : AdminOnly::MemberAppWaitingReason.send("default_#{method_prefix}_method".to_sym))
+   (AdminOnly::MemberAppWaitingReason.new.respond_to?(possible_method) ? possible_method : AdminOnly::MemberAppWaitingReason.send("default_#{method_prefix}_method".to_sym))
   end
 
 
