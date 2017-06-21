@@ -19,7 +19,7 @@ NUM_USERS = 100 unless defined?(NUM_USERS)
 DEFAULT_PASSWORD = 'whatever' unless defined?(DEFAULT_PASSWORD)
 
 unless Rails.env.development? || Rails.env.production? ||
-       Rails.env.test?        || ENV['HEROKU_STAGING']
+    Rails.env.test? || ENV['HEROKU_STAGING']
 
   puts 'Unknown Rails environment !!'
   abort SEED_STOP_MSG
@@ -55,6 +55,17 @@ if Kommun.all.empty?
   Rake::Task['shf:load_kommuns'].invoke
 end
 
+
+if AdminOnly::MemberAppWaitingReason.all.empty?
+  puts 'Loading MemberAppWaitingReasons: Creating the "Other/custom" reason'
+  AdminOnly::MemberAppWaitingReason.create(name_sv: AdminOnly::MemberAppWaitingReason.other_reason_name(:sv),
+                                           description_sv: AdminOnly::MemberAppWaitingReason.other_reason_desc(:sv),
+                                           name_en: AdminOnly::MemberAppWaitingReason.other_reason_name(:sv),
+                                           description_en: AdminOnly::MemberAppWaitingReason.other_reason_desc(:en),
+                                           is_custom: false)
+end
+
+
 puts 'Creating business categories'
 business_categories = %w(Träning Psykologi Rehab Butik Trim Friskvård Dagis Pensionat Skola)
 business_categories.each { |b_category| BusinessCategory.find_or_create_by(name: b_category) }
@@ -83,7 +94,7 @@ unless Rails.env.production? || Rails.env.test?
 
   puts "\n Membership Applications by state:"
   states = MembershipApplication.aasm.states.map(&:name)
-  states.sort.each do | state |
+  states.sort.each do |state|
     puts "  #{state}: #{MembershipApplication.where(state: state).count }"
   end
 end
