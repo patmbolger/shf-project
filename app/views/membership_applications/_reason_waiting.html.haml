@@ -44,14 +44,12 @@
 
 
 
-  let other_reason = '#{AdminOnly::MemberAppWaitingReason.other_reason_name}';
-
   // hide or show the text field for entering a custom reason
   let hideOrShow = function() {
 
     let showEm;
     let selected_reason = $('#membership_application_member_app_waiting_reasons_id').find('option:selected').text();
-
+    let other_reason = '#{AdminOnly::MemberAppWaitingReason.other_reason_name}';
     showEm =  other_reason === selected_reason;
 
     if (!showEm &&   document.getElementById("membership_application_custom_reason_text") !== null ) {
