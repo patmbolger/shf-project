@@ -2,6 +2,12 @@ require 'rails_helper'
 
 RSpec.describe MembershipApplicationsHelper, type: :helper do
 
+  before(:all) do
+    # ensure MembershipAppWaitingReason.all is empty
+    AdminOnly::MemberAppWaitingReason.delete_all
+  end
+
+
   describe '#member_full_name' do
     it 'appends first and last with a space inbetween' do
       assign(:membership_application, create(:membership_application, first_name: 'Kitty', last_name: 'Kat', user: create(:user)))
