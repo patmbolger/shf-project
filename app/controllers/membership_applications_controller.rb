@@ -47,15 +47,11 @@ class MembershipApplicationsController < ApplicationController
         helpers.flash_message(:notice, t('.success'))
         redirect_to root_path
       else
-        helpers.flash_message(:alert, t('.error'))
-        current_user.membership_applications.reload
-        render :new
+        create_error(t('.error'))
       end
 
     else
-      helpers.flash_message(:alert, t('.error'))
-      current_user.membership_applications.reload
-      render :new
+      create_error(t('.error'))
     end
   end
 
@@ -80,35 +76,13 @@ class MembershipApplicationsController < ApplicationController
         end
 
       else
-        respond_to do |format|
-
-          format.html do
-            helpers.flash_message(:alert, t('.error'))
-            redirect_to edit_membership_application_path(@membership_application)
-          end
-
-          format.js do
-            render :json => @membership_application.errors, :status => :unprocessable_entity
-          end
-
-        end
+        update_error(t('.error'))
       end
 
     else
-      respond_to do |format|
-
-        format.html do
-          helpers.flash_message(:alert, t('.error'))
-          redirect_to edit_membership_application_path(@membership_application)
-        end
-
-        format.js do
-          render :json => @membership_application.errors, :status => :unprocessable_entity
-        end
-
-      end
-
+      update_error(t('.error'))
     end
+
   end
 
 
@@ -243,5 +217,27 @@ class MembershipApplicationsController < ApplicationController
     end
   end
 
+
+  def create_error(error_message)
+    helpers.flash_message(:alert, error_message)
+    current_user.membership_applications.reload
+    render :new
+  end
+
+
+  def update_error(error_message)
+    respond_to do |format|
+
+      format.html do
+        helpers.flash_message(:alert, error_message)
+        redirect_to edit_membership_application_path(@membership_application)
+      end
+
+      format.js do
+        render :json => @membership_application.errors, :status => :unprocessable_entity
+      end
+
+    end
+  end
 
 end
