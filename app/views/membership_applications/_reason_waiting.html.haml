@@ -1,0 +1,80 @@
+-# submit the changed reason via xhr (javascript) whenever the change from the )
+-#  Do not make user press a "save" or "submit" button for just these changes.
+= form_for @membership_application, html: { id: 'member_app_waiting_reasons', multipart: true}, url: membership_application_path do |f|
+  .row
+
+    .reason_waiting_information
+      .col-sm-4
+        = f.label( :member_app_waiting_reasons, t('membership_applications.need_info.reason_title'))
+        = f.collection_select(:member_app_waiting_reasons_id,
+                              AdminOnly::MemberAppWaitingReason.all,
+                              :id,
+                              reason_name_method,
+                              { include_blank: t('membership_applications.need_info.select_a_reason') },
+                              class: 'reason-waiting-list',
+                              data: { remote: true,
+                               url: membership_application_path,
+                               method: 'put' }  )
+
+
+      .col-sm-8
+        %div#other_text_field
+          = f.label( :reason_waiting_custom_text, t('membership_applications.need_info.other_reason_label') )
+          = f.text_field :custom_reason_text,
+          data: {remote: true, url: membership_application_path, method: 'put'}
+
+
+:javascript
+
+
+  let reason_select_list = $(".reason-waiting-list");
+
+  // Changing the value in the member_app_waiting_reasons_id select list
+  // will send an AJAX request to the controller with the newly selected value.
+  // The controller will send a JS message back (the callback).
+  // If the callback reported that everything was successful, we don't need to do anything.
+  // If the callback reported an error, display an error message.
+
+
+  reason_select_list.bind("ajax:error", function(evt, data, status, xhr){
+
+    alert( "#{I18n.t('membership_applications.update.error')}" )
+
+  });
+
+
+
+  let other_reason = '#{AdminOnly::MemberAppWaitingReason.other_reason_name}';
+
+  // hide or show the text field for entering a custom reason
+  let hideOrShow = function() {
+
+    let showEm;
+    let selected_reason = $('#membership_application_member_app_waiting_reasons_id').find('option:selected').text();
+
+    showEm =  other_reason === selected_reason;
+
+    if (!showEm &&   document.getElementById("membership_application_custom_reason_text") !== null ) {
+        // clear out any custom reason if the selected reason is not the custom reason
+        document.getElementById("membership_application_custom_reason_text").value = "";
+    }
+
+    $('#other_text_field').toggle(showEm);
+  };
+
+
+
+  let initialize_hide_or_show = (function() {
+
+    $('#other_text_field').hide(); // start with this hidden.
+
+    $('#membership_application_member_app_waiting_reasons_id').change(hideOrShow);
+
+    hideOrShow();
+  });
+
+
+
+  $(document).ready(initialize_hide_or_show);
+
+
