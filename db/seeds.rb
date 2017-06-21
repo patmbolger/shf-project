@@ -44,7 +44,7 @@ unless AdminOnly::MemberAppWaitingReason.exists?
   puts 'Loading MemberAppWaitingReasons: Creating the "Other/custom" reason'
   AdminOnly::MemberAppWaitingReason.create(name_sv: AdminOnly::MemberAppWaitingReason.other_reason_name(:sv),
                                            description_sv: AdminOnly::MemberAppWaitingReason.other_reason_desc(:sv),
-                                           name_en: AdminOnly::MemberAppWaitingReason.other_reason_name(:sv),
+                                           name_en: AdminOnly::MemberAppWaitingReason.other_reason_name(:en),
                                            description_en: AdminOnly::MemberAppWaitingReason.other_reason_desc(:en),
                                            is_custom: false)
 end
