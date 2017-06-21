@@ -16,7 +16,7 @@ class MembershipApplicationsController < ApplicationController
     authorize MembershipApplication
 
     action_params, @items_count, items_per_page =
-      process_pagination_params('membership_application')
+        process_pagination_params('membership_application')
 
     @search_params = MembershipApplication.ransack(action_params)
 
@@ -67,17 +67,47 @@ class MembershipApplicationsController < ApplicationController
 
         check_and_mark_if_ready_for_review params['membership_application'] if params.fetch('membership_application', false)
 
-        helpers.flash_message(:notice, t('.success'))
-        render :show
+        respond_to do |format|
+          format.js do
+            render partial: 'membership_applications/reason_waiting'
+          end
+
+          format.html do
+            helpers.flash_message(:notice, t('.success'))
+            render :show
+          end
+
+        end
 
       else
-        helpers.flash_message(:alert, t('.error'))
-        redirect_to edit_membership_application_path(@membership_application)
+        respond_to do |format|
+
+          format.html do
+            helpers.flash_message(:alert, t('.error'))
+            redirect_to edit_membership_application_path(@membership_application)
+          end
+
+          format.js do
+            render :json => @membership_application.errors, :status => :unprocessable_entity
+          end
+
+        end
       end
 
     else
-      helpers.flash_message(:alert, t('.error'))
-      redirect_to edit_membership_application_path(@membership_application)
+      respond_to do |format|
+
+        format.html do
+          helpers.flash_message(:alert, t('.error'))
+          redirect_to edit_membership_application_path(@membership_application)
+        end
+
+        format.js do
+          render :json => @membership_application.errors, :status => :unprocessable_entity
+        end
+
+      end
+
     end
   end
 
@@ -95,7 +125,7 @@ class MembershipApplicationsController < ApplicationController
 
 
   def destroy
-    @membership_application = MembershipApplication.find(params[:id])  # we don't need to fetch the categories
+    @membership_application = MembershipApplication.find(params[:id]) # we don't need to fetch the categories
     @membership_application.destroy
     redirect_to membership_applications_url, notice: t('membership_applications.application_deleted')
   end
@@ -132,20 +162,29 @@ class MembershipApplicationsController < ApplicationController
 
 
   def cancel_need_info
+
+    # empty out the reason for waiting info
+    @membership_application.waiting_reason = nil
+    @membership_application.custom_reason_text = nil
+
     simple_state_change(:cancel_waiting_for_applicant!, t('.success'), t('.error'))
   end
+
 
   def need_payment
     simple_state_change(:ask_for_payment!, t('.success'), t('.error'))
   end
 
+
   def cancel_need_payment
     simple_state_change(:cancel_waiting_for_payment!, t('.success'), t('.error'))
   end
 
+
   def received_payment
     simple_state_change(:received_payment!, t('.success'), t('.error'))
   end
+
 
   private
   def membership_application_params
