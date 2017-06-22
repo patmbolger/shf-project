@@ -480,6 +480,22 @@ Then /^"([^"]*)" should( not)? have "([^"]*)" selected$/ do | select_list, negat
 end
 
 
+
+# Checks that a certain option does or does not exist in a select list
+Then /^"([^"]*)" should( not)? have t\("([^"]*)"\) as an option/ do | select_list, negate, expected_string |
+
+  field = find_field(select_list)
+
+  select_options= case field.tag_name
+                  when 'select'
+                    options = field.all('option')
+                end
+  expect(select_options.map(&:text)).send( (negate ? :not_to : :to),  include( i18n_content expected_string) )
+
+end
+
+
+
 Then(/^I should be on the all member app waiting reasons page$/) do
   expect(current_path_without_locale(current_path)).to eq admin_only_member_app_waiting_reasons_path
 end
