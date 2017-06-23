@@ -3,6 +3,7 @@ class MembershipApplicationsController < ApplicationController
 
   before_action :get_membership_application, except: [:information, :index, :new, :create]
   before_action :authorize_membership_application, only: [:update, :show, :edit]
+  before_action :set_other_waiting_reason, only: [:show, :edit, :update]
 
 
   def new
@@ -65,7 +66,7 @@ class MembershipApplicationsController < ApplicationController
 
         respond_to do |format|
           format.js do
-            render partial: 'membership_applications/reason_waiting'
+            head :ok   # just let the receiver know everything is OK. no need to render anything
           end
 
           format.html do
@@ -177,6 +178,11 @@ class MembershipApplicationsController < ApplicationController
   end
 
 
+  def set_other_waiting_reason
+    @other_waiting_reason_text = t('admin_only.member_app_waiting_reasons.other_custom_reason')
+  end
+
+
   def new_file_uploaded(params)
 
     successful = true
@@ -226,18 +232,15 @@ class MembershipApplicationsController < ApplicationController
 
 
   def update_error(error_message)
-    respond_to do |format|
 
-      format.html do
-        helpers.flash_message(:alert, error_message)
-        redirect_to edit_membership_application_path(@membership_application)
-      end
-
-      format.js do
-        render :json => @membership_application.errors, :status => :unprocessable_entity
-      end
-
+    if request.xhr?
+      render json: @membership_application.errors.full_messages, status: :unprocessable_entity if request.xhr?
+    else
+      helpers.flash_message(:alert, error_message)
+      redirect_to edit_membership_application_path(@membership_application)
     end
+
   end
+
 
 end
