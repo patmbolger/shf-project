@@ -109,6 +109,11 @@ When(/^(?:I|they) select "([^"]*)" in select list t\("([^"]*)"\)$/) do |item, ls
   find(:select, lst).find(:option, item).select_option
 end
 
+
+When(/^(?:I|they) select "([^"]*)" in select list "([^"]*)"$/) do |item, lst|
+  find(:select, lst).find(:option, item).select_option
+end
+
 Then(/^I wait(?: for)? (\d+) second(?:s)?$/) do |seconds|
   sleep seconds.to_i.seconds
 end
