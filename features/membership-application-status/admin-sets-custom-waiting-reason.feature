@@ -77,23 +77,23 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
   @javascript
   Scenario: Admin selects 'other' and fills in custom text but then changes reason to something else
     Given I am on "AnnaWaiting" application page
-    When I set "membership_application_member_app_waiting_reasons_id" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
-    And I fill in "membership_application_custom_reason_text" with "This is my reason"
-    And I set "membership_application_member_app_waiting_reasons_id" to "waiting for payment"
+    When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
+    And I fill in "custom_reason_text" with "This is my reason"
+    And I set "member_app_waiting_reasons" to "waiting for payment"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
-    And "membership_application_member_app_waiting_reasons_id" should have "waiting for payment" selected
+    And "member_app_waiting_reasons" should have "waiting for payment" selected
     And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
 
   @javascript
   Scenario: When selected reason is not 'custom other,' the custom text is saved as blank (empty string)
     Given I am on "AnnaWaiting" application page
-    When I set "membership_application_member_app_waiting_reasons_id" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
-    And I fill in "membership_application_custom_reason_text" with "This is my reason"
-    And I set "membership_application_member_app_waiting_reasons_id" to "need doc"
+    When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
+    And I fill in "custom_reason_text" with "This is my reason"
+    And I set "member_app_waiting_reasons" to "need doc"
     # change back so the custom reason field shows. it should be blank
-    And I set "membership_application_member_app_waiting_reasons_id" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
+    And I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
     Then I should not see "This is my reason"
 
 
