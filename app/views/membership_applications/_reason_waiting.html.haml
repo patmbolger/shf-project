@@ -2,33 +2,30 @@
   Do not make user press a "save" or "submit" button for these changes. (use AJAX)
 
 
-= form_for @membership_application, html: { id: 'member-app-waiting-reasons', multipart: true}, url: membership_application_path do |f|
-  .row
-    .container
-      .reason-waiting-information
-        = f.label( :member_app_waiting_reasons, t('membership_applications.need_info.reason_title'))
-        - collection = AdminOnly::MemberAppWaitingReason.all.to_a
-        - collection << AdminOnly::MemberAppWaitingReason.new(id: -1, "name_#{I18n.locale.to_s}": "#{@other_waiting_reason_text}")
-        = f.collection_select(:member_app_waiting_reasons_id,
-                              collection,
-                              :id,
-                              reason_name_method,
-                              { include_blank: t('membership_applications.need_info.select_a_reason') },
-                              { class: 'reason-waiting-list' },
-                              )
+.row
+  .container
+    .reason-waiting-information
+      = label_tag :member_app_waiting_reasons, t('membership_applications.need_info.reason_title')
+      - collection = AdminOnly::MemberAppWaitingReason.all.to_a
+      - collection << AdminOnly::MemberAppWaitingReason.new(id: -1, "name_#{I18n.locale.to_s}": "#{@other_waiting_reason_text}")
+      = select_tag(:member_app_waiting_reasons,
+                   options_from_collection_for_select(collection, :id, reason_name_method,
+                                      @membership_application.member_app_waiting_reasons_id),
+                   { include_blank: t('membership_applications.need_info.select_a_reason'),
+                     class: 'reason-waiting-list' })
 
-  .row
-    .container
-      #other-text-field
-        = f.label( :reason_waiting_custom_text, t('membership_applications.need_info.other_reason_label') )
-        = f.text_field :custom_reason_text
+.row
+  .container
+    #other-text-field
+      = label_tag :custom_reason_text, t('membership_applications.need_info.other_reason_label')
+      = text_field_tag :custom_reason_text, @membership_application.custom_reason_text
 
 
 :javascript
 
-  let reasons_list = document.getElementById('membership_application_member_app_waiting_reasons_id');  // the select HTML element (list)
+  let reasons_list = $('#member_app_waiting_reasons');  // the select HTML element (list)
   let custom_text_info = $('#other-text-field');
-  let custom_text_field = $('#membership_application_custom_reason_text');
+  let custom_text_field = $('#custom_reason_text');
 
   // this option is added to the list of reasons and is only used so we can show/hide the custom reason text field
   let other_reason_text = "#{@other_waiting_reason_text}";
@@ -39,7 +36,7 @@
 
 
   function selected_is_customOtherReason() {
-    return reasons_list.value === other_reason_option.value;
+    return $('#member_app_waiting_reasons option:selected').text() === other_reason_option.text;
   }
 
 
@@ -50,7 +47,7 @@
 
     if (!selected_is_customOtherReason()) {
       custom_text_field.val('');
-      send_updated_reason( #{@membership_application.id}, $('#membership_application_member_app_waiting_reasons_id').find('option:selected').val() , null );
+      send_updated_reason( #{@membership_application.id}, $('#member_app_waiting_reasons').find('option:selected').val() , null );
     }
     hideOrShowCustomReasonElements();
 
@@ -72,7 +69,7 @@
     }
     else {
         // clear out any custom reason if the selected reason is not the custom reason
-        document.getElementById("membership_application_custom_reason_text").value = "";
+        $('#custom_reason_text').val("");
         custom_text_info.hide();
     }
 
@@ -99,8 +96,8 @@
   let initialize = (function() {
     // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
     hideOrShowCustomReasonElements();
-    $('#membership_application_member_app_waiting_reasons_id').on('change', changed_reason);
-    $('#membership_application_custom_reason_text').on('change', changed_custom_text)
+    $('#member_app_waiting_reasons').on('change', changed_reason);
+    $('#custom_reason_text').on('change', changed_custom_text)
   });
 
   $(document).ready(initialize);
