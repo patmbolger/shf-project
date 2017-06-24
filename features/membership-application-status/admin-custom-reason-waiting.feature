@@ -17,7 +17,7 @@ Feature: "Other/Custom" waiting reason comes from locale file and Admin cannot e
   Background:
 
     # it is important that this statement is first so that tables are empty, so that things will be seeded
-    Given the system is seeded with initial data
+    # Given the system is seeded with initial data
 
 
     Given the following users exists
@@ -55,7 +55,7 @@ Feature: "Other/Custom" waiting reason comes from locale file and Admin cannot e
     And I am logged in as "admin@shf.se"
 
 
-  @admin
+  @admin @javascript
   Scenario: The "other/custom" reason is listed as a reason for the 'waiting for...' status
     Given I am on "AnnaWaiting" application page
     Then "membership_application_member_app_waiting_reasons_id" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") as an option

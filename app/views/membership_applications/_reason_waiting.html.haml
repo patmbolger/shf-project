@@ -7,20 +7,21 @@
     .container
       .reason-waiting-information
         = f.label( :member_app_waiting_reasons, t('membership_applications.need_info.reason_title'))
+        - collection = AdminOnly::MemberAppWaitingReason.all.to_a
+        - collection << AdminOnly::MemberAppWaitingReason.new(id: -1, "name_#{I18n.locale.to_s}": "#{@other_waiting_reason_text}")
         = f.collection_select(:member_app_waiting_reasons_id,
-                              AdminOnly::MemberAppWaitingReason.all,
+                              collection,
                               :id,
                               reason_name_method,
                               { include_blank: t('membership_applications.need_info.select_a_reason') },
-                              { class: 'reason-waiting-list',
-                                onchange: 'changed_reason()' },
+                              { class: 'reason-waiting-list' },
                               )
 
   .row
     .container
       #other-text-field
         = f.label( :reason_waiting_custom_text, t('membership_applications.need_info.other_reason_label') )
-        = f.text_field :custom_reason_text, onchange: 'changed_custom_text()'
+        = f.text_field :custom_reason_text
 
 
 :javascript
@@ -96,9 +97,10 @@
 
 
   let initialize = (function() {
-    reasons_list.options.add(other_reason_option);  // add the other_reason to the list
+    // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
     hideOrShowCustomReasonElements();
+    $('#membership_application_member_app_waiting_reasons_id').on('change', changed_reason);
+    $('#membership_application_custom_reason_text').on('change', changed_custom_text)
   });
 
   $(document).ready(initialize);
-

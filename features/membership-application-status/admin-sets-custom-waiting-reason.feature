@@ -33,7 +33,6 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
 
     And the following member app waiting reasons exist
       | name_sv                  | description_sv            | name_en                  | description_en                             | is_custom |
-      | Annat (skriv in orsaken) | Annat                     | Other (enter the reason) | other                                      | false     |
       | need doc                 | need doc                  | need documentation       | need more documents proving qualifications | false     |
       | waiting for payment      | still waiting for payment | waiting for payment      | still waiting for payment                  | false     |
 
@@ -47,8 +46,10 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
   Scenario: Admin selects 'need more documentation' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "membership_application_member_app_waiting_reasons_id" to "need doc"
+    And show me the page
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
+    And show me the page
     Then "membership_application_member_app_waiting_reasons_id" should have "need doc" selected
     And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
@@ -104,4 +105,3 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     Given I am logged in as "anna_waiting_for_info@nosnarkybarky.se"
     And I am on the application page for "AnnaWaiting"
     Then I should not see t("membership_applications.need_info.reason_title")
-
