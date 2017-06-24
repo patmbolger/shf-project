@@ -45,36 +45,33 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
   @javascript
   Scenario: Admin selects 'need more documentation' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
-    When I set "membership_application_member_app_waiting_reasons_id" to "need doc"
-    And show me the page
+    When I set "member_app_waiting_reasons" to "need doc"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
-    And show me the page
-    Then "membership_application_member_app_waiting_reasons_id" should have "need doc" selected
+    Then "member_app_waiting_reasons" should have "need doc" selected
     And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
-
 
   @javascript
   Scenario: Admin selects 'waiting for payment' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
-    When I set "membership_application_member_app_waiting_reasons_id" to "waiting for payment"
+    When I set "member_app_waiting_reasons" to "waiting for payment"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
-    And "membership_application_member_app_waiting_reasons_id" should have "waiting for payment" selected
+    And "member_app_waiting_reasons" should have "waiting for payment" selected
     And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
 
   @javascript
   Scenario: Admin selects 'other' and enters text as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
-    When I set "membership_application_member_app_waiting_reasons_id" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
-    And I fill in "membership_application_custom_reason_text" with "This is my reason"
+    When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
+    And I fill in "custom_reason_text" with "This is my reason"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     #And item t("admin_only.member_app_waiting_reasons.other_custom_reason") should be visible
     And I should see t("membership_applications.need_info.other_reason_label")
-    And the "membership_application_custom_reason_text" field should be set to "This is my reason"
-    And "membership_application_member_app_waiting_reasons_id" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") selected
+    And the "custom_reason_text" field should be set to "This is my reason"
+    And "member_app_waiting_reasons" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") selected
 
 
   @javascript
