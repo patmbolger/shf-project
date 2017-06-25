@@ -28,6 +28,10 @@ And(/^I fill in "([^"]*)" with "([^"]*)"$/) do |field, value|
   fill_in field, with: value
 end
 
+And(/^I press enter in "([^"]*)"$/) do |field|
+  find_field(field).send_keys :enter
+end
+
 And(/^I fill in t\("([^"]*)"\) with "([^"]*)"$/) do |field, value|
   fill_in i18n_content(field), with: value
 end

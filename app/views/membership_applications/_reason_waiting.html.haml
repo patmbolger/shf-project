@@ -8,9 +8,10 @@
       = label_tag :member_app_waiting_reasons, t('membership_applications.need_info.reason_title')
       - collection = AdminOnly::MemberAppWaitingReason.all.to_a
       - collection << AdminOnly::MemberAppWaitingReason.new(id: -1, "name_#{I18n.locale.to_s}": "#{@other_waiting_reason_text}")
+      - selected = ! @membership_application.custom_reason_text.blank? ? -1 : @membership_application.member_app_waiting_reasons_id
       = select_tag(:member_app_waiting_reasons,
                    options_from_collection_for_select(collection, :id, reason_name_method,
-                                      @membership_application.member_app_waiting_reasons_id),
+                                      selected),
                    { include_blank: t('membership_applications.need_info.select_a_reason'),
                      class: 'reason-waiting-list' })
 

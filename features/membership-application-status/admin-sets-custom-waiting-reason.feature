@@ -42,30 +42,29 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And I am logged in as "admin@shf.com"
 
 
-  @javascript
+  @selenium
   Scenario: Admin selects 'need more documentation' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to "need doc"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     Then "member_app_waiting_reasons" should have "need doc" selected
-    And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
-  @javascript
+  @selenium
   Scenario: Admin selects 'waiting for payment' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to "waiting for payment"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     And "member_app_waiting_reasons" should have "waiting for payment" selected
-    And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
 
-  @javascript
+  @selenium
   Scenario: Admin selects 'other' and enters text as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
     And I fill in "custom_reason_text" with "This is my reason"
+    And I press enter in "custom_reason_text"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     #And item t("admin_only.member_app_waiting_reasons.other_custom_reason") should be visible
@@ -74,16 +73,16 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") selected
 
 
-  @javascript
+  @selenium
   Scenario: Admin selects 'other' and fills in custom text but then changes reason to something else
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
     And I fill in "custom_reason_text" with "This is my reason"
+    And I press enter in "custom_reason_text"
     And I set "member_app_waiting_reasons" to "waiting for payment"
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     And "member_app_waiting_reasons" should have "waiting for payment" selected
-    And I should not see t("admin_only.member_app_waiting_reasons.other_custom_reason")
 
 
   @javascript
@@ -91,6 +90,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
     And I fill in "custom_reason_text" with "This is my reason"
+    And I press enter in "custom_reason_text"
     And I set "member_app_waiting_reasons" to "need doc"
     # change back so the custom reason field shows. it should be blank
     And I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
