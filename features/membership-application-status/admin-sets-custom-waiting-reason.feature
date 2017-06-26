@@ -42,15 +42,17 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And I am logged in as "admin@shf.com"
 
 
-  @selenium
+  @javascript
   Scenario: Admin selects 'need more documentation' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to "need doc"
+    And I wait 5 seconds
+    Then "member_app_waiting_reasons" should have "need doc" selected
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
     Then "member_app_waiting_reasons" should have "need doc" selected
 
-  @selenium
+  @javascript
   Scenario: Admin selects 'waiting for payment' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to "waiting for payment"
@@ -59,7 +61,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have "waiting for payment" selected
 
 
-  @selenium
+  @javascript
   Scenario: Admin selects 'other' and enters text as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
@@ -73,7 +75,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") selected
 
 
-  @selenium
+  @javascript
   Scenario: Admin selects 'other' and fills in custom text but then changes reason to something else
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")

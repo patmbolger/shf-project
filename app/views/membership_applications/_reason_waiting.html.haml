@@ -24,13 +24,13 @@
 
 :javascript
 
-  let reasons_list = $('#member_app_waiting_reasons');  // the select HTML element (list)
-  let custom_text_info = $('#other-text-field');
-  let custom_text_field = $('#custom_reason_text');
+  var reasons_list = $('#member_app_waiting_reasons');  // the select HTML element (list)
+  var custom_text_info = $('#other-text-field');
+  var custom_text_field = $('#custom_reason_text');
 
   // this option is added to the list of reasons and is only used so we can show/hide the custom reason text field
-  let other_reason_text = "#{@other_waiting_reason_text}";
-  let other_reason_option = document.createElement("option");
+  var other_reason_text = "#{@other_waiting_reason_text}";
+  var other_reason_option = document.createElement("option");
   other_reason_option.text = other_reason_text;
   other_reason_option.value = -1;  // some value that will not be in the database or use by Rails
 
@@ -62,7 +62,7 @@
    }
 
 
-  let hideOrShowCustomReasonElements = function() {
+  var hideOrShowCustomReasonElements = function() {
 
     if (  custom_text_field.val() || selected_is_customOtherReason()) {
       custom_text_info.show();
@@ -79,7 +79,7 @@
 
   // Send information to the server
   //  no need to do anything if it was successful
-  let send_updated_reason = function(app_id, reason_id, custom_text) {
+  var send_updated_reason = function(app_id, reason_id, custom_text) {
 
     $.ajax({
       url: "#{membership_application_path}",
@@ -94,7 +94,7 @@
   };
 
 
-  let initialize = (function() {
+  var initialize = (function() {
     // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
     hideOrShowCustomReasonElements();
     $('#member_app_waiting_reasons').on('change', changed_reason);
