@@ -13,13 +13,21 @@
                    options_from_collection_for_select(collection, :id, reason_name_method,
                                       selected),
                    { include_blank: t('membership_applications.need_info.select_a_reason'),
-                     class: 'reason-waiting-list' })
+                     class: 'reason-waiting-list',
+                     data: { remote: true,
+                             url: membership_application_path(@membership_application),
+                             method: 'put' },
+                      })
+      -#  params: 'custom_reason_text=nil',
 
 .row
   .container
     #other-text-field
       = label_tag :custom_reason_text, t('membership_applications.need_info.other_reason_label')
-      = text_field_tag :custom_reason_text, @membership_application.custom_reason_text
+      = text_field_tag :custom_reason_text, @membership_application.custom_reason_text,
+              { data: { remote: true,
+                        url: membership_application_path(@membership_application),
+                        method: 'put' } }
 
 
 :javascript
@@ -35,32 +43,9 @@
   other_reason_option.value = -1;  // some value that will not be in the database or use by Rails
 
 
-
   function selected_is_customOtherReason() {
     return $('#member_app_waiting_reasons option:selected').text() === other_reason_option.text;
   }
-
-
-  // send the reason selected to the server unless the 'custom/other' was selected
-  function changed_reason() {
-     // do not send a request if the reason selected is the "Other/custom... enter text" reason
-     //  wait until the text field with the custom reason is entered to send that data
-
-    if (!selected_is_customOtherReason()) {
-      custom_text_field.val('');
-      send_updated_reason( #{@membership_application.id}, $('#member_app_waiting_reasons').find('option:selected').val() , null );
-    }
-    hideOrShowCustomReasonElements();
-
-   }
-
-
-  // Set the waiting_reason to nil because we instead have the info in the custom text field
-  function changed_custom_text() {
-    send_updated_reason( #{@membership_application.id}, null , custom_text_field.val() );
-    custom_text_info.show();
-   }
-
 
   var hideOrShowCustomReasonElements = function() {
 
@@ -76,27 +61,9 @@
 
   };
 
-
-  // Send information to the server
-  //  no need to do anything if it was successful
-  var send_updated_reason = function(app_id, reason_id, custom_text) {
-
-    $.ajax({
-      url: "#{membership_application_path}",
-      type: "PUT",
-      data: { membership_application: { member_app_waiting_reasons_id: reason_id,
-        custom_reason_text: custom_text },
-        id: app_id },
-      error: function(xhr, status, err) {
-      alert( "#{I18n.t('membership_applications.update.error')}: " + 'Status: ' + status);
-    }
-    });
-  };
-
-
   $(function() {
     // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
     hideOrShowCustomReasonElements();
-    $('#member_app_waiting_reasons').on('change', changed_reason);
-    $('#custom_reason_text').on('change', changed_custom_text)
+    // $('#member_app_waiting_reasons').on('change', changed_reason);
+    // $('#custom_reason_text').on('change', changed_custom_text)
   });

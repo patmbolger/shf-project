@@ -58,7 +58,24 @@ class MembershipApplicationsController < ApplicationController
 
 
   def update
-    if @membership_application.update(membership_application_params)
+    if request.xhr?
+      
+      if params[:member_app_waiting_reasons] && params[:member_app_waiting_reasons] != '-1'
+        @membership_application
+          .update(member_app_waiting_reasons_id: params[:member_app_waiting_reasons],
+                  custom_reason_text: nil)
+        head :ok
+      else
+        render plain: '-1'
+      end
+
+      if params[:custom_reason_text]
+        @membership_application.update(custom_reason_text: params[:custom_reason_text],
+                                       member_app_waiting_reasons_id: nil)
+        head :ok
+      end
+
+    elsif @membership_application.update(membership_application_params)
 
       if new_file_uploaded params
 
