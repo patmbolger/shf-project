@@ -86,19 +86,17 @@
       type: "PUT",
       data: { membership_application: { member_app_waiting_reasons_id: reason_id,
         custom_reason_text: custom_text },
-        id: app_id }
-    }).fail(function(evt, xhr, status, err) {
-      alert( "#{I18n.t('membership_applications.update.error')}: " + 'Status: ' + evt.statusText );
+        id: app_id },
+      error: function(xhr, status, err) {
+      alert( "#{I18n.t('membership_applications.update.error')}: " + 'Status: ' + status);
+    }
     });
-
   };
 
 
-  var initialize = (function() {
+  $(function() {
     // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
     hideOrShowCustomReasonElements();
     $('#member_app_waiting_reasons').on('change', changed_reason);
     $('#custom_reason_text').on('change', changed_custom_text)
   });
-
-  $(document).ready(initialize);

@@ -46,7 +46,6 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
   Scenario: Admin selects 'need more documentation' as the reason SHF is waiting_for_applicant
     Given I am on "AnnaWaiting" application page
     When I set "member_app_waiting_reasons" to "need doc"
-    And I wait 5 seconds
     Then "member_app_waiting_reasons" should have "need doc" selected
     And I am on the list applications page
     And I am on "AnnaWaiting" application page
