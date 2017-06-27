@@ -16,54 +16,13 @@
                      class: 'reason-waiting-list',
                      data: { remote: true,
                              url: membership_application_path(@membership_application),
-                             method: 'put' },
-                      })
-      -#  params: 'custom_reason_text=nil',
+                             method: 'put' } })
 
 .row
   .container
-    #other-text-field
+    #other-text-field{ style: "display: #{selected == -1 ? nil : 'none'}" }
       = label_tag :custom_reason_text, t('membership_applications.need_info.other_reason_label')
       = text_field_tag :custom_reason_text, @membership_application.custom_reason_text,
               { data: { remote: true,
                         url: membership_application_path(@membership_application),
                         method: 'put' } }
-
-
-:javascript
-
-  var reasons_list = $('#member_app_waiting_reasons');  // the select HTML element (list)
-  var custom_text_info = $('#other-text-field');
-  var custom_text_field = $('#custom_reason_text');
-
-  // this option is added to the list of reasons and is only used so we can show/hide the custom reason text field
-  var other_reason_text = "#{@other_waiting_reason_text}";
-  var other_reason_option = document.createElement("option");
-  other_reason_option.text = other_reason_text;
-  other_reason_option.value = -1;  // some value that will not be in the database or use by Rails
-
-
-  function selected_is_customOtherReason() {
-    return $('#member_app_waiting_reasons option:selected').text() === other_reason_option.text;
-  }
-
-  var hideOrShowCustomReasonElements = function() {
-
-    if (  custom_text_field.val() || selected_is_customOtherReason()) {
-      custom_text_info.show();
-      reasons_list.value = other_reason_option.value; // make sure this option is selected; important when first displaying the view
-    }
-    else {
-        // clear out any custom reason if the selected reason is not the custom reason
-        $('#custom_reason_text').val("");
-        custom_text_info.hide();
-    }
-
-  };
-
-  $(function() {
-    // reasons_list.options.add(other_reason_option);  // add the other_reason to the list
-    hideOrShowCustomReasonElements();
-    // $('#member_app_waiting_reasons').on('change', changed_reason);
-    // $('#custom_reason_text').on('change', changed_custom_text)
-  });
