@@ -1,5 +1,5 @@
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start 'rails'
 require 'codeclimate-test-reporter'
 require 'pundit/rspec'
 require 'paperclip/matchers'
