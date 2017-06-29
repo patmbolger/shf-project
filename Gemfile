@@ -106,4 +106,6 @@ end
 
 group :test do
   gem 'poltergeist'
+  gem 'codeclimate-test-reporter'
+  gem 'simplecov', :require => false
 end

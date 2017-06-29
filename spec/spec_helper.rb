@@ -1,8 +1,10 @@
-require 'coveralls'
+require 'codeclimate-test-reporter'
 require 'pundit/rspec'
 require 'paperclip/matchers'
 
-Coveralls.wear_merged!('rails')
+# Coveralls.wear_merged!('rails')
+
+CodeClimate::TestReporter.start
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
