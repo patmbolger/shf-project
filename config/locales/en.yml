@@ -35,6 +35,7 @@ en:
   'no': &no 'No'
   applications: &applications Applications
   user_activity: User Activity
+  none: &none None
 
   time_ago: '%{amount_of_time} ago'
 
@@ -203,7 +204,7 @@ en:
     post_code: *post_code
     city: *city
     kommun: *kommun
-    none: None
+    none: *none
 
  # Automatic and manual lookup for views:
   membership_applications:
