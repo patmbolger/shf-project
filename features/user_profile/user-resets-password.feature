@@ -37,3 +37,4 @@ Feature: As a user
     And I fill in t("activerecord.attributes.user.email") with "nonesuch@gmail.com"
     And I click on t("devise.passwords.new.submit_button_label")
     Then I should see t("errors.messages.not_found")
+    And "emma@happymutts.com" should receive no email
