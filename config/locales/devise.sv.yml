@@ -37,7 +37,10 @@ sv:
       failure: "Kunde inte autentisera dig med %{kind} för \"%{reason}\"."
       success: "Autentiserat med %{kind}-konto."
     passwords:
-      no_token: "Du har endast tillgång till den här sidan via ett epost för att återställa ditt lösenord. Om detta är fallet, var god kontrollera att du använder den fullständiga adressen i meddelandet."
+      no_token: "Du kan inte komma åt sidan om återställningslösenord utan att
+                 komma från ett e-postmeddelande för lösenordsåterställning.
+                 Och du kan inte ändra språket på den sidan. Vänligen klicka på
+                 länken i e-postadressen för lösenordsåterställning."
       send_instructions: "Du kommer få epost med instruktioner om hur du kan återställa ditt lösenord inom."
       send_paranoid_instructions: "Om din email är i vår databas, kommer du att få en lösenordslänk till din mail."
       updated: "Ditt lösenord har uppdaterats. Du är nu inloggad."
