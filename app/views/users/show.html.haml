@@ -52,7 +52,7 @@
       #{@user.email} #{t('.user_has_never_signed_in')}
 
     - else
-      = #{t('.last_login')}:
+      = "#{t('.last_login')}:"
       #{ most_recent_login_time @user}
       (#{i18n_time_ago_in_words(most_recent_login_time @user)})
       %br
