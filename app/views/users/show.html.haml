@@ -16,7 +16,7 @@
     = field_or_none("#{t('applications')}", t('none'), label_class: 'standard-label')
   - else
     -# .col-sm-3{ style: 'margin-left: -15px;' }
-    %strong #{t('applications')}:
+    %span.standard-label #{t('applications')}:
 
     .row
       %table.table.table-hover
@@ -42,7 +42,7 @@
               %td= link_to(app.company_number, membership_application_path(app))
               %td= app.company&.name
 
-  %strong #{t('user_activity')}:
+  %span.standard-label #{t('user_activity')}:
 
   .row
     Account #{t('.created')} #{i18n_time_ago_in_words(@user.created_at)}
