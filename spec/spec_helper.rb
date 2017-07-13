@@ -1,7 +1,5 @@
 require 'simplecov'
-SimpleCov.start 'rails'
-# require 'codeclimate-test-reporter'
-# CodeClimate::TestReporter.start
+# ^^ https://github.com/colszowka/simplecov#using-simplecov-for-centralized-config
 
 require 'pundit/rspec'
 require 'paperclip/matchers'

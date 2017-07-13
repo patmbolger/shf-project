@@ -455,7 +455,7 @@ DEPENDENCIES
   capistrano-ssh-doctor (~> 1.0)
   city-state
   ckeditor!
-  codeclimate-test-reporter
+  codeclimate-test-reporter (~> 1.0.0)
   coveralls
   cucumber-rails
   cucumber-timecop
