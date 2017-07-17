@@ -131,4 +131,19 @@ module ApplicationHelper
     options_for_select(ITEMS_COUNT, count)
   end
 
+  def model_errors_helper(model_instance)
+    html = ''
+    if model_instance.errors.any?
+      model_instance.errors.full_messages.each do |msg|
+        html << content_tag(:div, msg, class: 'wpcf7-response-output')
+      end
+    end
+
+    return nil if html.empty?
+
+    tag.div(escape_attributes: false, class: 'wpcf7-response-output standard-label') do
+      "#{t('model_errors', count: model_instance.errors.count)}:"
+    end << raw(html)
+  end
+
 end
