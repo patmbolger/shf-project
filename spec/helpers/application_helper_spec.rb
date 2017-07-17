@@ -224,22 +224,30 @@ RSpec.describe ApplicationHelper, type: :helper do
 
     let(:good_ma) { FactoryGirl.create(:membership_application) }
 
+    let(:user)    { FactoryGirl.create(:user) }
+
     let(:errors_html_sv)  do
       I18n.locale = :sv
-      ma = MembershipApplication.new
+      ma = MembershipApplication.new(user: user)
       ma.valid?
       model_errors_helper(ma)
     end
 
     let(:errors_html_en)  do
       I18n.locale = :en
-      ma = MembershipApplication.new
+      ma = MembershipApplication.new(user: user)
       ma.valid?
       model_errors_helper(ma)
     end
 
     it 'returns nil if no errors' do
       expect(model_errors_helper(good_ma)).to be_nil
+    end
+
+    it 'adds a count of errors' do
+      expect(errors_html_sv).to match(/#{t('model_errors', count: 5)}/)
+
+      expect(errors_html_en).to match(/#{t('model_errors', count: 5)}/)
     end
 
     it 'returns all model errors - swedish' do
