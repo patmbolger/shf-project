@@ -133,17 +133,18 @@ module ApplicationHelper
 
   def model_errors_helper(model_instance)
     html = ''
-    if model_instance.errors.any?
+    errs = model_instance.errors.count
+
+    if errs > 0
+      html = content_tag(:div, "#{t('model_errors', count: errs)}:",
+                         class: 'wpcf7-response-output standard-label')
+
       model_instance.errors.full_messages.each do |msg|
         html << content_tag(:div, msg, class: 'wpcf7-response-output')
       end
     end
 
-    return nil if html.empty?
-
-    tag.div(escape_attributes: false, class: 'wpcf7-response-output standard-label') do
-      "#{t('model_errors', count: model_instance.errors.count)}:"
-    end << raw(html)
+    html.empty? ? nil : html
   end
 
 end
