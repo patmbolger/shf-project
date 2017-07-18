@@ -80,8 +80,8 @@ en:
       next: 'Next'
 
   model_errors:
-    one: Please fix 1 error
-    other: Please fix %{count} errors
+    one: Please fix this error
+    other: Please fix these %{count} errors
 
  # Automatic and manual lookup for ActiveRecords:
   activerecord:

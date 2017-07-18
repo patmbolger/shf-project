@@ -80,8 +80,8 @@ sv:
         next: 'Nästa'
 
   model_errors:
-    one: Var vänlig och åtgärda ett fel
-    other: Vänligen fixa %{count} fel
+    one: Vänligen åtgärda det här felet
+    other: Snälla fixa dessa %{count} fel
 
   # Automatisk och manuell sökning för Active Records
   activerecord:
