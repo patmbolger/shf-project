@@ -710,7 +710,7 @@ en:
         submit_button_label: Sign up
         success: You have signed up successfully
       edit:
-        title: Edit your login information
+        title: Edit your profile
         unconfirmed_email_for: 'Unconfirmed email address for: %{unconfirmed_email}'
         confirm_password: *confirm_password
         current_password: Current password
