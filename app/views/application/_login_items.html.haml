@@ -1,5 +1,20 @@
 - if user_signed_in?
-  = link_to(t('devise.sessions.destroy.log_out'), destroy_user_session_path, method: :delete)
+  %li.menu-item
+    %li.menu-item.dropdown
+      %a{ href: '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown',
+                role: 'button', 'aria-haspopup' => 'true',
+                 id: 'dd_menu', 'aria-expanded' => 'false' }
+        Hello,
+        %span= current_user.first_name
+        %span.caret
+      %ul.dropdown-menu{ 'aria-labelledby' => 'dd_menu' }
+        %li
+          = link_to 'Edit Profile', edit_user_registration_path(current_user)
+        %li
+          = link_to(t('devise.sessions.destroy.log_out'),
+                    destroy_user_session_path, method: :delete)
+
 - else
   = link_to(t('devise.sessions.new.log_in'), new_user_session_path)
+
 = render 'select_language'
