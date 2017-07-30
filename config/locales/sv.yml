@@ -42,6 +42,8 @@ sv:
 
   confirm_are_you_sure: &are_you_sure_confirm Är du säker
 
+  hello: Hallå, %{name}
+
   info:
     logged_in_as_admin: Du är inloggad som admin
     under_construction: Sidan är under uppbyggnad, mer information och funktioner kommer att komma efterhand.
@@ -824,13 +826,15 @@ sv:
           submenu_title: Företag
           list_companies: Lista företag
           new_company: Nytt företag
+        applications:
+          submenu_title: *applications
+          manage_applications: Hantera ansökningar
+          waiting_reasons: "Väntar på information skäl"
         users:
           list_users: Användare
 
-        member_app_waiting_reasons:
-          submenu_title: "Orsaker"
-          list_member_app_waiting_reasons: "Alla orsaker"
-          new_member_app_waiting_reasons: "Ny orsak"
+        administration:
+          submenu_title: Administrering
 
 
   #----------

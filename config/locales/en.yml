@@ -42,6 +42,8 @@ en:
 
   confirm_are_you_sure: &are_you_sure_confirm Are you sure
 
+  hello: 'Hello, %{name}'
+
   info:
     logged_in_as_admin: You are logged in as an admin.
     under_construction: This page is under construction.  More information and features are coming.
@@ -822,13 +824,15 @@ en:
           submenu_title: Companies
           list_companies: List Companies
           new_company: New Company
+        applications:
+          submenu_title: Applications
+          manage_applications: Manage Applications
+          waiting_reasons: Waiting Reasons
         users:
           list_users: Users
 
-        member_app_waiting_reasons:
-          submenu_title: "Waiting for Information reasons"
-          list_member_app_waiting_reasons: "All reasons"
-          new_member_app_waiting_reasons: "New reason"
+        administration:
+          submenu_title: Administration
 
 
 

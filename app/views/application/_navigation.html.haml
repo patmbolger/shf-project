@@ -6,20 +6,21 @@
     %a.skip-link.screen-reader-text{href: '#content'} Skip to content
     / main navigation
     %nav.main-navigation.fixed-nav#site-navigation{role: 'navigation'}
-      .nav-wrapper
-        %a.menu-toggle{href: '#'}
-          %span.bars
-            %span.bar.bar-1
-            %span.bar.bar-2
-            %span.bar.bar-3
+      -# .nav-wrapper.center-aligned-container
+      %a.menu-toggle{href: '#'}
+        %span.bars
+          %span.bar.bar-1
+          %span.bar.bar-2
+          %span.bar.bar-3
 
-        = render 'login_nav'
+      -# .nav-wrapper{ style: 'float: left; clear: none;' }
+      .nav-wrapper
 
         - if user_signed_in?
 
           - if current_user.admin?
 
-            .menu#menu-menu-3-container
+            .menu#menu-menu-3-container{ style: 'padding-left: 40px;' }
               %ul.menu#menu-menu-3
                 = render 'navigation_member_pages'
 
@@ -67,3 +68,5 @@
           -# Visitor navigation
           .menu#menu-menu-1-container
             = render 'navigation_visitor'
+
+        = render 'login_nav'
