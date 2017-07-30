@@ -818,11 +818,11 @@ en:
         manage_applications: Manage Applications
         categories:
           submenu_title: Categories
-          list_categories: List Categories
+          manage_categories: Manage Categories
           new_category: New Category
         companies:
           submenu_title: Companies
-          list_companies: List Companies
+          manage_companies: Manage Companies
           new_company: New Company
         applications:
           submenu_title: Applications

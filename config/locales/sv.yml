@@ -820,11 +820,11 @@ sv:
         manage_applications: Hantera ansökningar
         categories:
           submenu_title: Kategorier
-          list_categories: Lista kategorier
+          manage_categories: Lista kategorier
           new_category: Ny kategori
         companies:
           submenu_title: Företag
-          list_companies: Lista företag
+          manage_companies: Lista företag
           new_company: Nytt företag
         applications:
           submenu_title: *applications
