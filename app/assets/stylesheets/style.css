@@ -927,6 +927,21 @@ mobile nav 1200px
 /*-----------------------
 social nav
 -----------------------*/
+.login-nav {
+    position:fixed;
+    top: 0;
+    right: 0;
+    z-index:999;
+    /*line-height:60px;*/
+    min-width: 240px;
+    text-align: left;
+}
+
+.login-nav a {
+    margin: 0 5px;
+    padding-left:5px;
+}
+
 .social-nav {
     position:fixed;
     top: 0;

@@ -20,8 +20,12 @@
 
           - if current_user.admin?
 
-            .menu#menu-menu-3-container{ style: 'padding-left: 40px;' }
+            .menu#menu-menu-3-container
+
               %ul.menu#menu-menu-3
+                %li.menu-item
+                  = link_to t('menus.nav.shf_main_site'), 'http://sverigeshundforetagare.se/'
+
                 = render 'navigation_member_pages'
 
                 = render 'navigation_admin'
@@ -29,6 +33,7 @@
           - else
 
             .menu#menu-menu-2-container
+
               %ul.menu#menu-menu-2
                 %li.menu-item
                   = link_to t('menus.nav.shf_main_site'), 'http://sverigeshundforetagare.se/'
