@@ -1,10 +1,8 @@
 %li.menu-item.menu-item-has-children
-  %a.link-no-styling{ href: '#' }
-    = t('menus.nav.admin.administration.submenu_title')
+  %a.link-no-styling{ href: '#' }= t('menus.nav.admin.administration.submenu_title')
   %ul.sub-menu
     %li.menu-item.menu-item-has-children
-      %a.link-no-styling{ href: '#' }
-        = t('menus.nav.admin.applications.submenu_title')
+      %a.link-no-styling{ href: '#' }= t('menus.nav.admin.applications.submenu_title')
       %ul.sub-menu
         %li.menu-item
           = link_to t('menus.nav.admin.manage_applications'),
@@ -14,8 +12,7 @@
                     admin_only_member_app_waiting_reasons_path
 
     %li.menu-item.menu-item-has-children
-      %a.link-no-styling{ href: '#' }
-        = t('menus.nav.admin.companies.submenu_title')
+      %a.link-no-styling{ href: '#' }= t('menus.nav.admin.companies.submenu_title')
       %ul.sub-menu
         %li.menu-item
           = link_to t('menus.nav.admin.companies.manage_companies'), companies_path
@@ -23,8 +20,7 @@
           = link_to t('menus.nav.admin.companies.new_company'), new_company_path
 
     %li.menu-item.menu-item-has-children
-      %a.link-no-styling{ href: '#' }
-        = t('menus.nav.admin.categories.submenu_title')
+      %a.link-no-styling{ href: '#' }= t('menus.nav.admin.categories.submenu_title')
       %ul.sub-menu
         %li.menu-item
           = link_to t('menus.nav.admin.categories.manage_categories'),
