@@ -932,9 +932,7 @@ social nav
     top: 0;
     right: 0;
     z-index:999;
-    /*line-height:60px;*/
     min-width: 240px;
-    text-align: left;
 }
 
 .login-nav a {
