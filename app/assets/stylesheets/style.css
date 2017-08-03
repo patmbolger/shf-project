@@ -940,6 +940,10 @@ social nav
     padding-left:5px;
 }
 
+.tall-line {
+  line-height: 60px;
+}
+
 .social-nav {
     position:fixed;
     top: 0;

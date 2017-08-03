@@ -1,9 +1,8 @@
 - if user_signed_in?
-  %a{ href: '#', class: 'dropdown-toggle link-no-styling',
-     'data-toggle' => 'dropdown', role: 'button',
-      style: 'line-height:60px;' }
+  %a.dropdown-toggle.link-no-styling.tall-line{ href: '#',
+     'data-toggle' => 'dropdown', role: 'button' }
     = t('hello', name: current_user.first_name)
-  %span.caret
+    %span.caret
 
   %ul.dropdown-menu
     %li
@@ -15,4 +14,4 @@
 
 - else
   = link_to(t('devise.sessions.new.log_in'), new_user_session_path,
-           { style: 'line-height:60px;' })
+            { class: 'tall-line' })
