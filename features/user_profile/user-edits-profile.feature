@@ -37,5 +37,29 @@ Feature: As a registered user
     Then I should see t("devise.registrations.edit.success")
 
   Scenario: Member edits profile
+    Given I am on the "landing" page
+    When I click on t("devise.sessions.new.log_in") link
+    Then I should be on "login" page
+    And I fill in t("activerecord.attributes.user.email") with "member@random.com"
+    And I fill in t("activerecord.attributes.user.password") with "password"
+    And I click on t("devise.sessions.new.log_in") button
+    And I should see t("hello", name: 'mary')
+    Then I click on the t("devise.registrations.edit.title") link
+    And I fill in t("activerecord.attributes.user.first_name") with "NewMary"
+    And I fill in t("devise.registrations.edit.current_password") with "password"
+    And I click on t("devise.registrations.edit.submit_button_label") button
+    And I should see t("hello", name: 'NewMary')
 
   Scenario: User edits profile
+    Given I am on the "landing" page
+    When I click on t("devise.sessions.new.log_in") link
+    Then I should be on "login" page
+    And I fill in t("activerecord.attributes.user.email") with "user@random.com"
+    And I fill in t("activerecord.attributes.user.password") with "password"
+    And I click on t("devise.sessions.new.log_in") button
+    And I should see t("hello", name: 'ulysses')
+    Then I click on the t("devise.registrations.edit.title") link
+    And I fill in t("activerecord.attributes.user.first_name") with "NewUlysses"
+    And I fill in t("devise.registrations.edit.current_password") with "password"
+    And I click on t("devise.registrations.edit.submit_button_label") button
+    And I should see t("hello", name: 'NewUlysses')
