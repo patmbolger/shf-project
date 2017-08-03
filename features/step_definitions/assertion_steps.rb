@@ -223,14 +223,9 @@ Then(/^I should see translated error (.*) (.*)$/) do |model_attribute, error|
   expect(page).to have_content("#{i18n_content(model_attribute)} #{i18n_content(error)}")
 end
 
-Then(/^I should see t\("([^"]*)", member_full_name: '([^']*)'\)$/) do |i18n_key, name_value|
- expect(page).to have_content(I18n.t(i18n_key, member_full_name: name_value))
+And(/^I should see t\("([^"]*)", (\S*): '([^']*)'\)$/) do |i18n_key, attr_label, attr_value|
+  expect(page).to have_content(I18n.t(i18n_key, attr_label.to_sym => attr_value))
 end
-
-And(/^I should see t\("([^"]*)", filename: '([^']*)'\)$/) do |i18n_key, filename_value|
-  expect(page).to have_content(I18n.t(i18n_key, filename: filename_value))
-end
-
 
 And(/^I should see status line with status "([^"]*)" and date "([^"]*)"$/) do |status, date_string|
   expect(page).to have_content("#{status} - #{date_string}")
