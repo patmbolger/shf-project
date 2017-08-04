@@ -925,7 +925,7 @@ mobile nav 1200px
 }
 
 /*-----------------------
-social nav
+login nav
 -----------------------*/
 .login-nav {
     position:fixed;
@@ -948,10 +948,13 @@ a.link-no-styling {
   line-height: 60px;
 }
 
+/*-----------------------
+login nav
+-----------------------*/
 .social-nav {
-    position:fixed;
+    position:absolute;
     top: 0;
-    right: 0;
+    left: 0;
     z-index:999;
 }
 
