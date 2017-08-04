@@ -808,7 +808,7 @@ sv:
         member_pages: *member_pages
         shf_meeting_minutes: *member_pages_board_meetings
         manage_company:
-          submenu_title: Hantera företag
+          submenu_title: Mitt företag
           view_company: Visa företagssida
           edit_company: Redigera företag
         my_application: *my_application
@@ -820,11 +820,11 @@ sv:
         manage_applications: Hantera ansökningar
         categories:
           submenu_title: Kategorier
-          manage_categories: Lista kategorier
+          manage_categories: Hantera kategorier
           new_category: Ny kategori
         companies:
           submenu_title: Företag
-          manage_companies: Lista företag
+          manage_companies: Hantera företag
           new_company: Nytt företag
         applications:
           submenu_title: *applications
