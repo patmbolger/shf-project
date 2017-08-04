@@ -262,10 +262,6 @@ And(/^I should not see t\("([^"]*)", ([^:]*): "([^"]*)", ([^:]*): "([^"]*)"\)$/)
 end
 
 
-Then(/^I should see t\("([^"]*)", authentication_keys: '([^']*)'\)$/) do |error, auth_key|
-  expect(page).to have_content I18n.t("#{error}", authentication_keys: auth_key)
-end
-
 And(/^I should see (\d+) t\("([^"]*)"\)$/) do |n, content |
   n = n.to_i
   expect(page).to have_text("#{i18n_content(content)}", count: n)
