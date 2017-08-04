@@ -136,12 +136,12 @@ RSpec.describe 'companies/index' do
 
       it 'renders log-off link' do
         text = t('devise.sessions.destroy.log_out')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{<a.*href=\"\/users\/sign_out\">#{text}}
       end
 
       it 'renders edit-profile link' do
         text = t('devise.registrations.edit.title')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{<a.*href=\"\/users\/edit\.\d+\">#{text}}
       end
     end
   end
