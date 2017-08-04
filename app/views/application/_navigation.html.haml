@@ -6,14 +6,12 @@
     %a.skip-link.screen-reader-text{href: '#content'} Skip to content
     / main navigation
     %nav.main-navigation.fixed-nav#site-navigation{role: 'navigation'}
-      -# .nav-wrapper.center-aligned-container
       %a.menu-toggle{href: '#'}
         %span.bars
           %span.bar.bar-1
           %span.bar.bar-2
           %span.bar.bar-3
 
-      -# .nav-wrapper{ style: 'float: left; clear: none;' }
       .nav-wrapper
 
         - if user_signed_in?
