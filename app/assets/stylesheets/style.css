@@ -2461,6 +2461,7 @@ fixed nav padding
 
 #masthead {
     position:relative;
+    padding-bottom: 100px;
 }
 
 #primary {
