@@ -84,18 +84,15 @@ RSpec.describe 'companies/index' do
 
     context 'logged-in menu' do
       it 'renders logged-in greeting' do
-        text = t('hello', name: member.first_name)
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('hello', name: member.first_name)}}
       end
 
       it 'renders log-off link' do
-        text = t('devise.sessions.destroy.log_out')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('devise.sessions.destroy.log_out')}}
       end
 
       it 'renders edit-profile link' do
-        text = t('devise.registrations.edit.title')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('devise.registrations.edit.title')}}
       end
     end
   end
@@ -130,8 +127,7 @@ RSpec.describe 'companies/index' do
 
     context 'logged-in menu' do
       it 'renders logged-in greeting' do
-        text = t('hello', name: user.first_name)
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('hello', name: user.first_name)}}
       end
 
       it 'renders log-off link' do
@@ -178,7 +174,7 @@ RSpec.describe 'companies/index' do
 
       it 'renders submenu title' do
         text = t('menus.nav.admin.applications.submenu_title')
-        expect(rendered).to match /#{text}/
+        expect(rendered).to match %r{#{text}}
       end
 
       it 'renders manage-applications link' do
@@ -197,7 +193,7 @@ RSpec.describe 'companies/index' do
 
       it 'renders submenu title' do
         text = t('menus.nav.admin.categories.submenu_title')
-        expect(rendered).to match /#{text}/
+        expect(rendered).to match %r{#{text}}
       end
 
       it 'renders manage-categories link' do
@@ -215,7 +211,7 @@ RSpec.describe 'companies/index' do
 
       it 'renders submenu title' do
         text = t('menus.nav.admin.companies.submenu_title')
-        expect(rendered).to match /#{text}/
+        expect(rendered).to match %r{#{text}}
       end
 
       it 'renders manage-companies link' do
@@ -236,18 +232,15 @@ RSpec.describe 'companies/index' do
 
     context 'logged-in menu' do
       it 'renders logged-in greeting' do
-        text = t('hello', name: admin.first_name)
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('hello', name: admin.first_name)}}
       end
 
       it 'renders log-off link' do
-        text = t('devise.sessions.destroy.log_out')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('devise.sessions.destroy.log_out')}}
       end
 
       it 'renders edit-profile link' do
-        text = t('devise.registrations.edit.title')
-        expect(rendered).to match /text/
+        expect(rendered).to match %r{#{t('devise.registrations.edit.title')}}
       end
     end
 
