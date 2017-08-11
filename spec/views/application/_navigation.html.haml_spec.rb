@@ -137,7 +137,7 @@ RSpec.describe 'companies/index' do
 
       it 'renders edit-profile link' do
         text = t('devise.registrations.edit.title')
-        expect(rendered).to match %r{<a.*href=\"\/users\/edit\.\d+\">#{text}}
+        expect(rendered).to match %r{<a.*href=\"\/users\/edit\">#{text}}
       end
     end
   end
