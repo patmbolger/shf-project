@@ -44,11 +44,11 @@
       }
     });
 
-    $('#custom_reason_text').on('input', function (e, data) {
+    $('#custom_reason_text').on('input', function (e) {
       ChangeStatus.unsaved_changes = true;
     });
 
-    $('#custom_reason_text').on('change', function (e, data) {
+    $('#custom_reason_text').on('change', function (e) {
       ChangeStatus.unsaved_changes = false;
     });
 
@@ -57,7 +57,8 @@
       if ($('#member_app_waiting_reasons').val() === '#{@other_waiting_reason_value}' &&
           ChangeStatus.unsaved_changes === true) {
 
-        return 'Unsaved changes! Do you want to leave the page?';
+        e.returnValue = 'Unsaved changes! Do you want to leave the page?';
+        return e.returnValue;
       }
 
     });
