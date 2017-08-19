@@ -57,7 +57,7 @@
       if ($('#member_app_waiting_reasons').val() === '#{@other_waiting_reason_value}' &&
           ChangeStatus.unsaved_changes === true) {
 
-        e.returnValue = 'Unsaved changes! Do you want to leave the page?';
+        e.returnValue = I18n.t('unsaved_changes_on_page');
         return e.returnValue;
       }
 
