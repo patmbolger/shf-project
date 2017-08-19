@@ -28,10 +28,10 @@ end
 
 Then(/^(?:I|they) click the browser back button and "([^"]*)" the prompt$/) do |modal_action|
   case modal_action
-  when 'accept'  # accept == stay on page
+  when 'accept'  # accept == leave page
     page.accept_confirm { page.evaluate_script('window.history.back()') }
 
-  when 'dismiss' # dismiss == leave page
+  when 'dismiss' # dismiss == stay on page
     page.dismiss_confirm { page.evaluate_script('window.history.back()') }
 
   else

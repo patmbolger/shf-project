@@ -113,30 +113,17 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     Then I should not see t("membership_applications.need_info.reason_title")
 
 
-  @javascript @admin
+  @selenium_browser @admin
   Scenario: Press `back` button before saving custom reason
     Given I am on the "landing" page
     Then I am on "anna_waiting_for_info@nosnarkybarky.se" application page
     When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
     And I wait for all ajax requests to complete
     And I fill in "custom_reason_text" with "This is my reason"
-    And show me the page
-    Then I click the browser back button and "accept" the prompt
-    #And I should not see "This is my reason"
-    When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
-    And I fill in "custom_reason_text" with "This is my reason"
-    And show me the page
     Then I click the browser back button and "dismiss" the prompt
-    And show me the page
+    And the t("membership_applications.need_info.other_reason_label") field should be set to "This is my reason"
+    And I fill in "custom_reason_text" with "This is my reason"
+    Then I click the browser back button and "accept" the prompt
     And I should be on the landing page
-    #And I wait for all ajax requests to complete
-    #And I wait 5 seconds
-
-
-    #And I press enter in "custom_reason_text"
-    #And I set "member_app_waiting_reasons" to "need doc"
-    #And I wait for all ajax requests to complete
-    # change back so the custom reason field shows. it should be blank
-    #And I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
-    #And I wait for all ajax requests to complete
-    #Then I should not see "This is my reason"
+    Then I am on "anna_waiting_for_info@nosnarkybarky.se" application page
+    And I should not see "This is my reason"
