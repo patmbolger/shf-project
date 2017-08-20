@@ -61,7 +61,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have "waiting for payment" selected
 
 
-  @javascript @admin
+  @selenium @admin
   Scenario: Admin selects 'other' and enters text as the reason SHF is waiting_for_applicant
     Given I am on "anna_waiting_for_info@nosnarkybarky.se" application page
     When I select t("admin_only.member_app_waiting_reasons.other_custom_reason") in select list "member_app_waiting_reasons"
@@ -76,7 +76,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have t("admin_only.member_app_waiting_reasons.other_custom_reason") selected
 
 
-  @javascript @admin
+  @selenium @admin
   Scenario: Admin selects 'other' and fills in custom text but then changes reason to something else
     Given I am on "anna_waiting_for_info@nosnarkybarky.se" application page
     When I select t("admin_only.member_app_waiting_reasons.other_custom_reason") in select list "member_app_waiting_reasons"
@@ -91,7 +91,7 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
     And "member_app_waiting_reasons" should have "waiting for payment" selected
 
 
-  @javascript @admin
+  @selenium @admin
   Scenario: When selected reason is not 'custom other,' the custom text is saved as blank (empty string)
     Given I am on "anna_waiting_for_info@nosnarkybarky.se" application page
     When I select t("admin_only.member_app_waiting_reasons.other_custom_reason") in select list "member_app_waiting_reasons"
