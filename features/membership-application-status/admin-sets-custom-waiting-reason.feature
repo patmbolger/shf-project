@@ -117,13 +117,13 @@ Feature: Admin sets or enters the reason they are waiting for info from a user
   Scenario: Press `back` button before saving custom reason
     Given I am on the "landing" page
     Then I am on "anna_waiting_for_info@nosnarkybarky.se" application page
-    When I set "member_app_waiting_reasons" to t("admin_only.member_app_waiting_reasons.other_custom_reason")
+    When I select t("admin_only.member_app_waiting_reasons.other_custom_reason") in select list "member_app_waiting_reasons"
     And I wait for all ajax requests to complete
     And I fill in "custom_reason_text" with "This is my reason"
     Then I click the browser back button and "dismiss" the prompt
     And the t("membership_applications.need_info.other_reason_label") field should be set to "This is my reason"
     And I fill in "custom_reason_text" with "This is my reason"
     Then I click the browser back button and "accept" the prompt
-    And I should be on the landing page
+    And I should be on the "landing" page
     Then I am on "anna_waiting_for_info@nosnarkybarky.se" application page
     And I should not see "This is my reason"
