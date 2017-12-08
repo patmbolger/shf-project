@@ -13,6 +13,10 @@ Feature: As a visitor,
       | Alingsås  |
       | Bromölla  |
 
+    And the following business categories exist
+      | name         |
+      | Groomer      |
+
     Given the following companies exist:
       | name      | company_number | email                  | region       | kommun  |
       | Company1  | 5560360793     | snarky@snarkybarky.com | Stockholm    | Alingsås|
@@ -44,9 +48,9 @@ Feature: As a visitor,
       | Company27 | 9475077674     | cmpy13@mail.com        | Stockholm    | Alingsås|
 
     And the following users exists
-      | email        | admin |
-      | a@mutts.com  |       |
-      | admin@shf.se | true  |
+      | email        | admin | member |
+      | a@mutts.com  |       | true   |
+      | admin@shf.se | true  |        |
 
     And the following payments exist
       | user_email  | start_date | expire_date | payment_type | status | hips_id | company_number |
@@ -77,6 +81,37 @@ Feature: As a visitor,
       | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 9267816362     |
       | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 9360289459     |
       | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 9475077674     |
+
+    And the following applications exist:
+      | user_email  | company_number | state    | categories |
+      | a@mutts.com | 5560360793     | accepted | Groomer    |
+      | a@mutts.com | 2120000142     | accepted | Groomer    |
+      | a@mutts.com | 6613265393     | accepted | Groomer    |
+      | a@mutts.com | 6222279082     | accepted | Groomer    |
+      | a@mutts.com | 8025085252     | accepted | Groomer    |
+      | a@mutts.com | 6914762726     | accepted | Groomer    |
+      | a@mutts.com | 7661057765     | accepted | Groomer    |
+      | a@mutts.com | 7736362901     | accepted | Groomer    |
+      | a@mutts.com | 6112107039     | accepted | Groomer    |
+      | a@mutts.com | 3609340140     | accepted | Groomer    |
+      | a@mutts.com | 2965790286     | accepted | Groomer    |
+      | a@mutts.com | 4268582063     | accepted | Groomer    |
+      | a@mutts.com | 8028973322     | accepted | Groomer    |
+      | a@mutts.com | 8356502446     | accepted | Groomer    |
+      | a@mutts.com | 8394317054     | accepted | Groomer    |
+      | a@mutts.com | 8423893877     | accepted | Groomer    |
+      | a@mutts.com | 8589182768     | accepted | Groomer    |
+      | a@mutts.com | 8616006592     | accepted | Groomer    |
+      | a@mutts.com | 8764985894     | accepted | Groomer    |
+      | a@mutts.com | 8822107739     | accepted | Groomer    |
+      | a@mutts.com | 8853655168     | accepted | Groomer    |
+      | a@mutts.com | 8909248752     | accepted | Groomer    |
+      | a@mutts.com | 9074668568     | accepted | Groomer    |
+      | a@mutts.com | 9243957975     | accepted | Groomer    |
+      | a@mutts.com | 9267816362     | accepted | Groomer    |
+      | a@mutts.com | 9360289459     | accepted | Groomer    |
+      | a@mutts.com | 9475077674     | accepted | Groomer    |
+
 
   @selenium @time_adjust
   Scenario: Visitor sees all companies
