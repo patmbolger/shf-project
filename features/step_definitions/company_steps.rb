@@ -13,6 +13,22 @@ And(/^the following companies exist:$/) do |table|
   end
 end
 
+And(/^the following simple companies exist:$/) do |table|
+  table.hashes.each do |company|
+    region = company.delete('region') || 'Stockholm'
+    kommun = company.delete('kommun') || 'Stockholm'
+    visibility = company.delete('visibility') || 'street_address'
+
+    cmpy = FactoryGirl.build(:company, company)
+    cmpy.save(validate: false)
+
+    cmpy.addresses.first.update(region: Region.find_by_name(region),
+                                kommun: Kommun.find_by_name(kommun),
+                                visibility: visibility)
+
+  end
+end
+
 And(/^the following regions exist:$/) do |table|
   table.hashes.each do |region|
     FactoryGirl.create(:region, region)

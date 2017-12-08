@@ -195,18 +195,3 @@ Feature: As a visitor,
     And I should not see "310 40"
     And I should not see "Harplinge"
     And I should not see "Alingsås"
-
-  @selenium @time_adjust
-  Scenario: Don't show company if no approved app or no members
-    Given the date is set to "2017-10-01"
-    And I am Logged out
-    And I am on the "landing" page
-    Then I click on t("toggle.company_search_form.hide")
-    Then I should see "Company1"
-    Then I should see "Company2"
-    Then I should see "Company3"
-    Then I should see "Company4"
-    Then I should see "Company5"
-    Then I should see "Company6"
-    Then I should not see "Company7"
-    Then I should not see "Company8"
