@@ -17,37 +17,37 @@ Feature: As a visitor,
       | name         |
       | Groomer      |
 
-    Given the following simple companies exist:
+    Given the following companies exist:
       | name      | company_number | email           | region       | kommun  |
-      | Company1  | 0000000001     | cmpy1@mail.com  | Stockholm    | Alingsås|
-      | Company2  | 0000000002     | cmpy2@mail.com  | Västerbotten | Bromölla|
-      | Company3  | 0000000003     | cmpy3@mail.com  | Stockholm    | Alingsås|
-      | Company4  | 0000000004     | cmpy4@mail.com  | Stockholm    | Alingsås|
-      | Company5  | 0000000005     | cmpy5@mail.com  | Stockholm    | Alingsås|
-      | Company6  | 0000000006     | cmpy6@mail.com  | Stockholm    | Alingsås|
-      | Company7  | 0000000007     | cmpy7@mail.com  | Stockholm    | Alingsås|
-      | Company8  | 0000000008     | cmpy8@mail.com  | Stockholm    | Alingsås|
-      | Company9  | 0000000009     | cmpy9@mail.com  | Stockholm    | Alingsås|
-      | Company10 | 0000000010     | cmpy10@mail.com | Stockholm    | Alingsås|
-      | Company11 | 0000000011     | cmpy11@mail.com | Stockholm    | Alingsås|
-      | Company12 | 0000000012     | cmpy12@mail.com | Stockholm    | Alingsås|
-      | Company13 | 0000000013     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company14 | 0000000014     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company15 | 0000000015     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company16 | 0000000016     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company17 | 0000000017     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company18 | 0000000018     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company19 | 0000000019     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company20 | 0000000020     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company21 | 0000000021     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company22 | 0000000022     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company23 | 0000000023     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company24 | 0000000024     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company25 | 0000000025     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company26 | 0000000026     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company27 | 0000000027     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company28 | 0000000028     | cmpy13@mail.com | Stockholm    | Alingsås|
-      | Company29 | 0000000029     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company1  | 5560360793     | cmpy1@mail.com  | Stockholm    | Alingsås|
+      | Company2  | 2120000142     | cmpy2@mail.com  | Västerbotten | Bromölla|
+      | Company3  | 6613265393     | cmpy3@mail.com  | Stockholm    | Alingsås|
+      | Company4  | 6222279082     | cmpy4@mail.com  | Stockholm    | Alingsås|
+      | Company5  | 8025085252     | cmpy5@mail.com  | Stockholm    | Alingsås|
+      | Company6  | 6914762726     | cmpy6@mail.com  | Stockholm    | Alingsås|
+      | Company7  | 7661057765     | cmpy7@mail.com  | Stockholm    | Alingsås|
+      | Company8  | 7736362901     | cmpy8@mail.com  | Stockholm    | Alingsås|
+      | Company9  | 6112107039     | cmpy9@mail.com  | Stockholm    | Alingsås|
+      | Company10 | 3609340140     | cmpy10@mail.com | Stockholm    | Alingsås|
+      | Company11 | 2965790286     | cmpy11@mail.com | Stockholm    | Alingsås|
+      | Company12 | 4268582063     | cmpy12@mail.com | Stockholm    | Alingsås|
+      | Company13 | 8028973322     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company14 | 8356502446     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company15 | 8394317054     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company16 | 8423893877     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company17 | 8589182768     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company18 | 8616006592     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company19 | 8764985894     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company20 | 8822107739     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company21 | 5569767808     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company22 | 8909248752     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company23 | 9074668568     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company24 | 9243957975     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company25 | 9267816362     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company26 | 9360289459     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company27 | 9475077674     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company28 | 8728875504     | cmpy13@mail.com | Stockholm    | Alingsås|
+      | Company29 | 5872150379     | cmpy13@mail.com | Stockholm    | Alingsås|
 
     And the following users exists
       | email        | admin | member |
@@ -56,67 +56,67 @@ Feature: As a visitor,
       | admin@shf.se | true  |        |
 
     And the following payments exist
-      | user_email  | start_date | expire_date | payment_type | status | hips_id | company_number |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000001     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000002     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000003     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000004     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000005     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000006     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000007     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000008     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000009     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000010     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000011     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000012     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000013     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000014     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000015     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000016     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000017     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000018     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000019     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000020     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000021     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000022     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000023     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000024     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000025     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000026     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000027     |
-      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 0000000028     |
+      | user_email  | start_date | expire_date | payment_type | status | hips_id | company_name |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company1     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company2     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company3     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company4     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company5     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company6     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company7     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company8     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company9     |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company10    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company11    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company12    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company13    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company14    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company15    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company16    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company17    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company18    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company19    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company20    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company21    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company22    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company23    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company24    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company25    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company26    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company27    |
+      | a@mutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | Company28    |
 
-    And the following simple applications exist:
-      | user_email  | company_number | state    | categories |
-      | a@mutts.com | 0000000001     | accepted | Groomer    |
-      | a@mutts.com | 0000000002     | accepted | Groomer    |
-      | a@mutts.com | 0000000003     | accepted | Groomer    |
-      | a@mutts.com | 0000000004     | accepted | Groomer    |
-      | a@mutts.com | 0000000005     | accepted | Groomer    |
-      | a@mutts.com | 0000000006     | accepted | Groomer    |
-      | a@mutts.com | 0000000007     | accepted | Groomer    |
-      | a@mutts.com | 0000000008     | accepted | Groomer    |
-      | a@mutts.com | 0000000009     | accepted | Groomer    |
-      | a@mutts.com | 0000000010     | accepted | Groomer    |
-      | a@mutts.com | 0000000011     | accepted | Groomer    |
-      | a@mutts.com | 0000000012     | accepted | Groomer    |
-      | a@mutts.com | 0000000013     | accepted | Groomer    |
-      | a@mutts.com | 0000000014     | accepted | Groomer    |
-      | a@mutts.com | 0000000015     | accepted | Groomer    |
-      | a@mutts.com | 0000000016     | accepted | Groomer    |
-      | a@mutts.com | 0000000017     | accepted | Groomer    |
-      | a@mutts.com | 0000000018     | accepted | Groomer    |
-      | a@mutts.com | 0000000019     | accepted | Groomer    |
-      | a@mutts.com | 0000000020     | accepted | Groomer    |
-      | a@mutts.com | 0000000021     | accepted | Groomer    |
-      | a@mutts.com | 0000000022     | accepted | Groomer    |
-      | a@mutts.com | 0000000023     | accepted | Groomer    |
-      | a@mutts.com | 0000000024     | accepted | Groomer    |
-      | a@mutts.com | 0000000025     | accepted | Groomer    |
-      | a@mutts.com | 0000000026     | accepted | Groomer    |
-      | a@mutts.com | 0000000027     | accepted | Groomer    |
-      | b@mutts.com | 0000000028     | accepted | Groomer    |
-      | a@mutts.com | 0000000029     | accepted | Groomer    |
+    And the following applications exist:
+      | user_email  | company_name | state    | categories |
+      | a@mutts.com | Company1     | accepted | Groomer    |
+      | a@mutts.com | Company2     | accepted | Groomer    |
+      | a@mutts.com | Company3     | accepted | Groomer    |
+      | a@mutts.com | Company4     | accepted | Groomer    |
+      | a@mutts.com | Company5     | accepted | Groomer    |
+      | a@mutts.com | Company6     | accepted | Groomer    |
+      | a@mutts.com | Company7     | accepted | Groomer    |
+      | a@mutts.com | Company8     | accepted | Groomer    |
+      | a@mutts.com | Company9     | accepted | Groomer    |
+      | a@mutts.com | Company10    | accepted | Groomer    |
+      | a@mutts.com | Company11    | accepted | Groomer    |
+      | a@mutts.com | Company12    | accepted | Groomer    |
+      | a@mutts.com | Company13    | accepted | Groomer    |
+      | a@mutts.com | Company14    | accepted | Groomer    |
+      | a@mutts.com | Company15    | accepted | Groomer    |
+      | a@mutts.com | Company16    | accepted | Groomer    |
+      | a@mutts.com | Company17    | accepted | Groomer    |
+      | a@mutts.com | Company18    | accepted | Groomer    |
+      | a@mutts.com | Company19    | accepted | Groomer    |
+      | a@mutts.com | Company20    | accepted | Groomer    |
+      | a@mutts.com | Company21    | accepted | Groomer    |
+      | a@mutts.com | Company22    | accepted | Groomer    |
+      | a@mutts.com | Company23    | accepted | Groomer    |
+      | a@mutts.com | Company24    | accepted | Groomer    |
+      | a@mutts.com | Company25    | accepted | Groomer    |
+      | a@mutts.com | Company26    | accepted | Groomer    |
+      | a@mutts.com | Company27    | accepted | Groomer    |
+      | b@mutts.com | Company28    | accepted | Groomer    |
+      | a@mutts.com | Company29    | accepted | Groomer    |
 
 
   @selenium @time_adjust
@@ -126,9 +126,9 @@ Feature: As a visitor,
     And I am on the "landing" page
     Then I should see t("companies.index.h_companies_listed_below")
     And I should see "Company2"
-    And I should not see "0000000002"
+    And I should not see "2120000142"
     And I should see "Company1"
-    And I should not see "0000000001"
+    And I should not see "5560360793"
     And I should not see t("companies.new_company")
 
   @time_adjust
@@ -138,9 +138,9 @@ Feature: As a visitor,
     And I am on the "landing" page
     Then I should see t("companies.index.title")
     And I should see "Company2"
-    And I should not see "0000000002"
+    And I should not see "2120000142"
     And I should see "Company1"
-    And I should not see "0000000001"
+    And I should not see "5560360793"
     And I should not see t("companies.new_company")
 
   @selenium @time_adjust
@@ -151,11 +151,11 @@ Feature: As a visitor,
     Then I should see t("companies.index.h_companies_listed_below")
     And I click on t("toggle.company_search_form.hide")
     And I should see "Company2"
-    And I should not see "0000000002"
+    And I should not see "2120000142"
     And I should see "Company1"
-    And I should not see "0000000001"
+    And I should not see "5560360793"
     And I should see "Company10"
-    And I should not see "0000000010"
+    And I should not see "3609340140"
     And I should not see "Company11"
     Then I click on t("will_paginate.next_label") link
     And I should see "Company11"
