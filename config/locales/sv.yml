@@ -621,6 +621,7 @@ sv:
       submit_new_password: Spara det nya lösenordet
       member: *member
       pay_membership_tooltip: När du betalar din medlemsavgift förlängs ditt medlemskap i ett år.
+      membership_expire_date_tooltip: Medlemskapet löper ut efter detta datum
 
     update:
       passwords_dont_match: De två lösenord du angivit matchar inte.

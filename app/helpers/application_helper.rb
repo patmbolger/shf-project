@@ -166,13 +166,15 @@ module ApplicationHelper
                            "#{t('none')}", label_class: 'standard-label')
     end
 
-    # Show expire date as yellow if within 1 month from today, red if expired
-    value_class = expire_date_css_class(expire_date)
-
-    return field_or_none("#{t('activerecord.attributes.payment.expire_date')}",
-                         "#{expire_date}",
-                         label_class: 'standard-label',
-                         value_class: value_class)
+    tag.p do
+      concat tag.span "#{t('activerecord.attributes.payment.expire_date')}: ",
+                      class: 'standard-label'
+      concat tag.span "#{expire_date}", class: expire_date_css_class(expire_date)
+      concat ' '
+      concat tag.span class: 'glyphicon glyphicon-info-sign',
+                      title: "#{t('users.show.membership_expire_date_tooltip')}",
+                      data: {toggle: 'tooltip'}
+    end
   end
 
   def expire_date_css_class(expire_date)

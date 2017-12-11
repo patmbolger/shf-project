@@ -622,6 +622,7 @@ en:
       member: *member
       pay_membership_tooltip: Paying membership fee will extend your membership
                               for one year
+      membership_expire_date_tooltip: Membership expires after this date
 
     update:
       passwords_dont_match: "The two passwords entered don't match."

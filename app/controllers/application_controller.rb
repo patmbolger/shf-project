@@ -44,11 +44,13 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    if resource.admin?
-      admin_root_path
-    else
-      information_path
+    return admin_root_path if resource.admin?
+
+    if resource.member? && ! resource.membership_current?
+      resource.update(member: false)
     end
+
+    information_path
   end
 
   def user_not_authorized

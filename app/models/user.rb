@@ -13,7 +13,7 @@ class User < ApplicationRecord
 
   validates_presence_of :first_name, :last_name, unless: Proc.new {!new_record? && !(first_name_changed? || last_name_changed?)}
   validates_uniqueness_of :membership_number, allow_blank: true
-  
+
   scope :admins, -> { where(admin: true) }
 
   scope :members, -> { where(member: true) }
@@ -28,6 +28,10 @@ class User < ApplicationRecord
 
   def membership_payment_notes
     payment_notes(Payment::PAYMENT_TYPE_MEMBER)
+  end
+
+  def membership_current?
+    membership_expire_date&.future?
   end
 
   def self.next_membership_payment_dates(user_id)
