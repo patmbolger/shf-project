@@ -22,6 +22,7 @@ namespace :shf do
           next if address.valid?
 
           log.record('info', "Deleting Address ID: #{address.id}")
+          log.record('info', "#{address.inspect}")
 
           address.delete
 
