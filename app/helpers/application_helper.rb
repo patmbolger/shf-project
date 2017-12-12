@@ -157,8 +157,10 @@ module ApplicationHelper
   def expire_date_label_and_value(entity)
     if entity.is_a? User
       expire_date = entity.membership_expire_date
+      tooltip_title = "#{t('users.show.membership_expire_date_tooltip')}"
     else
       expire_date = entity.branding_expire_date # Company
+      tooltip_title = "#{t('companies.show.branding_fee_expire_date_tooltip')}"
     end
 
     if !expire_date
@@ -172,7 +174,7 @@ module ApplicationHelper
       concat tag.span "#{expire_date}", class: expire_date_css_class(expire_date)
       concat ' '
       concat tag.span class: 'glyphicon glyphicon-info-sign',
-                      title: "#{t('users.show.membership_expire_date_tooltip')}",
+                      title: tooltip_title,
                       data: {toggle: 'tooltip'}
     end
   end

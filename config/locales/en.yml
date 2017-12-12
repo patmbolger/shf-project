@@ -484,6 +484,7 @@ en:
       branding_license: H-Branding License
       pay_branding_fee_tooltip: Paying H-Branding fee will extend your branding
                                 license for one year
+      branding_fee_expire_date_tooltip: Branding license expires after this date
       members: Company Members
     index:
       title: Find H-labeled companies

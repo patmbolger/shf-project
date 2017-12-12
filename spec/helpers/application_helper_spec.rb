@@ -2,8 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   let(:user) { create(:user) }
+  let(:company) { create(:company) }
   let(:user_payment) do
     create(:payment, user: user, status: Payment::ORDER_PAYMENT_STATUS['successful'])
+  end
+  let(:brand_payment) do
+    create(:payment, company: company,
+           status: Payment::ORDER_PAYMENT_STATUS['successful'],
+           payment_type: Payment::PAYMENT_TYPE_BRANDING)
   end
 
   describe '#flash_class' do
@@ -311,22 +317,58 @@ RSpec.describe ApplicationHelper, type: :helper do
 
   describe 'expire_date_label_and_value' do
 
-    it 'returns date with style "yes" if expire_date more than a month away' do
-      user_payment.update(expire_date: Time.zone.today + 2.months)
-      response = /class="Yes".*#{user_payment.expire_date}/
-      expect(expire_date_label_and_value(user)).to match response
+    context 'user' do
+
+      it 'returns date with style "yes" if expire_date more than a month away' do
+        user_payment.update(expire_date: Time.zone.today + 2.months)
+        response = /class="Yes".*#{user_payment.expire_date}/
+        expect(expire_date_label_and_value(user)).to match response
+      end
+
+      it 'returns date with style "maybe" if expire_date less than a month away' do
+        user_payment.update(expire_date: Time.zone.today + 2.days)
+        response = /class="Maybe".*#{user_payment.expire_date}/
+        expect(expire_date_label_and_value(user)).to match response
+      end
+
+      it 'returns date with style "no" if expired' do
+        user_payment.update(expire_date: Time.zone.today - 1.day)
+        response = /class="No".*#{user_payment.expire_date}/
+        expect(expire_date_label_and_value(user)).to match response
+      end
+
+      it 'returns tooltip explaining expiration date' do
+        user_payment.update(expire_date: Time.zone.today)
+        response = /#{t('users.show.membership_expire_date_tooltip')}/
+        expect(expire_date_label_and_value(user)).to match response
+      end
     end
 
-    it 'returns date with style "maybe" if expire_date less than a month away' do
-      user_payment.update(expire_date: Time.zone.today + 2.days)
-      response = /class="Maybe".*#{user_payment.expire_date}/
-      expect(expire_date_label_and_value(user)).to match response
-    end
+    context 'company' do
 
-    it 'returns date with style "no" if expired' do
-      user_payment.update(expire_date: Time.zone.today - 1.day)
-      response = /class="No".*#{user_payment.expire_date}/
-      expect(expire_date_label_and_value(user)).to match response
+      it 'returns date with style "yes" if expire_date more than a month away' do
+        brand_payment.update(expire_date: Time.zone.today + 2.months)
+        response = /class="Yes".*#{brand_payment.expire_date}/
+        expect(expire_date_label_and_value(company)).to match response
+      end
+
+      it 'returns date with style "maybe" if expire_date less than a month away' do
+        brand_payment.update(expire_date: Time.zone.today + 2.days)
+        response = /class="Maybe".*#{brand_payment.expire_date}/
+        expect(expire_date_label_and_value(company)).to match response
+      end
+
+      it 'returns date with style "no" if expired' do
+        brand_payment.update(expire_date: Time.zone.today - 1.day)
+        response = /class="No".*#{brand_payment.expire_date}/
+        expect(expire_date_label_and_value(company)).to match response
+      end
+
+      it 'returns tooltip explaining expiration date' do
+        brand_payment.update(expire_date: Time.zone.today)
+        response = /#{t('companies.show.branding_fee_expire_date_tooltip')}/
+        expect(expire_date_label_and_value(company)).to match response
+      end
     end
   end
 
