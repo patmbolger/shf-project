@@ -46,10 +46,6 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     return admin_root_path if resource.admin?
 
-    if resource.member? && ! resource.membership_current?
-      resource.update(member: false)
-    end
-
     information_path
   end
 

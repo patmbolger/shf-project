@@ -10,6 +10,10 @@ Feature: As a member
       | emma@happymutts.com |       | true   |
       | admin@shf.se        | true  | false  |
 
+    Given the following payments exist
+      | user_email          | start_date | expire_date | payment_type | status | hips_id |
+      | emma@happymutts.com | 2017-10-1  | 2017-12-31  | member_fee   | betald | none    |
+
     Given the following regions exist:
       | name         |
       | Stockholm    |
@@ -104,8 +108,9 @@ Feature: As a member
     And I click on "Happy Mutts"
     And I should see "1" address
 
-
+  @time_adjust
   Scenario: Another tries to edit your company page (gets rerouted)
+    Given the date is set to "2017-10-01"
     Given I am logged in as "emma@happymutts.com"
     And I am on the "edit my company" page
     And I fill in the translated form with data:

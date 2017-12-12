@@ -9,6 +9,10 @@ Feature: As a member
       | applicant_3@happymutts.com |       | false     |
       | admin@shf.se               | true  | true      |
 
+    Given the following payments exist
+      | user_email                 | start_date | expire_date | payment_type | status | hips_id |
+      | applicant_1@happymutts.com | 2017-10-1  | 2017-12-31  | member_fee   | betald | none    |
+
     And the following companies exist:
       | name                 | company_number | email                  |
       | No More Snarky Barky | 5560360793     | snarky@snarkybarky.com |
@@ -19,8 +23,9 @@ Feature: As a member
       | applicant_1@happymutts.com | 5560360793     | accepted |
       | applicant_3@happymutts.com | 2120000142     | accepted |
 
-
+  @time_adjust
   Scenario: Member can edit their company
+    Given the date is set to "2017-10-01"
     Given I am logged in as "applicant_1@happymutts.com"
     And I am on the edit company page for "5560360793"
     Then I should see t("companies.edit.title", company_name: "No More Snarky Barky")
