@@ -40,23 +40,53 @@ RSpec.describe MembershipApplication, type: :model do
   end
 
   describe 'DB Table' do
-    it {is_expected.to have_db_column :id}
-    it {is_expected.to have_db_column :company_number}
-    it {is_expected.to have_db_column :phone_number}
-    it {is_expected.to have_db_column :contact_email}
-    it {is_expected.to have_db_column :state}
-    it {is_expected.to have_db_column :custom_reason_text}
+    it { is_expected.to have_db_column :id }
+    it { is_expected.to have_db_column :company_number }
+    it { is_expected.to have_db_column :phone_number }
+    it { is_expected.to have_db_column :contact_email }
+    it { is_expected.to have_db_column :state }
+    it { is_expected.to have_db_column :custom_reason_text }
+    it { is_expected.to have_db_column :user_id }
+    it { is_expected.to have_db_column :company_id }
+    it { is_expected.to have_db_column :member_app_waiting_reasons_id }
+  end
+
+  describe 'Associations' do
+    it { is_expected.to belong_to :user }
+    it { is_expected.to belong_to :company }
+    it { is_expected.to have_and_belong_to_many :business_categories }
+    it { is_expected.to have_many :uploaded_files }
+    it { is_expected.to belong_to(:waiting_reason)
+                          .class_name(AdminOnly::MemberAppWaitingReason)
+                          .with_foreign_key('member_app_waiting_reasons_id') }
+    it { is_expected.to accept_nested_attributes_for(:uploaded_files)
+                          .allow_destroy(true) }
+    it { is_expected.to accept_nested_attributes_for(:user)
+                          .update_only(true).allow_destroy(false) }
   end
 
   describe 'Validations' do
-    it {is_expected.to validate_presence_of :contact_email}
-    it {is_expected.to validate_presence_of :company_number}
-    it {is_expected.to validate_presence_of :state}
+    it { is_expected.to validate_presence_of :contact_email }
+    it { is_expected.to validate_presence_of :company_number }
+    it { is_expected.to validate_presence_of :state }
 
-    it {is_expected.to allow_value('user@example.com').for(:contact_email)}
-    it {is_expected.not_to allow_value('userexample.com').for(:contact_email)}
+    it { is_expected.to allow_value('user@example.com').for(:contact_email) }
+    it { is_expected.not_to allow_value('userexample.com').for(:contact_email) }
 
-    it {is_expected.to validate_length_of(:company_number).is_equal_to(10)}
+    it { is_expected.to validate_length_of(:company_number).is_equal_to(10) }
+
+    describe 'uniqueness of user scoped within company_number' do
+      subject { FactoryGirl.build(:membership_application) }
+      it { is_expected.to validate_uniqueness_of(:user_id)
+                                .scoped_to(:company_number) }
+    end
+
+    describe 'swedish org number' do
+      it { is_expected.to allow_values('5560360793', '2120000142')
+                            .for(:company_number) }
+      it { is_expected.not_to allow_values('0123456789', '212000')
+                            .for(:company_number) }
+    end
   end
 
   context 'scopes' do
@@ -77,27 +107,6 @@ RSpec.describe MembershipApplication, type: :model do
           .to contain_exactly(accepted_app1, accepted_app2)
       end
     end
-  end
-
-  describe 'Validate Swedish Orgnr' do
-    let (:company) do
-      create(:membership_application)
-    end
-
-    subject {company}
-
-    before do
-      company.company_number = 1234567890
-    end
-
-    it {should_not be_valid}
-  end
-
-  describe 'Associations' do
-    it {is_expected.to belong_to :user}
-    it {is_expected.to have_and_belong_to_many :business_categories}
-    it {is_expected.to belong_to :company}
-    it {is_expected.to belong_to :waiting_reason}
   end
 
   describe "Uploaded Files" do
@@ -140,22 +149,27 @@ RSpec.describe MembershipApplication, type: :model do
 
   end
 
-  describe "#destroy" do
+  describe '#before_destroy_checks callback' do
 
-    let(:application_owner) {create(:user, email: 'user_1@random.com')}
-    let(:uploaded_file) {create(:uploaded_file, actual_file: (File.new(File.join(FIXTURE_DIR, 'image.jpg'))))}
-    let(:membership_application) {create(:membership_application, user: application_owner, uploaded_files: [uploaded_file])}
+    let(:application_owner) { create(:user, email: 'user_1@random.com') }
 
-    it 'destroys a membershipapplication' do
-      membership_application.destroy
-      expect(membership_application.destroyed?).to be_truthy
+    app_file = (File.new(File.join(FIXTURE_DIR, 'image.jpg')))
+    let(:uploaded_file) { create(:uploaded_file, actual_file: app_file) }
+
+    let(:application) do
+      create(:membership_application, user: application_owner,
+             uploaded_files: [uploaded_file], state: :accepted)
     end
 
-    it 'destroys the uploaded file' do
-      membership_application.destroy
+    it 'invokes method to delete uploaded files' do
+      application.destroy
       expect(uploaded_file.destroyed?).to be_truthy
     end
 
+    it "destroys associated company" do
+      expect(application.company).to receive(:destroy)
+      application.destroy
+    end
   end
 
   describe 'test factories' do
@@ -365,6 +379,5 @@ RSpec.describe MembershipApplication, type: :model do
     end
 
   end
-
 
 end
