@@ -149,7 +149,7 @@ RSpec.describe MembershipApplication, type: :model do
 
   end
 
-  describe '#before_destroy_checks callback' do
+  describe 'destroy callbacks' do
 
     let(:application_owner) { create(:user, email: 'user_1@random.com') }
 
