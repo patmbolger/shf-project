@@ -200,35 +200,11 @@ Feature: As a visitor,
     And "items_count" should have "25" selected
     And I should see "Company1"
     And I should see "Company2"
-    And I should see "Company3"
-    And I should see "Company4"
-    And I should see "Company5"
-    And I should see "Company6"
-    And I should see "Company7"
-    And I should see "Company8"
-    And I should see "Company9"
-    And I should see "Company10"
     And I should see "Company11"
     And I should see "Company12"
-    And I should see "Company13"
-    And I should see "Company14"
-    And I should see "Company15"
-    And I should see "Company16"
-    And I should see "Company17"
-    And I should see "Company18"
-    And I should see "Company19"
-    And I should see "Company20"
-    And I should see "Company21"
-    And I should see "Company22"
-    And I should see "Company23"
     And I should see "Company24"
     And I should see "Company25"
     And I should not see "Company26"
-    Then I select "All" in select list "items_count"
-    And I wait for all ajax requests to complete
-    Then I should see "27" companies
-    And I should see "Company26"
-    And I should see "Company27"
 
   @selenium @time_adjust
   Scenario: Companies lacking branding payment or members not shown
@@ -240,7 +216,22 @@ Feature: As a visitor,
     And "items_count" should have "10" selected
     Then I select "All" in select list "items_count"
     And I wait for all ajax requests to complete
+    And I should see "27" companies
     And I should see "Company10"
     And I should see "Company27"
     And I should not see "Company28"
     And I should not see "Company29"
+
+  @selenium @time_adjust
+  Scenario: Admin can see all companies even if lacking branding payment or members
+    Given the date is set to "2017-10-01"
+    And I am logged in as "admin@shf.se"
+    And I am on the "all companies" page
+    And "items_count" should have "10" selected
+    Then I select "All" in select list "items_count"
+    And I wait for all ajax requests to complete
+    And I should see "29" companies
+    And I should see "Company10"
+    And I should see "Company27"
+    And I should see "Company28"
+    And I should see "Company29"
