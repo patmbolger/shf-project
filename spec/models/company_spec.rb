@@ -138,7 +138,7 @@ RSpec.describe Company, type: :model do
     it 'applications' do
       application1
       application2
-      expect(company.membership_applications.count).to be 2
+      expect(company.membership_applications.count).to eq 2
       expect { company.destroy }.to change(MembershipApplication, :count).by(-2)
     end
 
@@ -146,7 +146,7 @@ RSpec.describe Company, type: :model do
       Ckeditor::Picture.for_company_id = company.id
       picture1
       picture2
-      expect(company.pictures.count).to be 2
+      expect(company.pictures.count).to eq 2
       expect { company.destroy }.to change(Ckeditor::Picture, :count).by(-2)
     end
   end

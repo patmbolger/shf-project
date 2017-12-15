@@ -126,18 +126,18 @@ class MembershipApplication < ApplicationRecord
 
   def reject_membership
     user.update(membership_number: nil)
-    delete_uploaded_files
+    destroy_uploaded_files
   end
 
 
   def before_destroy_checks
 
-    delete_uploaded_files
+    destroy_uploaded_files
 
   end
 
   def after_destroy_checks
-    # if this was the only application associated with a company, delete the company
+    # if this was the only application associated with a company, destroy the company
     unless company.nil?
       company.membership_applications.reload
       company.destroy if (company.membership_applications.count == 0)
@@ -151,7 +151,7 @@ class MembershipApplication < ApplicationRecord
 
   private
 
-  def delete_uploaded_files
+  def destroy_uploaded_files
 
     uploaded_files.each do |uploaded_file|
       uploaded_file.actual_file = nil

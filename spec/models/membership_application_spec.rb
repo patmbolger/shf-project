@@ -150,24 +150,36 @@ RSpec.describe MembershipApplication, type: :model do
   end
 
   describe 'destroy callbacks' do
-
-    let(:application_owner) { create(:user, email: 'user_1@random.com') }
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
 
     app_file = (File.new(File.join(FIXTURE_DIR, 'image.jpg')))
     let(:uploaded_file) { create(:uploaded_file, actual_file: app_file) }
 
     let(:application) do
-      create(:membership_application, user: application_owner,
+      create(:membership_application, user: user1,
              uploaded_files: [uploaded_file], state: :accepted)
     end
+    let(:application2) do
+      create(:membership_application, user: user2,
+             uploaded_files: [uploaded_file], state: :new,
+             company_id: application.company.id,
+             company_number: application.company_number)
+    end
 
-    it 'invokes method to delete uploaded files' do
+    it 'invokes method to destroy uploaded files' do
       application.destroy
       expect(uploaded_file.destroyed?).to be_truthy
     end
 
-    it "destroys associated company" do
+    it "destroys associated company if it has no remaining applications" do
       expect(application.company).to receive(:destroy)
+      application.destroy
+    end
+
+    it "does not destroy associated company if other applications remain" do
+      application2
+      expect(application.company).not_to receive(:destroy)
       application.destroy
     end
   end
