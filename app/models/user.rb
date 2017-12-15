@@ -50,6 +50,14 @@ class User < ApplicationRecord
     shf_applications.any?
   end
 
+  def check_member_status
+    # Called from Warden after user authentication - see after_sign_in.rb
+    # If member payment has expired, revoke membership status.
+    if member? && ! membership_current?
+      update(member: false)
+    end
+  end
+
 
   def has_company?
     shf_applications.where.not(company_id: nil).count > 0

@@ -1,8 +1,6 @@
-Warden::Manager.after_set_user except: :fetch do |user, _auth, _opts|
-  if user&.member? && ! user.membership_current?
-    user.update(member: false)
-  end
+Warden::Manager.after_authentication do |user, _auth, _opts|
+  user.check_member_status
 end
 
-# https://stackoverflow.com/questions/4753730/
-# can-i-execute-custom-actions-after-successful-sign-in-with-devise
+# https://github.com/hassox/warden/blob/
+# fa24dcbf34022d85dce8db51dd11bbbe5a6fddcc/lib/warden/hooks.rb
