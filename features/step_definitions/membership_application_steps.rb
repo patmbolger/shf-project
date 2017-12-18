@@ -19,7 +19,7 @@ And(/^the following applications exist:$/) do |table|
 
    company_number = company.nil? ? hash['company_number'] : company.company_number
 
-   ma = FactoryGirl.create(:membership_application,
+   ma = FactoryGirl.create(:shf_application,
                             attributes.merge(user: user,
                             company: company,
                             company_number: company_number,
