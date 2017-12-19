@@ -106,11 +106,11 @@ RSpec.describe Company, type: :model do
     let(:user1)   { create(:user) }
     let(:user2)   { create(:user) }
     let(:application1) do
-      create(:membership_application, company: company,
+      create(:shf_application, company: company,
              company_number: company.company_number, user: user1)
     end
     let(:application2) do
-      create(:membership_application, company: company,
+      create(:shf_application, company: company,
              company_number: company.company_number, user: user2)
     end
 
@@ -138,8 +138,8 @@ RSpec.describe Company, type: :model do
     it 'applications' do
       application1
       application2
-      expect(company.membership_applications.count).to eq 2
-      expect { company.destroy }.to change(MembershipApplication, :count).by(-2)
+      expect(company.shf_applications.count).to eq 2
+      expect { company.destroy }.to change(ShfApplication, :count).by(-2)
     end
 
     it 'pictures' do
