@@ -438,13 +438,13 @@ RSpec.describe Company, type: :model do
     let(:user2) { create(:user) }
 
     let(:app_co1_user1) do
-      create(:membership_application, user: user1, company_number: cmpy1.company_number)
+      create(:shf_application, user: user1, company_number: cmpy1.company_number)
     end
     let(:app_co1_user2) do
-      create(:membership_application, user: user2, company_number: cmpy1.company_number)
+      create(:shf_application, user: user2, company_number: cmpy1.company_number)
     end
     let(:app_co2_user2) do
-      create(:membership_application, user: user2, company_number: cmpy2.company_number)
+      create(:shf_application, user: user2, company_number: cmpy2.company_number)
     end
 
     before(:each) { app_co1_user1; app_co1_user2; app_co2_user2 }
