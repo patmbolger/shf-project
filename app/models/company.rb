@@ -90,8 +90,8 @@ class Company < ApplicationRecord
   end
 
   def self.with_members
-    joins(:membership_applications)
-      .where('membership_applications.state = ?', :accepted)
+    joins(:shf_applications)
+      .where('shf_applications.state = ?', :accepted)
       .joins(:users).where('users.member = ?', true).distinct
   end
 
