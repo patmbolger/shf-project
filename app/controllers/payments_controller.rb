@@ -85,9 +85,10 @@ class PaymentsController < ApplicationController
     payment = Payment.find(payment_id)
     payment.update(status: Payment.order_to_payment_status(resource['status']))
 
-    # When fee is paid, user is granted membership
-    user = payment.user
-    user.grant_membership
+    # When member fee is paid, user is granted membership
+    if payment.payment_type == Payment::PAYMENT_TYPE_MEMBER
+      payment.user.grant_membership
+    end
 
     log_hips_activity('Webhook', 'info', payment_id, hips_id)
 
