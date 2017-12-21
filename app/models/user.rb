@@ -102,7 +102,7 @@ class User < ApplicationRecord
 
 
   def grant_membership
-    return if member && membership_number.present?
+    return if self.member && self.membership_number.present?
 
     update(member: true, membership_number: issue_membership_number)
     MemberMailer.membership_granted(self).deliver if send_email

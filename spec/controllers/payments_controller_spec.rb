@@ -72,7 +72,15 @@ RSpec.describe PaymentsController, type: :controller do
       post :webhook
       expect(payment.reload.status).to eq 'betald'
     end
+  end
 
+  describe 'GET #success' do
+
+    it 'calls User#grant_membership if membership payment' do
+      expect(payment.user.member).to be false
+      expect(payment.user.membership_number).to be_nil
+
+<<<<<<< HEAD
 <<<<<<< HEAD
     it 'sets user to be a member and assigns membership number' do
       # mock the MemberMailer so we don't try to send emails
@@ -93,5 +101,12 @@ RSpec.describe PaymentsController, type: :controller do
     #   expect(payment.user.membership_number).not_to be_nil
     # end
 >>>>>>> added event model
+=======
+      get :success, params: { id: payment, user_id: payment.user.id }
+
+      expect(payment.reload.user.member).to be true
+      expect(payment.user.membership_number).not_to be_nil
+    end
+>>>>>>> grant mebership after member pymt; moved this to success action (from webhook)
   end
 end
