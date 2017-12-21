@@ -86,9 +86,9 @@ class PaymentsController < ApplicationController
     payment.update(status: Payment.order_to_payment_status(resource['status']))
 
     # When member fee is paid, user is granted membership
-    if payment.payment_type == Payment::PAYMENT_TYPE_MEMBER
-      payment.user.grant_membership
-    end
+    # if payment.payment_type == Payment::PAYMENT_TYPE_MEMBER
+    #   payment.user.grant_membership
+    # end
 
     log_hips_activity('Webhook', 'info', payment_id, hips_id)
 
@@ -102,6 +102,8 @@ class PaymentsController < ApplicationController
   def success
     helpers.flash_message(:notice, t('.success'))
     redirect_on_payment_success_or_error
+
+    Event.create(Event::TYPE[:MEMBERSHIP_PAID], user_id: params[:user_id])
   end
 
   def error

@@ -73,6 +73,7 @@ RSpec.describe PaymentsController, type: :controller do
       expect(payment.reload.status).to eq 'betald'
     end
 
+<<<<<<< HEAD
     it 'sets user to be a member and assigns membership number' do
       # mock the MemberMailer so we don't try to send emails
       expect(MemberMailer).to receive(:membership_granted).with(payment.user).and_return( double('MemberMailer', deliver: true))
@@ -83,5 +84,14 @@ RSpec.describe PaymentsController, type: :controller do
       expect(payment.reload.user.member).to be true
       expect(payment.user.membership_number).not_to be_nil
     end
+=======
+    # it 'sets user to be a member and assigns membership number' do
+    #   expect(payment.user.member).to be false
+    #   expect(payment.user.membership_number).to be_nil
+    #   post :webhook
+    #   expect(payment.reload.user.member).to be true
+    #   expect(payment.user.membership_number).not_to be_nil
+    # end
+>>>>>>> added event model
   end
 end
