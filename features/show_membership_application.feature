@@ -61,8 +61,8 @@ Feature: As an Admin
   @admin
   Scenario: Listing incoming Applications open for Admin
     Given I am logged in as "admin@shf.se"
+    And I set the locale to "sv"
     And I am on the "membership applications" page
-    Then I click on t("toggle.application_search_form.hide")
     Then I should see "7" applications
     And I should see 1 t("shf_applications.under_review")
     And I should see 1 t("shf_applications.accepted")
