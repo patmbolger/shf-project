@@ -14,10 +14,4 @@ module UsersHelper
             { method: :post, class: 'btn btn-primary btn-xs' })
   end
 
-  def photo_image(user)
-    return user.photo if user.photo
-
-    File.new("#{Rails.root}/app/assets/images/photo_unavailable.png")
-  end
-
 end

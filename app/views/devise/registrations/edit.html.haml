@@ -9,7 +9,7 @@
     != model_errors_helper(resource)
 
     .col-sm-3
-      = image_tag(photo_image(resource), style: 'float: left;')
+      = image_tag(resource.photo, style: 'float: left;')
       .clearfix
       %br
       .field
