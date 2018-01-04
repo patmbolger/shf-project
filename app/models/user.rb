@@ -11,9 +11,8 @@ class User < ApplicationRecord
   has_many :payments
   accepts_nested_attributes_for :payments
 
-  has_attached_file :photo,
-    default_url: "#{Rails.root}/app/assets/images/photo_unavailable.png"
-    
+  has_attached_file :photo, default_url: 'photo_unavailable.png'
+
   validates_attachment_content_type :photo,
                                     content_type:  /\Aimage\/.*(jpeg|png)\z/
   validates_attachment_file_name :photo, matches: [/png\z/, /jpe?g\z/]
