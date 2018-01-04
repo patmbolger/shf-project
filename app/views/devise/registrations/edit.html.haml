@@ -3,11 +3,12 @@
 .post-title-divider
   %span
 .entry-content.wpcf7
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), method: :put) do |f|
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
 
     != model_errors_helper(resource)
 
     .col-sm-3
+
       = image_tag(resource.photo, style: 'float: left;')
       .clearfix
       %br
@@ -15,6 +16,7 @@
         = f.file_field :photo, accept: 'image/png, image/jpeg'
 
     .col-sm-9
+
       .field
         = f.label :first_name
         = f.text_field :first_name, autofocus: true, class: 'wpcf7-form-control'
@@ -29,7 +31,6 @@
           "#{t('.unconfirmed_email_for', unconfirmed_email: resource.unconfirmed_email )}"
 
     .col-sm-12
-      %br
       .field
         = f.label :password
         %i= t('.leave_blank_if_no_change')
@@ -42,15 +43,14 @@
         = f.label :current_password, "#{t('.current_password')}", class: 'required'
         %i= t('.required_to_save_changes')
         = f.password_field :current_password, autocomplete: 'off', class: 'wpcf7-form-control'
-
-      = render 'application/required_fields'
-
       .actions
         = f.submit "#{t('.submit_button_label')}"
+    = render 'application/required_fields'
 
-      %h2.entry-title= t('.unregister')
-      .post-title-divider
-        %span
-      %p
-        #{button_to t('.delete_my_account'), registration_path(resource_name), class:'btn btn-danger',  data: { confirm: t('.confirm_are_you_sure') }, method: :delete}
-      = link_to "#{t('.back')}", :back
+  .col-sm-12
+    %h2.entry-title= t('.unregister')
+    .post-title-divider
+      %span
+    %p
+      #{button_to t('.delete_my_account'), registration_path(resource_name), class:'btn btn-danger',  data: { confirm: t('.confirm_are_you_sure') }, method: :delete}
+    = link_to "#{t('.back')}", :back
