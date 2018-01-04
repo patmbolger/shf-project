@@ -8,6 +8,9 @@ FactoryGirl.define do
     password 'my_password'
     admin false
     member false
+    photo do
+      File.new("#{Rails.root}/app/assets/images/photos_unavailable.png")
+    end
 
     transient do
       company_number 5712213304

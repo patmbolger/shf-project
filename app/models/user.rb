@@ -11,6 +11,11 @@ class User < ApplicationRecord
   has_many :payments
   accepts_nested_attributes_for :payments
 
+  has_attached_file :photo
+  validates_attachment_content_type :photo,
+                                    content_type:  /\Aimage\/.*(jpeg|png)\z/
+  validates_attachment_file_name :photo, matches: [/png\z/, /jpe?g\z/]
+
   validates_presence_of :first_name, :last_name, unless: Proc.new {!new_record? && !(first_name_changed? || last_name_changed?)}
   validates_uniqueness_of :membership_number, allow_blank: true
 
