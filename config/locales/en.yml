@@ -224,6 +224,8 @@ en:
           attributes:
             password_confirmation:
               confirmation: doesn't match with the password entered.
+            photo:
+              spoofed_media_type: file has content that does not match the file type
 
         shf_document:
           attributes:

@@ -10,8 +10,10 @@
     .col-sm-3
 
       = image_tag(resource.photo, style: 'float: left;')
+      - if resource.photo
+        .clearfix
+        = resource.photo_file_name
       .clearfix
-      %br
       .field
         = f.file_field :photo, accept: 'image/png, image/jpeg'
 
@@ -45,7 +47,8 @@
         = f.password_field :current_password, autocomplete: 'off', class: 'wpcf7-form-control'
       .actions
         = f.submit "#{t('.submit_button_label')}"
-    = render 'application/required_fields'
+
+      = render 'application/required_fields'
 
   .col-sm-12
     %h2.entry-title= t('.unregister')

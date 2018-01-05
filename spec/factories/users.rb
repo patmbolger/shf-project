@@ -9,7 +9,7 @@ FactoryGirl.define do
     admin false
     member false
     photo do
-      File.new("#{Rails.root}/app/assets/images/photos_unavailable.png")
+      File.new("#{Rails.root}/spec/fixtures/user_photos/photo_unavailable.png")
     end
 
     transient do

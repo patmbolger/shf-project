@@ -50,9 +50,26 @@ Feature: As a registered user
     And I should see t("hello", name: 'mary')
     Then I click on the t("devise.registrations.edit.title") link
     And I fill in t("activerecord.attributes.user.first_name") with "NewMary"
+    And I choose a photo file named "member_with_dog.jpg" to upload
     And I fill in t("devise.registrations.edit.current_password") with "password"
     And I click on t("devise.registrations.edit.submit_button_label") button
     And I should see t("hello", name: 'NewMary')
+    Then I click on the t("devise.registrations.edit.title") link
+    And I should see "member_with_dog.jpg"
+
+  Scenario: Member edits profile and tries to upload non-image file (for photo)
+    Given I am on the "landing" page
+    When I click on t("devise.sessions.new.log_in") link
+    Then I should be on "login" page
+    And I fill in t("activerecord.attributes.user.email") with "member@random.com"
+    And I fill in t("activerecord.attributes.user.password") with "password"
+    And I click on t("devise.sessions.new.log_in") button
+    And I should see t("hello", name: 'mary')
+    Then I click on the t("devise.registrations.edit.title") link
+    And I choose a photo file named "text_file.jpg" to upload
+    And I fill in t("devise.registrations.edit.current_password") with "password"
+    And I click on t("devise.registrations.edit.submit_button_label") button
+    And I should see t("activerecord.errors.models.user.attributes.photo.spoofed_media_type")
 
   Scenario: User edits profile
     Given I am on the "landing" page

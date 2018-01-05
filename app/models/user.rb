@@ -6,6 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  before_destroy :destroy_photo
+
   has_many :shf_applications
 
   has_many :payments
@@ -128,6 +130,13 @@ class User < ApplicationRecord
 
   def get_next_membership_number
     self.class.connection.execute("SELECT nextval('membership_number_seq')").getvalue(0,0).to_s
+  end
+
+  def destroy_photo
+    return unless self.photo
+
+    self.photo = nil
+    self.save
   end
 
 

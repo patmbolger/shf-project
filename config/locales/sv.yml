@@ -226,6 +226,8 @@ sv:
           attributes:
             password_confirmation:
               confirmation: stämmer inte med det angivna lösenordet.
+            photo:
+              spoofed_media_type: filen har innehåll som inte överensstämmer med filtypen
 
         shf_document:
           attributes:
