@@ -631,6 +631,13 @@ en:
       passwords_dont_match: "The two passwords entered don't match."
       success: The user was updated.
       error: A problem kept the user from being updated.
+      photo:
+        reason: Your photo will be used for your "proof of membership" credentials.
+        format: Your photo file should be in "PNG" or "JPEG" format, and be
+                approximately the size of a passport photo.
+        upload: Please upload a photo of yourself. Click "Choose File" to do so.
+        replace: Your photo file can be changed by simply selecting another
+                 file. Click "Choose File" to do so.
 
     search_form:
       membership_number: &membership_number_short No.
