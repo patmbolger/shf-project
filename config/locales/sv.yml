@@ -630,6 +630,14 @@ sv:
       passwords_dont_match: De två lösenord du angivit matchar inte.
       success: Användarens information uppdaterad.
       error: Ett problem hindrade användarinformationen från att uppdateras.
+      photo:
+        reason: Your photo will be used for your "proof of membership" credentials.
+        format: Your photo file should be in "PNG" or "JPEG" format, and be
+                approximately the size of a passport photo.
+        upload: Please upload a photo of yourself. Click "Choose File" to do so.
+        replace: Your photo file can be changed by simply selecting another
+                 file. Click "Choose File" to do so.
+
 
     search_form:
       membership_number: &membership_number_short Nr.
