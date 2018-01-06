@@ -21,16 +21,16 @@
 
       .col-sm-9
 
-        = "#{t('users.update.photo.reason')}"
+        #{t('users.update.photo.reason')}
         %br
         %br
-        = "#{t('users.update.photo.format')}"
+        #{t('users.update.photo.format')}
         %br
         %br
         - if resource.photo?
-          = "#{t('users.update.photo.replace')}"
+          #{t('users.update.photo.replace')}
         - else
-          = "#{t('users.update.photo.upload')}"
+          #{t('users.update.photo.upload')}
 
     .col-sm-12.wpcf7
       .field
