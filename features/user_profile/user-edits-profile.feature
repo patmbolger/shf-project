@@ -13,6 +13,10 @@ Feature: As a registered user
       | user_email        | company_number | state    |
       | member@random.com | 5560360793     | accepted |
 
+    And the following payments exist
+      | user_email        | start_date | expire_date | payment_type | status | hips_id |
+      | member@random.com | 2017-10-1  | 2017-12-31  | member_fee   | betald | none    |
+
   Scenario: Admin edits profile
     Given I am on the "landing" page
     When I click on t("devise.sessions.new.log_in") link
@@ -40,13 +44,11 @@ Feature: As a registered user
     And I click on t("devise.registrations.edit.submit_button_label") button
     Then I should see t("devise.registrations.edit.success")
 
+  @time_adjust
   Scenario: Member edits profile
-    Given I am on the "landing" page
-    When I click on t("devise.sessions.new.log_in") link
-    Then I should be on "login" page
-    And I fill in t("activerecord.attributes.user.email") with "member@random.com"
-    And I fill in t("activerecord.attributes.user.password") with "password"
-    And I click on t("devise.sessions.new.log_in") button
+    Given the date is set to "2017-10-01"
+    And I am logged in as "member@random.com"
+    And I am on the "landing" page
     And I should see t("hello", name: 'mary')
     Then I click on the t("devise.registrations.edit.title") link
     And I fill in t("activerecord.attributes.user.first_name") with "NewMary"
@@ -57,13 +59,11 @@ Feature: As a registered user
     Then I click on the t("devise.registrations.edit.title") link
     And I should see "member_with_dog.jpg"
 
+  @time_adjust
   Scenario: Member edits profile and tries to upload non-image file (for photo)
-    Given I am on the "landing" page
-    When I click on t("devise.sessions.new.log_in") link
-    Then I should be on "login" page
-    And I fill in t("activerecord.attributes.user.email") with "member@random.com"
-    And I fill in t("activerecord.attributes.user.password") with "password"
-    And I click on t("devise.sessions.new.log_in") button
+    Given the date is set to "2017-10-01"
+    And I am logged in as "member@random.com"
+    And I am on the "landing" page
     And I should see t("hello", name: 'mary')
     Then I click on the t("devise.registrations.edit.title") link
     And I choose a photo file named "text_file.jpg" to upload
