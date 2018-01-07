@@ -8,8 +8,8 @@ FactoryGirl.define do
     password 'my_password'
     admin false
     member false
-    photo do
-      File.new("#{Rails.root}/spec/fixtures/user_photos/photo_unavailable.png")
+    member_photo do
+      File.new("#{Rails.root}/spec/fixtures/member_photos/photo_unavailable.png")
     end
 
     transient do

@@ -48,8 +48,8 @@ Given(/^The user "([^"]*)" has had her password reset now$/) do |email|
 end
 
 When(/^I choose a photo file named "([^"]*)" to upload$/) do | filename |
-  page.attach_file('user_photo',
+  page.attach_file('user_member_photo',
                    File.join(Rails.root, 'spec', 'fixtures',
-                             'user_photos', filename), visible: false)
+                             'member_photos', filename), visible: false)
   # ^^ selenium won't find the upload button without visible: false
 end

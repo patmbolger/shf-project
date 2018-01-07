@@ -7,30 +7,7 @@
 
     != model_errors_helper(resource)
 
-    - if resource.member?
-
-      .col-sm-3
-
-        = image_tag(resource.photo)
-        - if resource.photo
-          .clearfix
-          = resource.photo_file_name
-        .clearfix
-        .field
-          = f.file_field :photo, accept: 'image/png, image/jpeg'
-
-      .col-sm-9
-
-        #{t('users.update.photo.reason')}
-        %br
-        %br
-        #{t('users.update.photo.format')}
-        %br
-        %br
-        - if resource.photo?
-          #{t('users.update.photo.replace')}
-        - else
-          #{t('users.update.photo.upload')}
+    = render partial: 'member_photo', locals: { user: resource, f: f }
 
     .col-sm-12.wpcf7
       .field

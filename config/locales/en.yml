@@ -224,8 +224,9 @@ en:
           attributes:
             password_confirmation:
               confirmation: doesn't match with the password entered.
-            photo:
-              spoofed_media_type: file has content that does not match the file type
+            member_photo:
+              spoofed_media_type: file name (type) does not match the file
+                                  content.  Please use another photo file.
 
         shf_document:
           attributes:
@@ -631,7 +632,7 @@ en:
       passwords_dont_match: "The two passwords entered don't match."
       success: The user was updated.
       error: A problem kept the user from being updated.
-      photo:
+      member_photo:
         reason: Your photo will be used for your "proof of membership" credentials.
         format: Your photo file should be in "PNG" or "JPEG" format, and be
                 approximately the size of a passport photo.

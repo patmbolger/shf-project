@@ -69,7 +69,7 @@ Feature: As a registered user
     And I choose a photo file named "text_file.jpg" to upload
     And I fill in t("devise.registrations.edit.current_password") with "password"
     And I click on t("devise.registrations.edit.submit_button_label") button
-    And I should see t("activerecord.errors.models.user.attributes.photo.spoofed_media_type")
+    And I should see t("activerecord.errors.models.user.attributes.member_photo.spoofed_media_type")
 
   Scenario: User edits profile
     Given I am on the "landing" page

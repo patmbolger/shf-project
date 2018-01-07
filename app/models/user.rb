@@ -6,18 +6,18 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  before_destroy { self.photo = nil } # remove photo file from file system
+  before_destroy { self.member_photo = nil } # remove photo file from file system
 
   has_many :shf_applications
 
   has_many :payments
   accepts_nested_attributes_for :payments
 
-  has_attached_file :photo, default_url: 'photo_unavailable.png'
+  has_attached_file :member_photo, default_url: 'photo_unavailable.png'
 
-  validates_attachment_content_type :photo,
+  validates_attachment_content_type :member_photo,
                                     content_type:  /\Aimage\/.*(jpeg|png)\z/
-  validates_attachment_file_name :photo, matches: [/png\z/, /jpe?g\z/]
+  validates_attachment_file_name :member_photo, matches: [/png\z/, /jpe?g\z/]
 
   validates_presence_of :first_name, :last_name, unless: Proc.new {!new_record? && !(first_name_changed? || last_name_changed?)}
   validates_uniqueness_of :membership_number, allow_blank: true

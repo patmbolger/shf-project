@@ -579,10 +579,10 @@ CREATE TABLE users (
     last_name character varying,
     membership_number character varying,
     member boolean DEFAULT false,
-    photo_file_name character varying,
-    photo_content_type character varying,
-    photo_file_size integer,
-    photo_updated_at timestamp without time zone
+    member_photo_file_name character varying,
+    member_photo_content_type character varying,
+    member_photo_file_size integer,
+    member_photo_updated_at timestamp without time zone
 );
 
 

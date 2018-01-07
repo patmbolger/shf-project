@@ -226,8 +226,9 @@ sv:
           attributes:
             password_confirmation:
               confirmation: stämmer inte med det angivna lösenordet.
-            photo:
-              spoofed_media_type: filen har innehåll som inte överensstämmer med filtypen
+            member_photo:
+              spoofed_media_type: filnamn (typ) matchar inte filinnehållet.
+                                  Vänligen använd en annan bildfil.
 
         shf_document:
           attributes:
@@ -630,7 +631,7 @@ sv:
       passwords_dont_match: De två lösenord du angivit matchar inte.
       success: Användarens information uppdaterad.
       error: Ett problem hindrade användarinformationen från att uppdateras.
-      photo:
+      member_photo:
         reason: Your photo will be used for your "proof of membership" credentials.
         format: Your photo file should be in "PNG" or "JPEG" format, and be
                 approximately the size of a passport photo.

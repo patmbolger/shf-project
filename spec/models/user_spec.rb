@@ -18,10 +18,10 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_db_column :email }
     it { is_expected.to have_db_column :admin }
     it { is_expected.to have_db_column :member }
-    it { is_expected.to have_db_column :photo_file_name }
-    it { is_expected.to have_db_column :photo_content_type }
-    it { is_expected.to have_db_column :photo_file_size }
-    it { is_expected.to have_db_column :photo_updated_at }
+    it { is_expected.to have_db_column :member_photo_file_name }
+    it { is_expected.to have_db_column :member_photo_content_type }
+    it { is_expected.to have_db_column :member_photo_file_size }
+    it { is_expected.to have_db_column :member_photo_updated_at }
   end
 
   describe 'Validations' do
@@ -29,30 +29,30 @@ RSpec.describe User, type: :model do
     it { is_expected.to(validate_presence_of :last_name) }
     it { is_expected.to validate_uniqueness_of :membership_number }
     it do
-      is_expected.to validate_attachment_content_type(:photo)
+      is_expected.to validate_attachment_content_type(:member_photo)
         .allowing('image/png', 'image/jpeg')
         .rejecting('image/gif', 'image/bmp')
     end
 
     describe 'validates file contents and file type' do
-      let(:file_root) { "#{Rails.root}/spec/fixtures/user_photos/" }
+      let(:file_root) { "#{Rails.root}/spec/fixtures/member_photos/" }
       let(:txt_file)  { File.new(file_root + 'text_file.jpg') }
       let(:gif_file)  { File.new(file_root + 'gif_file.jpg') }
       let(:ico_file)  { File.new(file_root + 'ico_file.png') }
       let(:xyz_file)  { File.new(file_root + 'member_with_dog.xyz') }
 
       it 'rejects if content not jpeg or png' do
-        user.photo = txt_file
+        user.member_photo = txt_file
         expect(user).not_to be_valid
 
-        user.photo = gif_file
+        user.member_photo = gif_file
         expect(user).not_to be_valid
 
-        user.photo = ico_file
+        user.member_photo = ico_file
         expect(user).not_to be_valid
       end
       it 'rejects if content OK but file type wrong' do
-        user.photo = xyz_file
+        user.member_photo = xyz_file
         expect(user).not_to be_valid
       end
     end
@@ -62,7 +62,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:shf_applications) }
     it { is_expected.to have_many(:payments) }
     it { is_expected.to accept_nested_attributes_for(:payments) }
-    it { is_expected.to have_attached_file(:photo) }
+    it { is_expected.to have_attached_file(:member_photo) }
   end
 
   describe 'Admin' do
@@ -80,14 +80,14 @@ RSpec.describe User, type: :model do
   end
 
   describe 'destroy associated records when user is destroyed' do
-    it 'photo' do
-      expect(user.photo).not_to be_nil
-      expect(user.photo.exists?).to be true
+    it 'member_photo' do
+      expect(user.member_photo).not_to be_nil
+      expect(user.member_photo.exists?).to be true
 
       user.destroy
 
       expect(user.destroyed?).to be true
-      expect(user.photo.exists?).to be false
+      expect(user.member_photo.exists?).to be false
     end
   end
 
