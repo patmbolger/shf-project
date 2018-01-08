@@ -632,12 +632,15 @@ sv:
       success: Användarens information uppdaterad.
       error: Ett problem hindrade användarinformationen från att uppdateras.
       member_photo:
-        reason: Your photo will be used for your "proof of membership" credentials.
-        format: Your photo file should be in "PNG" or "JPEG" format, and be
-                approximately the size of a passport photo.
-        upload: Please upload a photo of yourself. Click "Choose File" to do so.
-        replace: Your photo file can be changed by simply selecting another
-                 file. Click "Choose File" to do so.
+        reason: Ditt foto används för ditt "bevis på medlemskap" referenser.
+        format: Din fotofil ska vara i "PNG" eller "JPEG" -format,
+                och ungefär storleken på ett passfoto (eller lite större)
+                för bästa resultat. (Det här är flexibelt, men vi kommer
+                att ändra storlek på fotot efter behov.)
+        upload: Ladda upp ett foto av dig själv. Klicka på "Välj fil"
+                för att göra det.
+        replace: Din fotofil kan ändras genom att helt enkelt välja en annan fil.
+                 Klicka på "Välj fil" för att göra det.
 
 
     search_form:

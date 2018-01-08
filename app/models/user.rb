@@ -13,7 +13,8 @@ class User < ApplicationRecord
   has_many :payments
   accepts_nested_attributes_for :payments
 
-  has_attached_file :member_photo, default_url: 'photo_unavailable.png'
+  has_attached_file :member_photo, default_url: 'photo_unavailable.png',
+                    styles: { standard: ['250'] }, default_style: :standard
 
   validates_attachment_content_type :member_photo,
                                     content_type:  /\Aimage\/.*(jpeg|png)\z/
