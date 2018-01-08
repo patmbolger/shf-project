@@ -48,13 +48,13 @@ Feature: As a registered user
     And I should see t("hello", name: 'mary')
     Then I click on the t("devise.registrations.edit.title") link
     And I fill in t("activerecord.attributes.user.first_name") with "NewMary"
-    And I choose a photo file named "member_with_dog.jpg" to upload
+    And I choose a photo file named "member_with_dog.png" to upload
     And I fill in t("devise.registrations.edit.current_password") with "password"
     And I click on t("devise.registrations.edit.submit_button_label") button
     And I should see t("hello", name: 'NewMary')
     And I should be on "show my application" page
     Then I click on the t("devise.registrations.edit.title") link
-    And I should see "member_with_dog.jpg"
+    And I should see "member_with_dog.png"
 
   @time_adjust
   Scenario: Member edits profile and tries to upload non-image file (for photo)
