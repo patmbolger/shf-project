@@ -632,16 +632,13 @@ sv:
       success: Användarens information uppdaterad.
       error: Ett problem hindrade användarinformationen från att uppdateras.
       member_photo:
-        reason: Ditt foto används för ditt "bevis på medlemskap" referenser.
+        reason: Detta foto används på ditt medlemsbevis.
         format: Din fotofil ska vara i "PNG" eller "JPEG" -format,
-                och ungefär storleken på ett passfoto (eller lite större)
-                för bästa resultat. (Det här är flexibelt, men vi kommer
-                att ändra storlek på fotot efter behov.)
-        upload: Ladda upp ett foto av dig själv. Klicka på "Välj fil"
-                för att göra det.
-        replace: Din fotofil kan ändras genom att helt enkelt välja en annan fil.
+                och av passfototyp (det vill säga ansiktsbild med neutral bagrund)
+                för bästa resultat.
+        upload: Klicka på "Välj fil" för att ladda upp ditt foto.
+        replace: Ditt foto kan bytas ut genom att helt enkelt välja en annan fil.
                  Klicka på "Välj fil" för att göra det.
-
 
     search_form:
       membership_number: &membership_number_short Nr.
