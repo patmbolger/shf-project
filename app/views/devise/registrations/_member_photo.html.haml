@@ -1,6 +1,6 @@
 - if user.member?
   .col-sm-4
-    = image_tag(user.member_photo)
+    = image_tag(user.member_photo.url(:standard))
     - if user.member_photo
       .clearfix
       = user.member_photo_file_name
