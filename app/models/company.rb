@@ -143,7 +143,7 @@ class Company < ApplicationRecord
   #  strip out anything that might start with 'script' (like 'javascript')
   #  to help prevent XSS attacks
   def sanitize_website
-    self.website = URLSanitizer.sanitize(website)
+    self.website = InputSanitizer.sanitize_url(website)
   end
 
 
