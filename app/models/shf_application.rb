@@ -18,7 +18,7 @@ class ShfApplication < ApplicationRecord
   #  company_number.  That's what we'll later use to create (instantiate)
   #  a company if/when needed.
   #
-  belongs_to :company, optional: true, inverse_of: :shf_applications
+  has_and_belongs_to_many :companies
 
   has_and_belongs_to_many :business_categories
   has_many :uploaded_files
@@ -138,9 +138,11 @@ class ShfApplication < ApplicationRecord
 
   def after_destroy_checks
     # if this was the only application associated with a company, destroy the company
-    unless company.nil?
-      company.shf_applications.reload
-      company.destroy if (company.shf_applications.count == 0)
+    unless companies.empty?
+      companies.each do |company|
+        company.shf_applications.reload
+        company.destroy if (company.shf_applications.count == 0)
+      end
     end
   end
 
