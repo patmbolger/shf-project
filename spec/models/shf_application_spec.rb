@@ -172,11 +172,6 @@ RSpec.describe ShfApplication, type: :model do
       expect(uploaded_file.destroyed?).to be_truthy
     end
 
-    it "destroys associated company if it has no remaining applications" do
-      expect(application.companies.last).to receive(:destroy)
-      application.destroy
-    end
-
     it "does not destroy associated company if other applications remain" do
       application2
       expect(application.companies.last).not_to receive(:destroy)
