@@ -53,7 +53,7 @@ RSpec.describe ShfApplication, type: :model do
 
   describe 'Associations' do
     it { is_expected.to belong_to :user }
-    it { is_expected.to belong_to :company }
+    it { is_expected.to have_and_belong_to_many :companies }
     it { is_expected.to have_and_belong_to_many :business_categories }
     it { is_expected.to have_many :uploaded_files }
     it { is_expected.to belong_to(:waiting_reason)
@@ -163,7 +163,7 @@ RSpec.describe ShfApplication, type: :model do
     let(:application2) do
       create(:shf_application, user: user2,
              uploaded_files: [uploaded_file], state: :new,
-             company_id: application.company.id,
+             companies: [application.companies.last],
              company_number: application.company_number)
     end
 
@@ -173,13 +173,13 @@ RSpec.describe ShfApplication, type: :model do
     end
 
     it "destroys associated company if it has no remaining applications" do
-      expect(application.company).to receive(:destroy)
+      expect(application.companies.last).to receive(:destroy)
       application.destroy
     end
 
     it "does not destroy associated company if other applications remain" do
       application2
-      expect(application.company).not_to receive(:destroy)
+      expect(application.companies.last).not_to receive(:destroy)
       application.destroy
     end
   end
@@ -338,7 +338,7 @@ RSpec.describe ShfApplication, type: :model do
           application.accept!
         end
         it 'assigns company email to application contact_email' do
-          expect(application.company.email).to eq application.contact_email
+          expect(application.companies.last.email).to eq application.contact_email
         end
       end
 
@@ -358,7 +358,9 @@ RSpec.describe ShfApplication, type: :model do
 
     it 'uses the company main address' do
 
-      expect(accepted_app.se_mailing_csv_str).to eq AddressExporter.se_mailing_csv_str(accepted_app.company.main_address)
+      expect(accepted_app.se_mailing_csv_str)
+        .to eq AddressExporter
+        .se_mailing_csv_str(accepted_app.companies.last.main_address)
 
     end
 
