@@ -1,7 +1,7 @@
 class AdminController < ApplicationController
   before_action :authorize_admin
 
-  # export shf_appplications
+  # export shf_applications
   def export_ansokan_csv
 
     begin
@@ -20,6 +20,15 @@ class AdminController < ApplicationController
 
     end
 
+  end
+
+  def admin_page
+  end
+
+  def admin_page_edit
+  end
+
+  def admin_page_update
   end
 
 
@@ -44,7 +53,7 @@ class AdminController < ApplicationController
       out_str << ','
 
       # a company name may have commas, so surround with quotes so spreadsheets recognize it as one string and not multiple comma-separated value
-      out_str << (m_app.companies.empty? ?  '' : "\"#{m_app.companies.last.name}\"")
+      out_str << (m_app.company.nil? ?  '' : "\"#{m_app.company.name}\"")
       out_str << ','
 
       # add the SE postal service mailing address info as a CSV string
