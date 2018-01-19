@@ -9,11 +9,11 @@ namespace :shf do
       ActivityLogger.open(log_file, 'App>>Company', 'convert to has_many') do |log|
 
         apps_converted = 0
-        log.record('info', 'This one-time conversion is associated with changing ...')
-        log.record('info', '... the association between an SHF application')
-        log.record('info', '... and companies from has_one to has_and_belongs_to_many.')
-        log.record('info', "Checking #{ShfApplication.count} applications ...")
-        log.record('info', '... (only applications with a company will be converted)')
+        log.record('info', 'This one-time conversion is associated with changing:')
+        log.record('info', '>> the association between an SHF application')
+        log.record('info', '>> and companies from has_one to has_and_belongs_to_many.')
+        log.record('info', "Checking #{ShfApplication.count} applications:")
+        log.record('info', '>> (only applications with a company will be converted)')
 
         applications = ShfApplication.where.not(company_id: nil)
 

@@ -332,7 +332,7 @@ RSpec.describe ShfApplication, type: :model do
           application.start_review!
           application.accept!
         end
-        it 'assigns company email to application contact_email' do
+        it "assigns app's latest-added-company email to application contact_email" do
           expect(application.companies.last.email).to eq application.contact_email
         end
       end
@@ -351,7 +351,7 @@ RSpec.describe ShfApplication, type: :model do
     let(:accepted_app) { create(:shf_application, :accepted) }
     let(:rejected_app) { create(:shf_application, :rejected)}  # no company for this
 
-    it 'uses the company main address' do
+    it "uses the app's latest-added-company main address" do
 
       expect(accepted_app.se_mailing_csv_str)
         .to eq AddressExporter
