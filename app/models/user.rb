@@ -91,12 +91,12 @@ class User < ApplicationRecord
   end
 
 
-  def is_member_or_admin?
+  def member_or_admin?
     admin? || member?
   end
 
 
-  def is_in_company_numbered?(company_num)
+  def in_company_numbered?(company_num)
     member? && companies.where(company_number: company_num).any?
   end
 

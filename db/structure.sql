@@ -68,6 +68,44 @@ ALTER SEQUENCE addresses_id_seq OWNED BY addresses.id;
 
 
 --
+-- Name: admin_pages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE admin_pages (
+    id bigint NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    chair_signature_file_name character varying,
+    chair_signature_content_type character varying,
+    chair_signature_file_size integer,
+    chair_signature_updated_at timestamp without time zone,
+    shf_logo_file_name character varying,
+    shf_logo_content_type character varying,
+    shf_logo_file_size integer,
+    shf_logo_updated_at timestamp without time zone
+);
+
+
+--
+-- Name: admin_pages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE admin_pages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: admin_pages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE admin_pages_id_seq OWNED BY admin_pages.id;
+
+
+--
 -- Name: ar_internal_metadata; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -623,6 +661,13 @@ ALTER TABLE ONLY addresses ALTER COLUMN id SET DEFAULT nextval('addresses_id_seq
 
 
 --
+-- Name: admin_pages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY admin_pages ALTER COLUMN id SET DEFAULT nextval('admin_pages_id_seq'::regclass);
+
+
+--
 -- Name: business_categories id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -719,6 +764,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY addresses
     ADD CONSTRAINT addresses_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: admin_pages admin_pages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY admin_pages
+    ADD CONSTRAINT admin_pages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1121,6 +1174,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20171120170441'),
 ('20171213174816'),
 ('20180103171241'),
-('20180110215208');
+('20180110215208'),
+('20180116141245');
 
 
