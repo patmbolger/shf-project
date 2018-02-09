@@ -54,7 +54,7 @@ class User < ApplicationRecord
     # 1. user == member, or
     # 2. user has at least one application with status == :accepted
 
-    member? || shf_application.accepted?
+    member? || shf_application&.accepted?
   end
 
   def has_shf_application?
