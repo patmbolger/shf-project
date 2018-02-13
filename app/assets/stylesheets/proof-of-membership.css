@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-
 body {
   font-family: 'Open Sans', sans-serif;
 }
@@ -7,12 +5,11 @@ body {
 .parent-div {
   border: 1px solid black;
   display: block;
-  font-family: ‘Open Sans’, serif;
   font-size: 14px;
   font-style: normal;
   height: auto;
   letter-spacing: 0.05em;
-  line-height: 24px;
+  line-height: 20px;
   width: 260px;
 }
 
@@ -21,8 +18,8 @@ body {
   color: white;
   display: block;
   font-size: 18px;
-  line-height: 35px;
   height: 35px;
+  line-height: 35px;
   margin: 0;
   text-align: center;
 }
@@ -48,10 +45,19 @@ body {
 
 .member-info {
   display: block;
-  font-weight: bold;
+  font-weight: normal;
   height: auto;
   margin: 0;
   text-align: center;
+}
+
+.member-name, .membership-number {
+  font-weight: bold;
+}
+
+.issued-by {
+  font-weight: bold;
+  line-height: 30px;
 }
 
 .proof-footer {
