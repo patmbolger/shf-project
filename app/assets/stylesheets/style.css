@@ -238,6 +238,7 @@ blockquote p:before {
     display:block;
     font-family: 'Font Awesome 5 Free';
     font-size:26px;
+    font-weight: 900;
     line-height:1;
     font-style:normal;
     margin-bottom:20px;
@@ -679,8 +680,10 @@ body.admin-bar #site-navigation.fixed-nav {
     font-family: 'Font Awesome 5 Free';
     display:inline-block;
     font-size:12px;
+    font-weight: 900;
     line-height:12px;
     margin-left:8px;
+    font-weight: 900;
 }
 
 #site-navigation .menu > .menu-item-has-children .menu-item-has-children > a:after {
@@ -697,6 +700,7 @@ body.admin-bar #site-navigation.fixed-nav {
     transform:translateY(-50%);
     vertical-align:middle;
     font-size:11px;
+    font-weight: 900;
     line-height:11px;
     margin-left:10px;
 }
@@ -822,6 +826,7 @@ mobile navigation
     font-family: 'Font Awesome 5 Free';
     font-size:14px;
     line-height:40px;
+    font-weight: 900;
 }
 
 #site-navigation .toggle-sub-menu-active:after {
@@ -829,6 +834,7 @@ mobile navigation
     font-family: 'Font Awesome 5 Free';
     font-size:14px;
     line-height:40px;
+    font-weight: 900;
 }
 
 /*-------------------
@@ -1035,12 +1041,14 @@ search toggle
 .search-toggle:after {
     content:'\f002';
     font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
 }
 
 .search-toggle-active:after {
     content:'\f00d' !important;
     font-family: 'Font Awesome 5 Free';
     font-size:18px !important;
+    font-weight: 900;
 }
 
 .search-toggle-container {
@@ -1751,6 +1759,7 @@ Arrows
 .widget-entry-meta .fa {
     font-family: 'Font Awesome 5 Free' !important;
     margin-right:4px;
+    font-weight: 900;
 }
 
 .widget ul, .widget table {
@@ -1841,6 +1850,7 @@ Menu Widget
     font-family: 'Font Awesome 5 Free';
     font-size:14px;
     line-height:40px;
+    font-weight: 900;
 }
 
 .widget_nav_menu .toggle-sub-menu-active:after {
@@ -1848,6 +1858,7 @@ Menu Widget
     font-family: 'Font Awesome 5 Free';
     font-size:14px;
     line-height:40px;
+    font-weight: 900;
 }
 
 .widget_nav_menu .sub-menu {
@@ -2038,6 +2049,7 @@ Children
     font-family: 'Font Awesome 5 Free';
     color:#bbb;
     padding-right:10px;
+    font-weight: 900;
 }
 
 /*-------
@@ -4306,6 +4318,7 @@ img.mfp-img {
     content:'\f104' !important;
     font-family: 'Font Awesome 5 Free' !important;
     font-size:45px;
+    font-weight: 900;
     line-height:110px;
     display:block;
     color:#fff;
@@ -4316,6 +4329,7 @@ img.mfp-img {
     content:'\f105' !important;
     font-family: 'Font Awesome 5 Free' !important;
     font-size:45px;
+    font-weight: 900;
     line-height:110px;
     display:block;
     color:#fff;
