@@ -24,7 +24,7 @@
 
   .col-sm-12
 
-    - unless @user.shf_applications.exists?
+    - unless @user.shf_application
       = field_or_none("#{t('applications')}", t('none'), label_class: 'standard-label')
     - else
       -# .col-sm-3{ style: 'margin-left: -15px;' }
@@ -43,17 +43,17 @@
             %th
               = t('activerecord.attributes.company.name')
         %tbody
-          - @user.shf_applications.includes(:companies).each do |app|
-            %tr.shf_application
-              %td= mail_to(app.contact_email)
-              %td
-                - i18n_state = t("shf_applications.state.#{app.state}")
-                - if app.accepted?
-                  %span.yes= i18n_state
-                - else
-                  %span.maybe= i18n_state
-              %td= link_to(app.company_number, shf_application_path(app))
-              %td= app.company&.name
+          - app = @user.shf_application
+          %tr.shf_application
+            %td= mail_to(app.contact_email)
+            %td
+              - i18n_state = t("shf_applications.state.#{app.state}")
+              - if app.accepted?
+                %span.yes= i18n_state
+              - else
+                %span.maybe= i18n_state
+            %td= link_to(app.company_number, shf_application_path(app))
+            %td= app.company&.name
 
   .col-sm-12
 

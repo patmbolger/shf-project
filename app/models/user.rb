@@ -49,7 +49,7 @@ class User < ApplicationRecord
     next_payment_dates(user_id, Payment::PAYMENT_TYPE_MEMBER)
   end
 
-  def allow_pay_member_fee?
+  def allow_pay_member_fee?    
     # Business rule: user can pay membership fee if:
     # 1. user == member, or
     # 2. user has at least one application with status == :accepted

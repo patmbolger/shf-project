@@ -261,7 +261,7 @@ class ShfApplicationsController < ApplicationController
 
   def create_error(error_message)
     helpers.flash_message(:alert, error_message)
-    current_user.shf_applications.reload
+    current_user.shf_application.reload
     render :new
   end
 
