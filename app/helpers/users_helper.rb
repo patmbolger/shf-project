@@ -38,7 +38,7 @@ module UsersHelper
   def user_has_open_application(user)
     return nil unless user.shf_application
 
-    user.shf_application.state.to_sym.in?([:accepted, :rejected]) ? nil : 'Yes'
+    user.shf_application.state.to_sym.in?([:accepted, :rejected]) ? nil : t('yes')
   end
 
 end

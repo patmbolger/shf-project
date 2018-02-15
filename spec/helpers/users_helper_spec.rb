@@ -74,9 +74,23 @@ RSpec.describe UsersHelper, type: :helper do
       user.update(member_photo: nil)
       default_path = Rails.root.join('app', 'assets', 'images',
                                      user.member_photo.url(:standard))
-                                     
+
       expect(paperclip_path(user.member_photo, :standard, :jpg))
         .to eq default_path
+    end
+  end
+
+  describe 'user_has_open_application' do
+
+    it 'returns yes if open app exists' do
+      app.update(state: :new)
+      user.shf_application = app
+
+      expect(user_has_open_application(user)).to eq I18n.t('yes')
+    end
+
+    it 'returns nil otherwise' do
+      expect(user_has_open_application(user)).to be_nil
     end
   end
 end
