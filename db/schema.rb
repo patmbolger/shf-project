@@ -237,6 +237,7 @@ ActiveRecord::Schema.define(version: 20180428103625) do
   add_foreign_key "addresses", "kommuns"
   add_foreign_key "addresses", "regions"
   add_foreign_key "ckeditor_assets", "companies"
+  add_foreign_key "events", "companies"
   add_foreign_key "company_applications", "companies"
   add_foreign_key "company_applications", "shf_applications"
   add_foreign_key "events", "companies"
