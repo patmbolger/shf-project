@@ -178,7 +178,6 @@ ActiveRecord::Schema.define(version: 20180428103625) do
     t.string "state", default: "new"
     t.integer "member_app_waiting_reasons_id"
     t.string "custom_reason_text"
-    t.index ["company_id"], name: "index_shf_applications_on_company_id"
     t.index ["member_app_waiting_reasons_id"], name: "index_shf_applications_on_member_app_waiting_reasons_id"
     t.index ["user_id"], name: "index_shf_applications_on_user_id"
   end
@@ -237,6 +236,8 @@ ActiveRecord::Schema.define(version: 20180428103625) do
   add_foreign_key "addresses", "kommuns"
   add_foreign_key "addresses", "regions"
   add_foreign_key "ckeditor_assets", "companies"
+  add_foreign_key "company_applications", "companies"
+  add_foreign_key "company_applications", "shf_applications"
   add_foreign_key "events", "companies"
   add_foreign_key "company_applications", "companies"
   add_foreign_key "company_applications", "shf_applications"
