@@ -315,7 +315,7 @@ class ShfApplicationsController < ApplicationController
     else
 
       numbers_str.split(/(?:\s*,+\s*|\s+)/).each do |number|
-        number = number.gsub(/-/, '')
+        number = number.delete('-')
 
         company = Company.find_by(company_number: number)
 
