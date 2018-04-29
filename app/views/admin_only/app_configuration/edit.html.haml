@@ -9,63 +9,23 @@
                                  html: { method: :put }) do |f|
     .row
       .col-sm-6
-        %h3
-          %strong= t('.chair_signature')
-        = image_tag(@app_configuration.chair_signature.url(:standard))
-        %br
-        %br
-        - if @app_configuration.chair_signature
-          .clearfix
-          %strong
-            = @app_configuration.chair_signature_file_name
-        .clearfix
-        .field
-          = f.file_field :chair_signature, accept: 'image/png, image/jpeg'
-
+        = render 'image_edit', app_config: @app_configuration,
+                               image_title: 'chair_signature',
+                               f: f
       .col-sm-6
-        %h3
-          %strong= t('.shf_logo')
-        = image_tag(@app_configuration.shf_logo.url(:standard))
-        %br
-        %br
-        - if @app_configuration.shf_logo
-          .clearfix
-          %strong
-            = @app_configuration.shf_logo_file_name
-        .clearfix
-        .field
-          = f.file_field :shf_logo, accept: 'image/png, image/jpeg'
-
+        = render 'image_edit', app_config: @app_configuration,
+                               image_title: 'shf_logo',
+                               f: f
     .row
       %hr
       .col-sm-6
-        %h3
-          %strong= t('.h_brand_logo')
-        = image_tag(@app_configuration.h_brand_logo.url(:standard))
-        %br
-        %br
-        - if @app_configuration.h_brand_logo
-          .clearfix
-          %strong
-            = @app_configuration.h_brand_logo_file_name
-        .clearfix
-        .field
-          = f.file_field :h_brand_logo, accept: 'image/png, image/jpeg'
-
+        = render 'image_edit', app_config: @app_configuration,
+                               image_title: 'h_brand_logo',
+                               f: f
       .col-sm-6
-        %h3
-          %strong= t('.sweden_dog_trainers')
-        = image_tag(@app_configuration.sweden_dog_trainers.url(:standard))
-        %br
-        %br
-        - if @app_configuration.sweden_dog_trainers
-          .clearfix
-          %strong
-            = @app_configuration.sweden_dog_trainers_file_name
-        .clearfix
-        .field
-          = f.file_field :sweden_dog_trainers, accept: 'image/png, image/jpeg'
-
+        = render 'image_edit', app_config: @app_configuration,
+                               image_title: 'sweden_dog_trainers',
+                               f: f
 
     .col-sm-12.wpcf7
       = f.submit "#{t('submit')}"

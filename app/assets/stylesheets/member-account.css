@@ -1,0 +1,11 @@
+.member-info {
+  display: block;
+  font-weight: normal;
+  height: auto;
+  margin: 0px 10px 10px 10px;
+  text-align: center;
+}
+
+.member-name, .membership-number {
+  font-weight: bold;
+}

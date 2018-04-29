@@ -24,6 +24,8 @@ class UsersController < ApplicationController
     kit = IMGKit.new(html, encoding: 'UTF-8', width: 260, quality: 100)
     kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
                                        'proof-of-membership.css')
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
+                                       'member-account.css')
 
     send_data(kit.to_jpg, type: 'image/jpg', filename: 'proof_of_membership.jpeg')
   end
@@ -43,6 +45,8 @@ class UsersController < ApplicationController
     kit = IMGKit.new(html, encoding: 'UTF-8', width: 260, quality: 100)
     kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
                                        'personal-h-brand.css')
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
+                                       'member-account.css')
 
     send_data(kit.to_jpg, type: 'image/jpg', filename: 'personal-h-brand.jpeg')
   end
