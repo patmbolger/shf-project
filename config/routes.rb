@@ -95,6 +95,9 @@ Rails.application.routes.draw do
     get 'anvandare/:id/proof_of_membership', to: 'users#proof_of_membership',
         as: 'proof_of_membership'
 
+    get 'anvandare/:id/personal_h_brand', to: 'users#personal_h_brand',
+        as: 'personal_h_brand'
+
     resources :shf_documents, path: 'dokument'
 
     get 'dokument/innehall/:page',

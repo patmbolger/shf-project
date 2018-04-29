@@ -251,6 +251,10 @@ sv:
               spoofed_media_type: *spoofed_media
             shf_logo:
               spoofed_media_type: *spoofed_media
+            h_brand_logo:
+              spoofed_media_type: *spoofed_media
+            sweden_dog_trainers:
+              spoofed_media_type: *spoofed_media
 
         shf_document:
           attributes:
@@ -680,14 +684,16 @@ sv:
       proof_of_membership_describe: Detta är ditt behörighetsbevis.
       proof_of_membership_photo_needed: 'Om du ser "Photo Unavailable" ladda
                                          sedan upp ett foto av dig själv här: '
-      proof_of_membership_image: Du kan ladda ner den här bilden och använda den
-                                 som du vill, inklusive på din webbplats, eller
-                                 skriva ut den och visa upp fysiskt i möten med kunder.
-      proof_of_membership_show: Du kan även ta en skärmdump av bilden och använda
-                                den istället. Använd knappen "Visa bild" för att
-                                gå till en sida som bara innehåller bilden.
+      personal_image: Du kan ladda ner den här bilden och använda den
+                      som du vill, inklusive på din webbplats, eller
+                      skriva ut den och visa upp fysiskt i möten med kunder.
+      personal_image_show: Du kan även ta en skärmdump av bilden och använda
+                           den istället. Använd knappen "Visa bild" för att
+                           gå till en sida som bara innehåller bilden.
       download_image: Ladda ner bild
       show_image: Visa bild
+      personal_h_brand: Personlig H-Brand-logotyp
+      personal_h_brand_describe: Den här bilden är din personliga H-Brand.
 
     update:
       passwords_dont_match: De två lösenord du angivit matchar inte.
@@ -873,6 +879,8 @@ sv:
         title: Programkonfiguration
         chair_signature: Ordförandens underskrift
         shf_logo: Organisationslogotyp
+        h_brand_logo: H-märkt Logo
+        sweden_dog_trainers: Sveriges Hundtrainer
       update:
         success: Programdata uppdaterades framgångsrikt
         error: Det gick inte att uppdatera konfigurationsdata

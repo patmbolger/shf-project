@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   include PaginationUtility
 
   before_action :set_user, except: :index
-  before_action :set_app_config, only: [:show, :proof_of_membership, :update]
+  before_action :set_app_config, only: [:show, :proof_of_membership, :update,
+                                        :personal_h_brand]
   before_action :authorize_user, only: [:show]
 
   def show
@@ -25,6 +26,25 @@ class UsersController < ApplicationController
                                        'proof-of-membership.css')
 
     send_data(kit.to_jpg, type: 'image/jpg', filename: 'proof_of_membership.jpeg')
+  end
+
+  def personal_h_brand
+
+    html = render_to_string(partial: 'personal_h_brand',
+                            locals: { app_config: @app_configuration,
+                                      user: @user,
+                                      render_to: params[:render_to]&.to_sym })
+
+    unless params[:render_to] == 'jpg'
+      render html: html.html_safe
+      return
+    end
+
+    kit = IMGKit.new(html, encoding: 'UTF-8', width: 260, quality: 100)
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
+                                       'personal-h-brand.css')
+
+    send_data(kit.to_jpg, type: 'image/jpg', filename: 'personal-h-brand.jpeg')
   end
 
   def index
