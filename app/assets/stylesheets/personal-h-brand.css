@@ -11,12 +11,12 @@ body {
   height: auto;
   letter-spacing: 0.05em;
   line-height: 20px;
-  margin: 0px;
+  margin: 0;
   width: 300px;
 }
 
 .h-brand-logo {
-  padding: 20px 20px 0px 20px;
+  padding: 20px 20px 0 20px;
 }
 
 .current-year {
@@ -28,7 +28,7 @@ body {
 }
 
 .sweden-dog-trainers {
-  padding: 0px 20px 0px 20px;
+  padding: 0 20px 0 20px;
 }
 
 .member-info-separator {

@@ -31,4 +31,4 @@ Feature: As an user I want to be able to view and download my personal h-brand
     And I should see t("users.show.personal_h_brand")
     And I should see "groom, rehab"
     And I click on the second t("users.show.download_image") link
-    Then I should get a downloaded image with the filename "personal-h-brand.jpeg"
+    Then I should get a downloaded image with the filename "personal_h_brand.jpeg"

@@ -10,45 +10,23 @@ class UsersController < ApplicationController
   end
 
   def proof_of_membership
+    html = image_html('proof_of_membership')
 
-    html = render_to_string(partial: 'proof_of_membership',
-                            locals: { app_config: @app_configuration,
-                                      user: @user,
-                                      render_to: params[:render_to]&.to_sym })
+    render html: html.html_safe and return unless params[:render_to] == 'jpg'
 
-    unless params[:render_to] == 'jpg'
-      render html: html.html_safe
-      return
-    end
-
-    kit = IMGKit.new(html, encoding: 'UTF-8', width: 260, quality: 100)
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
-                                       'proof-of-membership.css')
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
-                                       'member-account.css')
+    kit = build_kit(html, 'proof-of-membership.css', 260)
 
     send_data(kit.to_jpg, type: 'image/jpg', filename: 'proof_of_membership.jpeg')
   end
 
   def personal_h_brand
+    html = image_html('personal_h_brand')
 
-    html = render_to_string(partial: 'personal_h_brand',
-                            locals: { app_config: @app_configuration,
-                                      user: @user,
-                                      render_to: params[:render_to]&.to_sym })
+    render html: html.html_safe and return unless params[:render_to] == 'jpg'
 
-    unless params[:render_to] == 'jpg'
-      render html: html.html_safe
-      return
-    end
+    kit = build_kit(html, 'personal-h-brand.css', 300)
 
-    kit = IMGKit.new(html, encoding: 'UTF-8', width: 260, quality: 100)
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
-                                       'personal-h-brand.css')
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
-                                       'member-account.css')
-
-    send_data(kit.to_jpg, type: 'image/jpg', filename: 'personal-h-brand.jpeg')
+    send_data(kit.to_jpg, type: 'image/jpg', filename: 'personal_h_brand.jpeg')
   end
 
   def index
@@ -106,6 +84,21 @@ class UsersController < ApplicationController
 
 
   private
+
+  def image_html(image_type)
+    render_to_string(partial: image_type,
+                     locals: { app_config: @app_configuration, user: @user,
+                               render_to: params[:render_to]&.to_sym })
+  end
+
+  def build_kit(html, image_css, width)
+    kit = IMGKit.new(html, encoding: 'UTF-8', width: width, quality: 100)
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
+                                       image_css)
+    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
+                                       'member-account.css')
+    kit
+  end
 
   def authorize_user
     authorize @user
