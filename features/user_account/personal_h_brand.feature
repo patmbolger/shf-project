@@ -1,4 +1,4 @@
-Feature: As an user I want to be able to view and download my personal h-brand
+Feature: As an user I want to be able to view and download my company h-brand
   So that I can use it in multiple ways to confirm my association with the organization
   And also show my business services that have been certified by the organization
 
@@ -23,12 +23,12 @@ Feature: As an user I want to be able to view and download my personal h-brand
       | emma@mutts.se | 2017-10-1  | 2017-12-31  | member_fee   | betald | none    |
 
   @time_adjust
-  Scenario: User downloads personal-h-brand image
+  Scenario: User downloads company-h-brand image
     Given I am logged in as "emma@mutts.se"
     And I am on the "landing" page for "emma@mutts.se"
     And I should see t("hello", name: 'Emma')
     Then I click on the t("menus.nav.users.your_account") link
-    And I should see t("users.show.personal_h_brand")
+    And I should see t("users.show.company_h_brand")
     And I should see "groom, rehab"
     And I click on the second t("users.show.download_image") link
-    Then I should get a downloaded image with the filename "personal_h_brand.jpeg"
+    Then I should get a downloaded image with the filename "company_h_brand.jpeg"

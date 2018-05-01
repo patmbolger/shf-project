@@ -2,7 +2,7 @@ Feature: Admin edits application configuration
   As an admin
   I want to be able to edit application configuration
   Including chair signature and SHG logo images
-  And images for personal h-brand
+  And images for company h-brand
 
   Background:
     Given the following users exists
@@ -19,7 +19,7 @@ Feature: Admin edits application configuration
     And I click on t("submit") button
     Then I should see t("admin_only.app_configuration.update.success")
 
-  Scenario: Admin uploads images for personal h-brand
+  Scenario: Admin uploads images for company h-brand
     Given I am logged in as "admin@random.com"
     And I am on the "landing" page
     Then I click on the t("menus.nav.admin.app_configuration") link

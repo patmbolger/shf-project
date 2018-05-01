@@ -692,8 +692,8 @@ sv:
                              för att visa kund
       download_image: Ladda ner bild
       show_image: Visa bild
-      personal_h_brand: Företaget H-märke för %{company}
-      personal_h_brand_describe: Detta är ditt företags H-märke.
+      company_h_brand: Företaget H-märke för %{company}
+      company_h_brand_describe: Detta är ditt företags H-märke.
 
     update:
       passwords_dont_match: De två lösenord du angivit matchar inte.

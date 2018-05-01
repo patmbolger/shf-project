@@ -115,9 +115,11 @@
         %br
         = t('.image_how_to_use_html',
             download_link: link_to(t('.download_image'),
-                                   proof_of_membership_path(@user, render_to: :jpg)),
+                                   proof_of_membership_path(@user, render_to: :jpg),
+                                   class: 'btn btn-xs btn-info'),
             show_link: link_to(t('.show_image'),
-                       proof_of_membership_path(@user)))
+                                 proof_of_membership_path(@user),
+                                 class: 'btn btn-xs btn-info'))
 
         %br
         %br
@@ -132,24 +134,26 @@
         %hr
       .row
         .col-md-5
-          = render partial: 'personal_h_brand',
+          = render partial: 'company_h_brand',
                    locals: { app_config: @app_configuration, company: company }
 
         .col-md-7
-          %span.standard-label= t('.personal_h_brand', company: company.name)
+          %span.standard-label= t('.company_h_brand', company: company.name)
           %br
           %br
-          = t('.personal_h_brand_describe')
+          = t('.company_h_brand_describe')
           %br
           %br
           = t('.image_how_to_use_html',
               download_link: link_to(t('.download_image'),
-                                     personal_h_brand_path(@user,
+                                     company_h_brand_path(@user,
                                                            company_id: company.id,
-                                                           render_to: :jpg)),
+                                                           render_to: :jpg),
+                                     class: 'btn btn-xs btn-info'),
               show_link: link_to(t('.show_image'),
-                                 personal_h_brand_path(@user,
-                                                       company_id: company.id)))
+                                 company_h_brand_path(@user,
+                                                       company_id: company.id),
+                                     class: 'btn btn-xs btn-info'))
 
 
 = render partial: 'edit_status_modal', locals: { user: @user }

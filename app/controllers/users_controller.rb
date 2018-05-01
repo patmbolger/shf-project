@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
   before_action :set_user, except: :index
   before_action :set_app_config, only: [:show, :proof_of_membership, :update,
-                                        :personal_h_brand]
+                                        :company_h_brand]
   before_action :authorize_user, only: [:show]
 
   def show
@@ -19,14 +19,14 @@ class UsersController < ApplicationController
     send_data(kit.to_jpg, type: 'image/jpg', filename: 'proof_of_membership.jpeg')
   end
 
-  def personal_h_brand
-    html = image_html('personal_h_brand')
+  def company_h_brand
+    html = image_html('company_h_brand')
 
     render html: html.html_safe and return unless params[:render_to] == 'jpg'
 
-    kit = build_kit(html, 'personal-h-brand.css', 300)
+    kit = build_kit(html, 'company-h-brand.css', 300)
 
-    send_data(kit.to_jpg, type: 'image/jpg', filename: 'personal_h_brand.jpeg')
+    send_data(kit.to_jpg, type: 'image/jpg', filename: 'company_h_brand.jpeg')
   end
 
   def index

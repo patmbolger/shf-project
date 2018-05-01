@@ -1,14 +1,14 @@
 %html
   %head
     = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Open+Sans:400,700'
-    = stylesheet_link_tag 'personal-h-brand', media: 'all'
+    = stylesheet_link_tag 'company-h-brand', media: 'all'
   %body
 
-    #personal-h-brand
+    #company-h-brand
 
       - render_to = :html unless local_assigns[:render_to]
 
-      .personal-h-brand-div
+      .company-h-brand-div
 
         - if app_config.h_brand_logo
           = image_tag(paperclip_path(app_config.h_brand_logo, :standard, render_to),

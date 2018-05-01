@@ -691,8 +691,8 @@ en:
                         physical context, for example, to show a customer.
       download_image: Download Image
       show_image: Show Image
-      personal_h_brand: Company H-Brand for %{company}
-      personal_h_brand_describe: This image is your company's H-Brand.
+      company_h_brand: Company H-Brand for %{company}
+      company_h_brand_describe: This image is your company's H-Brand.
 
     update:
       passwords_dont_match: "The two passwords entered don't match."
