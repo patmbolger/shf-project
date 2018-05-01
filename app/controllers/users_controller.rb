@@ -88,15 +88,14 @@ class UsersController < ApplicationController
   def image_html(image_type)
     render_to_string(partial: image_type,
                      locals: { app_config: @app_configuration, user: @user,
-                               render_to: params[:render_to]&.to_sym })
+                               render_to: params[:render_to]&.to_sym,
+                               company: Company.find_by_id(params[:company_id]) })
   end
 
   def build_kit(html, image_css, width)
     kit = IMGKit.new(html, encoding: 'UTF-8', width: width, quality: 100)
     kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
                                        image_css)
-    kit.stylesheets << Rails.root.join('app', 'assets', 'stylesheets',
-                                       'member-account.css')
     kit
   end
 

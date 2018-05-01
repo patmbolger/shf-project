@@ -48,6 +48,18 @@ body {
   line-height: 30px;
 }
 
+.member-info {
+  display: block;
+  font-weight: normal;
+  height: auto;
+  margin: 0 10px 10px 10px;
+  text-align: center;
+}
+
+.member-name, .membership-number {
+  font-weight: bold;
+}
+
 .proof-footer {
   background-color: #1b3e70;
   color: white;

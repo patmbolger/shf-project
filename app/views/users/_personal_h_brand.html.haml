@@ -2,7 +2,6 @@
   %head
     = stylesheet_link_tag 'https://fonts.googleapis.com/css?family=Open+Sans:400,700'
     = stylesheet_link_tag 'personal-h-brand', media: 'all'
-    = stylesheet_link_tag 'member-account', media: 'all'
   %body
 
     #personal-h-brand
@@ -22,17 +21,10 @@
           = image_tag(paperclip_path(app_config.sweden_dog_trainers,
                       :standard, render_to), class: 'sweden-dog-trainers')
 
-        %hr.member-info-separator
+        %hr.company-info-separator
 
-        %p.member-info
-          %span.member-name
-            = user.full_name
+        %p.company-info
+          %span.company-name
+            = company.name
           %br
-          - if user.membership_current?
-
-            Medlemsnr.:
-            %span.membership-number
-              #{user.membership_number}
-            %br
-
-            #{list_app_categories(user.shf_application)}
+          = list_categories(company, ', ')

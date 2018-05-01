@@ -19,13 +19,13 @@ module AdminOnly
     has_attached_file :h_brand_logo,
                       url: :url_for_images,
                       default_url: 'h_brand_logo.png',
-                      styles: { standard: ['257x248#'] },
+                      styles: { standard: ['248x240#'] },
                       default_style: :standard
 
     has_attached_file :sweden_dog_trainers,
                       url: :url_for_images,
                       default_url: 'sweden_dog_trainers.png',
-                      styles: { standard: ['257x50#'] },
+                      styles: { standard: ['234x39#'] },
                       default_style: :standard
 
     validates_attachment_content_type :chair_signature, :shf_logo,

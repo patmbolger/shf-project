@@ -31,7 +31,19 @@ body {
   padding: 0 20px 0 20px;
 }
 
-.member-info-separator {
+.company-info-separator {
   background-color: #b9b9b5;
   margin: 10px 5px 10px 5px;
+}
+
+.company-info {
+  display: block;
+  font-weight: normal;
+  height: auto;
+  margin: 0 10px 10px 10px;
+  text-align: center;
+}
+
+.company-name {
+  font-weight: bold;
 }
