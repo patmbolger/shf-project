@@ -689,7 +689,7 @@ sv:
                              ta en skärmdump (%{show_link}) för att sedan
                              använda den på din hemsida, i sociala medier eller
                              skriva ut för att använda i fysisk kontext, exempelvis
-                             för att visa kund
+                             för att visa kund.
       download_image: Ladda ner bild
       show_image: Visa bild
       company_h_brand: Företaget H-märke för %{company}
