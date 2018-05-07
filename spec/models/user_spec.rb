@@ -3,10 +3,16 @@ require 'email_spec/rspec'
 
 RSpec.describe User, type: :model do
   let(:user) { create(:user) }
+  let(:user_with_app) { create(:user_with_membership_app) }
+  let(:member) { create(:member_with_membership_app) }
 
   describe 'Factory' do
-    it 'has a valid factory' do
+    it 'has valid factories' do
       expect(create(:user)).to be_valid
+      expect(create(:user_without_first_and_lastname)).to be_valid
+      expect(create(:user_with_membership_app)).to be_valid
+      expect(create(:user_with_membership_app)).to be_valid
+      expect(create(:member_with_membership_app)).to be_valid
     end
   end
 
@@ -59,7 +65,7 @@ RSpec.describe User, type: :model do
   end
 
   describe 'Associations' do
-    it { is_expected.to have_one(:shf_application) }
+    it { is_expected.to have_one(:shf_application).dependent(:destroy) }
     it { is_expected.to have_many(:payments) }
     it { is_expected.to accept_nested_attributes_for(:payments) }
     it { is_expected.to have_attached_file(:member_photo) }
@@ -89,6 +95,18 @@ RSpec.describe User, type: :model do
 
       expect(user.destroyed?).to be true
       expect(user.member_photo.exists?).to be false
+    end
+
+    context 'membership application' do
+      it 'user with application' do
+        expect { user_with_app }.to change(ShfApplication, :count).by(1)
+        expect { user_with_app.destroy }.to change(ShfApplication, :count).by(-1)
+      end
+
+      it 'member' do
+        expect { member }.to change(ShfApplication, :count).by(1)
+        expect { member.destroy }.to change(ShfApplication, :count).by(-1)
+      end
     end
   end
 
