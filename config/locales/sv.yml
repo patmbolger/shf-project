@@ -175,6 +175,8 @@ sv:
         state/accepted: &status_accepted Godkänd
         state/rejected: &status_rejected Avböjd
         state/being_destroyed: &status_being_destroyed Förstört
+        companies: Företag
+        business_categories: Företagstjänster
 
       member:
         true: Medlem

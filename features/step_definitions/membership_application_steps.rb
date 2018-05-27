@@ -35,7 +35,6 @@ And(/^the following applications exist:$/) do |table|
                             contact_email: contact_email,
                             create_company: false))
       ma.companies = companies
-      ma.save
     end
 
     if hash['categories']
@@ -46,5 +45,6 @@ And(/^the following applications exist:$/) do |table|
       end
       ma.business_categories = categories
     end
+    ma.save
   end
 end
