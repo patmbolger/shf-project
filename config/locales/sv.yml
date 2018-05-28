@@ -270,7 +270,7 @@ sv:
             companies:
               blank: '- Ange ett befintligt företagsnummer (eller skapa ett nytt företag)'
               invalid: "- %{value} är inte ett svenskt organisationsnummer"
-              not_found: 'Företag med organisationsnummer %{value} inte hittat.
+              not_found: 'med organisationsnummer %{value} inte hittat.
                           Klicka på knappen "Nytt företag" för att skapa företaget
                           och försök sedan skicka din ansökan igen.'
 
