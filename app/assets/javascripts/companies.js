@@ -12,6 +12,11 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
+  $('.dinkurs-fetch-events').on('ajax:success', function (e, data) {
+    $('#company-events').html(data);
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
   $('#editBrandingStatusSubmit').click(function() {
     $('#edit-branding-modal').modal('hide');
   });

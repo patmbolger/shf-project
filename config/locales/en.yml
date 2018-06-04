@@ -204,6 +204,7 @@ en:
         region_short: *region_short
         website: Website
         org_nr: *org_nr
+        dinkurs_key: &dinkurs_company_key Dinkurs Company key
 
 
       business_category:
@@ -547,6 +548,12 @@ en:
                                 license for one year
       branding_fee_expire_date_tooltip: Branding license expires after this date
       members: Company Members
+      dinkurs_fetch_events: Get Dinkurs Events
+      dinkurs_fetching: Fetching events ... please wait
+      dinkurs_key: *dinkurs_company_key
+      dinkurs_help: If you have a Dinkurs.se account and want to also show the company events here, enter the Dinkurs.se company key.
+      dinkurs_help_can_leave_blank: (You can leave it blank if you don't have a Dinkurs.se account.)
+
     index:
       title: Find H-labeled companies
       admin_title: Edit member companies

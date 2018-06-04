@@ -8,6 +8,8 @@ module Dinkurs
     end
 
     def call
+      return nil unless dinkurs_events
+
       dinkurs_events.map do |event|
         prepare_event_hash(event)
       end
@@ -20,8 +22,6 @@ module Dinkurs
     def prepare_event_hash(event)
       { dinkurs_id: event['event_id'].first,
         name: event.dig('event_name', '__content__'),
-        last_modified_in_dinkurs:
-            event.dig('event_modstamp', '__content__').to_date,
         fee: event.dig('event_fee', '__content__').to_f,
         start_date: event.dig('event_start', '__content__').to_date,
         description: event.dig('event_infotext', '__content__'),

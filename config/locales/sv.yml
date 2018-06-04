@@ -205,6 +205,7 @@ sv:
         kommun: *kommun
         region: *region
         region_short: *region_short
+        dinkurs_key: &dinkurs_company_key Dinkurs Företag key
 
       business_category:
         name: &business_category_name  Namn
@@ -547,6 +548,11 @@ sv:
       pay_branding_fee_tooltip: Betald avgift förlänger H-märkningen i ett år.
       branding_fee_expire_date_tooltip: Efter detta datum går perioden för din H-märkning ut.
       members: Företagsmedlemmar
+      dinkurs_fetch_events: Hämta Dinkurs Events
+      dinkurs_fetching: Hämtar händelser ... vänligen vänta
+      dinkurs_key: *dinkurs_company_key
+      dinkurs_help: "Om du har ett Dinkurs.se konto och vill visa företagshändelser här, ange Dinkurs.se företagsnyckel.."
+      dinkurs_help_can_leave_blank: (Du kan lämna den tom om du inte har ett Dinkurs.se konto.)
 
     index:
       title:  Hitta H-märkt företag

@@ -638,6 +638,44 @@ ALTER SEQUENCE public.shf_documents_id_seq OWNED BY public.shf_documents.id;
 
 
 --
+-- Name: shortened_urls; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.shortened_urls (
+    id integer NOT NULL,
+    owner_id integer,
+    owner_type character varying(20),
+    url text NOT NULL,
+    unique_key character varying(10) NOT NULL,
+    category character varying,
+    use_count integer DEFAULT 0 NOT NULL,
+    expires_at timestamp without time zone,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+--
+-- Name: shortened_urls_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.shortened_urls_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: shortened_urls_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.shortened_urls_id_seq OWNED BY public.shortened_urls.id;
+
+
+--
 -- Name: uploaded_files; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -827,6 +865,13 @@ ALTER TABLE ONLY public.shf_documents ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
+-- Name: shortened_urls id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shortened_urls ALTER COLUMN id SET DEFAULT nextval('public.shortened_urls_id_seq'::regclass);
+
+
+--
 -- Name: uploaded_files id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -977,6 +1022,14 @@ ALTER TABLE ONLY public.shf_documents
 
 
 --
+-- Name: shortened_urls shortened_urls_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shortened_urls
+    ADD CONSTRAINT shortened_urls_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: uploaded_files uploaded_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1123,6 +1176,34 @@ CREATE INDEX index_shf_applications_on_user_id ON public.shf_applications USING 
 --
 
 CREATE INDEX index_shf_documents_on_uploader_id ON public.shf_documents USING btree (uploader_id);
+
+
+--
+-- Name: index_shortened_urls_on_category; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_shortened_urls_on_category ON public.shortened_urls USING btree (category);
+
+
+--
+-- Name: index_shortened_urls_on_owner_id_and_owner_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_shortened_urls_on_owner_id_and_owner_type ON public.shortened_urls USING btree (owner_id, owner_type);
+
+
+--
+-- Name: index_shortened_urls_on_unique_key; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_shortened_urls_on_unique_key ON public.shortened_urls USING btree (unique_key);
+
+
+--
+-- Name: index_shortened_urls_on_url; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_shortened_urls_on_url ON public.shortened_urls USING btree (url);
 
 
 --
@@ -1315,4 +1396,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20180219132317'),
 ('20180326103433'),
 ('20180328105100'),
-('20180428103625');
+('20180428103625'),
+('20180513110920');
+
+

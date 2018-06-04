@@ -16,14 +16,14 @@ class Company < ApplicationRecord
   validate :swedish_organisationsnummer
 
   before_save :sanitize_website, :sanitize_description
-  after_save :enqueue_dinkurs_fetch,
+  after_save :fetch_dinkurs_events,
              if: -> { saved_change_to_attribute?(:dinkurs_company_id) }
 
   has_many :company_applications
   has_many :shf_applications, through: :company_applications, dependent: :destroy
 
   has_many :users, through: :shf_applications
-  has_many :events
+  has_many :events, dependent: :destroy
 
   has_many :payments, dependent: :destroy
   accepts_nested_attributes_for :payments
@@ -50,8 +50,17 @@ class Company < ApplicationRecord
       .order('users.last_name').where('users.member = ?', true)
   end
 
-  def enqueue_dinkurs_fetch
-    FetchEventsFromDinkursJob.perform_later(self)
+  def fetch_dinkurs_events
+    events.clear
+
+    return unless dinkurs_company_id
+
+    Dinkurs::EventsCreator.new(self, events_start_date).call
+  end
+
+  def events_start_date
+    # Fetch events that start on or after this date
+    1.day.ago.to_date
   end
 
   def any_visible_addresses?

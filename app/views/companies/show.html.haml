@@ -46,17 +46,19 @@
 
     = render 'company_addresses', company: @company, user_can_edit: user_can_edit
 
-    = render 'events/teaser_list', events: @company.events
+    - if @company.dinkurs_company_id
+      = render 'events/teaser_list', events: @company.events
 
     .row.center.item-nav-buttons#item-nav-buttons
 
       - if user_can_edit
-        .dinkurs-fetch
-          = button_to 'get Dinkurs events',
-                      fetch_from_dinkurs_company_events_path(@company),
-                      id: 'getDinkursEvents',
-                      remote: true,
-                      data: {disable_with: "Getting the events..."}
+        - if @company.dinkurs_company_id
+          .dinkurs-fetch
+            = button_to "#{t('.dinkurs_fetch_events')}",
+                        fetch_from_dinkurs_company_events_path(@company),
+                        remote: true,
+                        form_class: 'dinkurs-fetch-events',
+                        data: { disable_with: "#{t('.dinkurs_fetching')}" }
 
         = link_to "#{t('.add_address')}",
                   new_company_address_path(@company),

@@ -87,6 +87,7 @@ RSpec.describe Company, type: :model do
     it { is_expected.to have_db_column :email }
     it { is_expected.to have_db_column :website }
     it { is_expected.to have_db_column :description }
+    it { is_expected.to have_db_column :dinkurs_company_id }
   end
 
   describe 'Validations' do
@@ -126,6 +127,7 @@ RSpec.describe Company, type: :model do
     it { is_expected.to have_many(:users).through(:shf_applications) }
     it { is_expected.to have_many(:payments) }
     it { is_expected.to accept_nested_attributes_for(:payments).allow_destroy(false) }
+    it { is_expected.to have_many(:dinkurs_company_id).dependent(:destroy) }
   end
 
   describe 'destroy associated records when company is destroyed' do

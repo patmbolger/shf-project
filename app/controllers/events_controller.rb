@@ -2,9 +2,15 @@ class EventsController < ApplicationController
   before_action :set_company
 
   def fetch_from_dinkurs
+    raise 'Unsupported request' unless request.xhr?
+
     authorize Event.new(company: @company)
-    FetchEventsFromDinkursJob.perform_later(@company)
-    head :ok
+
+    @company.fetch_dinkurs_events
+    @company.reload
+
+    render partial: 'events/teaser_list',
+           locals: { events: @company.events.order(:start_date) }
   end
 
   private

@@ -2,24 +2,24 @@
 
 module Dinkurs
   class EventsCreator
-    def initialize(company, update_after_date = nil)
+    def initialize(company, events_start_date)
       @company = company
-      @update_after_date = update_after_date
+      @events_start_date = events_start_date
     end
 
     def call
-      dinkurs_events_hashes.each do |event|
-        event_modified_date = event.delete(:last_modified_in_dinkurs)
-        next if update_after_date && event_modified_date <= update_after_date
+      return unless events_hashes = dinkurs_events_hashes
 
-        Event.find_or_create_by(dinkurs_id: event.delete(:dinkurs_id))
-             .update(event)
+      events_hashes.each do |event|
+        next if event[:start_date] < events_start_date
+
+        Event.create(event)
       end
     end
 
     private
 
-    attr_reader :company, :update_after_date
+    attr_reader :company, :events_start_date
 
     def dinkurs_events_hashes
       Dinkurs::EventsParser
