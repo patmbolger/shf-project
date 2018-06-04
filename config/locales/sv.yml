@@ -224,8 +224,6 @@ sv:
         is_custom: "Annan anledning"
 
 
-
-
     errors:
       models:
 
@@ -614,6 +612,12 @@ sv:
     destroy:
       success: Adressen raderad.
       error: Det gick inte att ta bort adressen.
+
+  events:
+    show:
+      name: Företagshändelse
+      start_date: Start Datum
+      no_events: (Inga planerade händelser)
 
   business_categories:
 

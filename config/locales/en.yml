@@ -616,6 +616,11 @@ en:
       success: Address deleted.
       error: Could not delete the address.
 
+  events:
+    show:
+      name: Company Event
+      start_date: Start Date
+      no_events: (No Scheduled Events)
 
   business_categories:
 
