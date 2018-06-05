@@ -618,8 +618,10 @@ en:
 
   events:
     show:
-      name: Company Event
+      name: Company Events
       start_date: Start Date
+      location: Location
+      fee: Fee
       no_events: (No Scheduled Events)
 
   business_categories:

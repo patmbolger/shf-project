@@ -22,6 +22,7 @@ module Dinkurs
     def prepare_event_hash(event)
       { dinkurs_id: event['event_id'].first,
         name: event.dig('event_name', '__content__'),
+        location: event.dig('event_place', '__content__'),
         fee: event.dig('event_fee', '__content__').to_f,
         start_date: event.dig('event_start', '__content__').to_date,
         description: event.dig('event_infotext', '__content__'),

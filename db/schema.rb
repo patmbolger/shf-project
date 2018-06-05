@@ -109,6 +109,7 @@ ActiveRecord::Schema.define(version: 20180428103625) do
   create_table "events", force: :cascade do |t|
     t.decimal "fee", precision: 8, scale: 2
     t.date "start_date"
+    t.text "location"
     t.text "description"
     t.string "dinkurs_id"
     t.string "name"

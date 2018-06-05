@@ -3,6 +3,7 @@ class CreateEvents < ActiveRecord::Migration[5.1]
     create_table :events do |t|
       t.decimal :fee, precision: 8, scale: 2
       t.date :start_date, index: true
+      t.text :location
       t.text :description
       t.string :dinkurs_id
       t.string :name

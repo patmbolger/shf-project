@@ -15,16 +15,16 @@ describe Dinkurs::EventsCreator,
   subject(:event_creator) { described_class.new(company) }
 
   it 'creating events' do
-    expect { event_creator.call }.to change { Event.count }.by(11)
+    expect { event_creator.call }.to change { Event.count }.by(3)
   end
 
   it 'properly fills data for events' do
     event_creator.call
     expect(Event.last.attributes)
-      .to include('fee' => 0.0, 'dinkurs_id' => '13343',
-                  'name' => 'Beställningsformulär',
+      .to include('fee' => 2368, 'dinkurs_id' => '48712',
+                  'name' => 'Deltagarhantering har aldrig varit enklare!',
                   'sign_up_url' =>
-                    'https://dinkurs.se/appliance/?event_key=pTPQREGNgBXGNMQn')
+                    'https://dinkurs.se/appliance/?event_key=kNzMWFFQTWKBgLPM')
   end
 
   it 'not creating same events twice' do

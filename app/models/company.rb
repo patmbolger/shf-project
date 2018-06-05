@@ -51,10 +51,6 @@ class Company < ApplicationRecord
   end
 
   def fetch_dinkurs_events
-    events.clear
-
-    return if dinkurs_company_id.blank?
-
     Dinkurs::EventsCreator.new(self, events_start_date).call
   end
 
