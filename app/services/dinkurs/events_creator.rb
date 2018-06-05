@@ -27,10 +27,6 @@ module Dinkurs
         .call
     end
 
-    def current_events_keys
-      @current_events_keys ||= Event.pluck(:dinkurs_id)
-    end
-
     def dinkurs_events
       Dinkurs::Client.new(company.dinkurs_company_id).company_events_hash
     end

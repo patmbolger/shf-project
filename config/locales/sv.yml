@@ -549,8 +549,6 @@ sv:
       dinkurs_fetch_events: Hämta Dinkurs Events
       dinkurs_fetching: Hämtar händelser ... vänligen vänta
       dinkurs_key: *dinkurs_company_key
-      dinkurs_help: "Om du har ett Dinkurs.se konto och vill visa företagshändelser här, ange Dinkurs.se företagsnyckel.."
-      dinkurs_help_can_leave_blank: (Du kan lämna den tom om du inte har ett Dinkurs.se konto.)
 
     index:
       title:  Hitta H-märkt företag
@@ -574,6 +572,9 @@ sv:
        flera län, eller "Online" om det (i huvudsak) finns på nätet
       visibility_tooltip: Hur detaljerat din adress visas för besökare (inkl kartor). Välj 'Ingen' för att inte visa din adress för besökare alls.
       org_nr_tooltip: Endast siffror (ej bindestreck)
+      dinkurs_id_tooltip: Om du har ett Dinkurs.se konto och vill visa
+                          företagshändelser här, ange Dinkurs.se företagsnyckel.
+                          (Du kan lämna den tom om du inte har ett Dinkurs.se konto.)
 
     company:
       submit_button_label: Uppdatera status
