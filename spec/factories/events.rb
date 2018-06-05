@@ -3,7 +3,10 @@ FactoryBot.define do
     fee "9.99"
     start_date "2018-03-26"
     description "MyText"
-    sing_up_url "MyString"
-    event_type 1
+    dinkurs_id 'abcxyz'
+    name 'my test event'
+    sign_up_url "MyString"
+
+    association :company
   end
 end
