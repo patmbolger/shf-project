@@ -7,6 +7,12 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
+  $('body').on('ajax:success', '.events_pagination', function (e, data) {
+    $('#company-events').html(data);
+    // In case there is tooltip(s) in rendered element:
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
   $('#brandingStatusForm').on('ajax:success', function (e, data) {
     $('#company-branding-status').html(data);
     $('[data-toggle="tooltip"]').tooltip();

@@ -1,7 +1,8 @@
 class CompaniesController < ApplicationController
   include PaginationUtility
 
-  before_action :set_company, only: [:show, :edit, :update, :destroy, :edit_payment]
+  before_action :set_company, only: [:show, :edit, :update, :destroy,
+                                     :edit_payment, :fetch_from_dinkurs]
   before_action :authorize_company, only: [:update, :show, :edit, :destroy]
 
 
@@ -38,6 +39,32 @@ class CompaniesController < ApplicationController
   end
 
   def show
+    setup_events_and_events_pagination
+
+    render partial: 'events/teaser_list',
+           locals: { events: @events, company: @company } if request.xhr?
+  end
+
+  def fetch_from_dinkurs
+    raise 'Unsupported request' unless request.xhr?
+
+    @company.fetch_dinkurs_events
+    @company.reload
+
+    setup_events_and_events_pagination
+
+    render partial: 'events/teaser_list',
+           locals: { events: @events, company: @company }
+  end
+
+  def setup_events_and_events_pagination
+
+    entity = "company_#{@company.id}_events"
+    __, @items_count, items_per_page = process_pagination_params(entity)
+
+    @events = @company.events.order(:start_date)
+                .page(params[:page])
+                .per_page(items_per_page)
   end
 
 

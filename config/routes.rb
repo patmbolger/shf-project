@@ -83,9 +83,7 @@ Rails.application.routes.draw do
     resources :companies, path: 'hundforetag' do
       member do
         put 'edit_payment', to: 'companies#edit_payment', as: 'edit_payment'
-      end
-      resources :events, only: [] do
-        post :fetch_from_dinkurs, on: :collection
+        post 'fetch_from_dinkurs', to: 'companies#fetch_from_dinkurs', as: 'fetch_from_dinkurs'
       end
     end
 
