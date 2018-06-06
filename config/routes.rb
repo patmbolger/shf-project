@@ -155,10 +155,4 @@ Rails.application.routes.draw do
 
   root to: 'companies#index'
 
-  require 'sidekiq/web'
-
-  authenticate :user, ->(u) { u.admin? } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
-
 end

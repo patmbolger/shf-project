@@ -1,4 +1,0 @@
-:schedule:
-  kickoff_dinkurs_jobs:
-    class: FetchEventsKickoffJob
-    cron: '5 0 * * *'

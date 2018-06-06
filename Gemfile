@@ -59,9 +59,6 @@ gem 'geocoder'
 
 gem 'sanitize'
 
-gem 'sidekiq'
-gem 'sidekiq-scheduler'
-
 gem 'mailgun-ruby'
 gem 'premailer-rails'  # converts css to inline; required for html emails to look ok
 gem 'nokogiri'         # must explicity require this gem for premailer-rails
