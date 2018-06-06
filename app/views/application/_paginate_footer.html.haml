@@ -9,7 +9,7 @@
 
   .col-sm-2{ style: 'text-align: right;' }
     -# Links will not be shown if too few items, or if items-per-page is set to "All".
-    -# For then latter, still need to show items-per-page selection.
+    -# For the latter, still need to show items-per-page selection.
     - if paginate_links || entities.count > PaginationUtility::DEFAULT_ITEMS_SELECTION
 
       -# override min-width from 'custom.css' - too wide
