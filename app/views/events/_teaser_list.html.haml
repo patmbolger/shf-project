@@ -27,12 +27,12 @@
               = event.start_date
       - else
         %tr.event
-          %td.event-name(colspan = '4')
+          %td.event-name{ colspan: 4 }
             #{t('events.show.no_events')}
 
   = render 'application/paginate_footer', entities: events,
                                           paginate_class: 'events_pagination',
-                                          items_count: @items_count,
+                                          items_count: items_count,
                                           url: company_path(company),
                                           params: { controller: 'companies',
                                                     action: 'show' }

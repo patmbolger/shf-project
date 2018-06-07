@@ -41,8 +41,7 @@ class CompaniesController < ApplicationController
   def show
     setup_events_and_events_pagination
 
-    render partial: 'events/teaser_list',
-           locals: { events: @events, company: @company } if request.xhr?
+    show_events_list if request.xhr?
   end
 
   def fetch_from_dinkurs
@@ -53,8 +52,7 @@ class CompaniesController < ApplicationController
 
     setup_events_and_events_pagination
 
-    render partial: 'events/teaser_list',
-           locals: { events: @events, company: @company }
+    show_events_list
   end
 
   def setup_events_and_events_pagination
@@ -67,6 +65,10 @@ class CompaniesController < ApplicationController
                 .per_page(items_per_page)
   end
 
+  def show_events_list
+    render partial: 'events/teaser_list',
+           locals: { events: @events, company: @company, items_count: @items_count }
+  end
 
   def new
     authorize Company

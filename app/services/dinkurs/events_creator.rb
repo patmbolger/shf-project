@@ -17,7 +17,7 @@ module Dinkurs
 
       return if company.dinkurs_company_id.blank?
 
-      return unless events_hashes = dinkurs_events_hashes
+      return unless (events_hashes = dinkurs_events_hashes)
 
       events_hashes.each do |event|
         next if event[:start_date] < events_start_date ||

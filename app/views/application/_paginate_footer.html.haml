@@ -1,16 +1,20 @@
-.row.center-aligned-container
+- paginate_links = will_paginate entities,
+                renderer: RemoteLinkPaginationHelper::BootstrapLinkRenderer,
+                class: paginate_class,
+                params: defined?(params) ? params : nil
 
-  .col-sm-8.col-sm-offset-2{ style: 'text-align: center;' }
-    - paginate_links = will_paginate entities,
-                    renderer: RemoteLinkPaginationHelper::BootstrapLinkRenderer,
-                    class: paginate_class,
-                    params: defined?(params) ? params : nil
-    = paginate_links
+-#
+  Links will not be shown if too few items, or if items-per-page is set to "All".
+  For the latter, still need to show items-per-page selection.
+- if paginate_links || entities.count > PaginationUtility::DEFAULT_ITEMS_SELECTION
 
-  .col-sm-2{ style: 'text-align: right;' }
-    -# Links will not be shown if too few items, or if items-per-page is set to "All".
-    -# For the latter, still need to show items-per-page selection.
-    - if paginate_links || entities.count > PaginationUtility::DEFAULT_ITEMS_SELECTION
+  .row.center-aligned-container
+
+    .col-sm-8.col-sm-offset-2{ style: 'text-align: center;' }
+
+      = paginate_links
+
+    .col-sm-2{ style: 'text-align: right;' }
 
       -# override min-width from 'custom.css' - too wide
       = select_tag(:items_count, paginate_count_options(items_count),
@@ -20,7 +24,7 @@
                    class: paginate_class )
 
       %span.glyphicon.glyphicon-info-sign{ title: "#{t('items_per_page_tooltip')}",
-                                         data: {toggle: 'tooltip'} }
+                                           data: {toggle: 'tooltip'} }
 -#
   for background on will_paginate method args, see:
   https://github.com/yrgoldteeth/bootstrap-will_paginate (adds bootstrap-style
