@@ -10,11 +10,11 @@
 
   .row.center-aligned-container
 
-    .col-sm-8.col-sm-offset-2{ style: 'text-align: center;' }
+    .col-sm-8.col-sm-offset-2.center
 
       = paginate_links
 
-    .col-sm-2{ style: 'text-align: right;' }
+    .col-sm-2.center
 
       -# override min-width from 'custom.css' - too wide
       = select_tag(:items_count, paginate_count_options(items_count),
