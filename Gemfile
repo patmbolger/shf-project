@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.5.1'
 gem 'dotenv-rails'
-gem 'rails', '5.2.1'
+gem 'rails', '5.2.2'
 gem 'bootsnap', require: false
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
@@ -20,7 +20,7 @@ gem 'orgnummer'
 
 gem 'devise'
 gem 'pundit'
-gem 'paperclip', '~> 5.0.0'
+gem "paperclip", "~> 6.0.0"
 
 gem 'routing-filter'   # for handling locale filters around routes
 
