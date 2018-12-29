@@ -1,16 +1,12 @@
-# Backup code and DB data in production
+# Fetch dinkurs events
 
 class DinkursFetch < ConditionResponder
 
   def self.condition_response(condition, log)
 
-    unless timing_is_every_day?(get_timing(condition))
-      msg = "Cannot handle timing other than #{TIMING_EVERY_DAY}"
-      log.record('error', msg)
-      raise ArgumentError, msg
-    end
+    confirm_correct_timing(get_timing(condition), TIMING_EVERY_DAY, log)
 
-    Company.where.not(dinkurs_company_id: [nil, '']).order(:id).each do |company|
+    Company.with_dinkurs_id.each do |company|
 
       company.fetch_dinkurs_events
       company.reload

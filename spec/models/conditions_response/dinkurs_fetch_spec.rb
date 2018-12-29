@@ -23,10 +23,11 @@ RSpec.describe DinkursFetch, type: :model do
 
       expect do
         described_class.condition_response(condition, log)
-      end.to raise_exception ArgumentError, 'Cannot handle timing other than every_day'
+      end.to raise_exception ArgumentError,
+                             'Received timing: not_every_day but expected: every_day'
 
       expect(File.read(filepath))
-        .to include 'Cannot handle timing other than every_day'
+        .to include 'Received timing: not_every_day but expected: every_day'
     end
 
     context 'Fetch Dinkurs events', vcr: { cassette_name: 'dinkurs/company_events' } do
@@ -53,7 +54,7 @@ RSpec.describe DinkursFetch, type: :model do
                       "#{company_with_dinkurs_id.events.count} events."
       end
 
-      it 'Does not attempt to fetch events for company without dinkurs_id' do
+      it 'Does not write to log file for company without dinkurs_id' do
         company_without_dinkurs_id
 
         described_class.condition_response(condition, log)
