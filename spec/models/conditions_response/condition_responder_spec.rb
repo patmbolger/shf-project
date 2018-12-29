@@ -14,8 +14,6 @@ RSpec.describe ConditionResponder, type: :model do
       condition    = Condition.create(class_name: 'MembershipExpireAlert',
                                       timing:     'before',
                                       config:     { days: [60, 30, 14, 2] })
-      # logfile_name = 'log.log'
-      # log          = ActivityLogger.open(File.join(Dir.mktmpdir, logfile_name), 'ConditionResponder', 'respond')
 
       expect { described_class.condition_response(condition, log) }.to raise_exception NoMethodError
     end
