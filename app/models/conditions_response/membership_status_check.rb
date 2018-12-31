@@ -1,4 +1,4 @@
-# Fetch dinkurs events
+# Revoke membership status if requirements are met
 
 class MembershipStatusCheck < ConditionResponder
 
