@@ -7,7 +7,19 @@ RSpec.describe RequirementsForRevokingMembership, type: :model do
 
   let(:user) { create(:user) }
 
-  let(:member) { create(:member_with_membership_app) }
+  let(:member_paid_up) do
+    user = build(:member_with_membership_app)
+    user.payments << create(:membership_fee_payment)
+    user.save!
+    user
+  end
+
+  let(:member_expired) do
+    user = build(:member_with_membership_app)
+    user.payments << create(:expired_membership_fee_payment)
+    user.save!
+    user
+  end
 
 
   describe '.has_expected_arguments?' do
@@ -28,12 +40,16 @@ RSpec.describe RequirementsForRevokingMembership, type: :model do
 
   describe '.requirements_met?' do
 
-    it 'user.member? == true' do
-      expect(subject.requirements_met?({user: member})).to be_truthy
+    it 'user.member? == true and payment NOT expired' do
+      expect(subject.requirements_met?({user: member_paid_up})).to be_falsey
     end
 
     it 'user.member? == false' do
       expect(subject.requirements_met?({user: user})).to be_falsey
+    end
+
+    it 'user.member == true but payment has expired' do
+      expect(subject.requirements_met?({user: member_expired})).to be_truthy
     end
 
   end
@@ -42,7 +58,7 @@ RSpec.describe RequirementsForRevokingMembership, type: :model do
   describe '.satisfied?' do
 
     it '.has_expected_arguments? is true and requirements_met? is true' do
-      expect(subject.satisfied?({ user: member })).to be_truthy
+      expect(subject.satisfied?({ user: member_expired })).to be_truthy
     end
 
     it '.has_expected_arguments? is true and requirements_met? is false' do
@@ -50,7 +66,7 @@ RSpec.describe RequirementsForRevokingMembership, type: :model do
     end
 
     it '.has_expected_arguments? is false and requirements_met? is true' do
-      expect(subject.satisfied?({ not_user: member })).to be_falsey
+      expect(subject.satisfied?({ not_user: member_paid_up })).to be_falsey
     end
 
     it '.has_expected_arguments? is false and requirements_met? is false' do

@@ -95,6 +95,12 @@ class MembershipStatusUpdater < AbstractUpdater
     check_user_and_log(user, user, LOGMSG_USER_UPDATED, LOGMSG_USER_UPDATED)
   end
 
+  # end of Notifications received from observed classes
+
+  def revoke_user_membership(user)
+    check_user_and_log(user, user, LOGMSG_USER_UPDATED, LOGMSG_MEMBERSHIP_REVOKED)
+  end
+
 
   private
 
@@ -157,4 +163,3 @@ class MembershipStatusUpdater < AbstractUpdater
   end
 
 end # MembershipStatusUpdater
-
