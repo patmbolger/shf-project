@@ -2,30 +2,16 @@ require 'rails_helper'
 require 'email_spec/rspec'
 
 require 'shared_context/activity_logger'
+require 'shared_context/users'
 
 RSpec.describe MembershipStatusCheck, type: :model do
 
   include_context 'create logger'
+  include_context 'create users'
 
   let(:condition) { build(:condition, timing: Backup::TIMING_EVERY_DAY) }
   let(:today) { Time.now.strftime '%Y-%m-%d' }
 
-  let(:user) { create(:user) }
-  let(:member_paid_up) do
-    user = build(:member_with_membership_app)
-    user.payments << create(:membership_fee_payment)
-    user.save!
-    user
-  end
-
-  let(:member_expired) do
-    user = build(:member_with_membership_app)
-    user.payments << create(:expired_membership_fee_payment)
-    user.save!
-    user
-  end
-
-  let(:company_without_dinkurs_id) { create(:company) }
 
   describe '.condition_response' do
 
