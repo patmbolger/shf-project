@@ -110,6 +110,8 @@ class MembershipStatusUpdater < AbstractUpdater
 
     ActivityLogger.open(log_filename, self.class.to_s, action_message, false) do |log|
 
+      # Granting and renewing happens in real time - so this (membership revocation)
+      # is the only action that must be checked.
       check_requirements_and_act({ user: user })
 
       log.record(:info, "#{reason_check_happened}: #{notification_sender.inspect}")
