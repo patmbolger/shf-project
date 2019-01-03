@@ -10,10 +10,9 @@ class MembershipStatusCheck < ConditionResponder
 
     User.members.each do |user|
 
-      if RequirementsForRevokingMembership.requirements_met?(user: user)
+      status_updater.revoke_user_membership(user)
 
-        status_updater.revoke_user_membership(user)
-
+      unless user.reload.member
         log.record('info', "User #{user.id} (#{user.email}) membership revoked.")
       end
 
