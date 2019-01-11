@@ -1,12 +1,18 @@
 namespace :shf do
   desc 'load conditions to DB'
   task :load_conditions => [:environment] do
+
     # Start from scratch
     Condition.delete_all
 
     Condition.create(class_name: 'MembershipExpireAlert',
                      timing: :before,
                      config: { days: [60, 30, 14, 2] })
+
+    Condition.create(class_name: 'HBrandingFeePastDueAlert',
+                     timing: :after,
+                     config: { days: [60, 30, 14, 9, 2] })
+
 
     # days_to_keep - specifies number of (daily) backups to retain on production server
     # backup_directory - where daily backups are retained on production server;
@@ -18,6 +24,9 @@ namespace :shf do
                                backup_directory: nil })
 
     Condition.create(class_name: 'DinkursFetch',
+                     timing: :every_day)
+
+    Condition.create(class_name: 'MembershipStatusCheck',
                      timing: :every_day)
   end
 end
