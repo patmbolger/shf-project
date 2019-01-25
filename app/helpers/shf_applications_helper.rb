@@ -75,4 +75,16 @@ module ShfApplicationsHelper
     AdminOnly::MemberAppWaitingReason.all.map { |r| [r.id, r.send(method_name)] }
   end
 
+  def file_delivery_radio_buttons_collection(locale = I18n.locale)
+    collection = []
+
+    text_method = "description_#{locale}".to_sym
+
+    AdminOnly::FileDeliveryMethod.order('id ASC').each do |delivery_method|
+      collection << [ delivery_method.id, delivery_method.send(text_method) ]
+    end
+
+    collection
+  end
+
 end

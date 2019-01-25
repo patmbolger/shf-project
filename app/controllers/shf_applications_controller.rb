@@ -23,8 +23,6 @@ class ShfApplicationsController < ApplicationController
 
 
   def index
-    authorize ShfApplication
-
     self.params = fix_FB_changed_q_params(self.params)
 
     session[:shf_application_items_selection] ||= 'All' if current_user.admin?

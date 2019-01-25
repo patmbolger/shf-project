@@ -12,6 +12,13 @@
   .answers
     %p= t('shf_applications.new.upload_files_instructions')
 
+    %p
+      = f.collection_radio_buttons(:file_delivery_method_id,
+                                   file_delivery_radio_buttons_collection,
+                                   :first, :second, {}) do |rb|
+        = rb.label(style: 'margin-left: 10px;', class: 'radio-inline') do
+          = rb.radio_button + ' ' + rb.text
+
     .files
       .container
         .row

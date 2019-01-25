@@ -31,8 +31,9 @@ class ShfApplication < ApplicationRecord
              foreign_key: "member_app_waiting_reasons_id",
              class_name: 'AdminOnly::MemberAppWaitingReason'
 
+  belongs_to :file_delivery_method, class_name: 'AdminOnly::FileDeliveryMethod'
 
-  validates_presence_of :contact_email, :state
+  validates_presence_of :contact_email, :state, :file_delivery_method
 
   validates_presence_of :companies
 

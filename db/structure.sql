@@ -391,6 +391,45 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
+-- Name: file_delivery_methods; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.file_delivery_methods (
+    id bigint NOT NULL,
+    description_sv character varying,
+    description_en character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: TABLE file_delivery_methods; Type: COMMENT; Schema: public; Owner: -
+--
+
+COMMENT ON TABLE public.file_delivery_methods IS 'User choices for how files for SHF application will be delivered';
+
+
+--
+-- Name: file_delivery_methods_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.file_delivery_methods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: file_delivery_methods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.file_delivery_methods_id_seq OWNED BY public.file_delivery_methods.id;
+
+
+--
 -- Name: kommuns; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -635,7 +674,9 @@ CREATE TABLE public.shf_applications (
     state character varying DEFAULT 'new'::character varying,
     member_app_waiting_reasons_id integer,
     custom_reason_text character varying,
-    when_approved timestamp without time zone
+    when_approved timestamp without time zone,
+    file_delivery_method_id bigint,
+    file_delivery_selection_date date
 );
 
 
@@ -844,6 +885,13 @@ ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.event
 
 
 --
+-- Name: file_delivery_methods id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_delivery_methods ALTER COLUMN id SET DEFAULT nextval('public.file_delivery_methods_id_seq'::regclass);
+
+
+--
 -- Name: kommuns id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -984,6 +1032,14 @@ ALTER TABLE ONLY public.conditions
 
 ALTER TABLE ONLY public.events
     ADD CONSTRAINT events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: file_delivery_methods file_delivery_methods_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.file_delivery_methods
+    ADD CONSTRAINT file_delivery_methods_pkey PRIMARY KEY (id);
 
 
 --
@@ -1179,6 +1235,13 @@ CREATE INDEX index_payments_on_user_id ON public.payments USING btree (user_id);
 
 
 --
+-- Name: index_shf_applications_on_file_delivery_method_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_shf_applications_on_file_delivery_method_id ON public.shf_applications USING btree (file_delivery_method_id);
+
+
+--
 -- Name: index_shf_applications_on_member_app_waiting_reasons_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1300,6 +1363,14 @@ ALTER TABLE ONLY public.shf_applications
 
 
 --
+-- Name: shf_applications fk_rails_c591d9a2b0; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.shf_applications
+    ADD CONSTRAINT fk_rails_c591d9a2b0 FOREIGN KEY (file_delivery_method_id) REFERENCES public.file_delivery_methods(id);
+
+
+--
 -- Name: company_applications fk_rails_cf393e2864; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1396,6 +1467,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181203121315'),
 ('20181214011549'),
 ('20181228073947'),
-('20181229015347');
+('20181229015347'),
+('20190123143128'),
+('20190123144623');
 
 
