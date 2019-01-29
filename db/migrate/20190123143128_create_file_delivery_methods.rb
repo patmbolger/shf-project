@@ -3,6 +3,7 @@ class CreateFileDeliveryMethods < ActiveRecord::Migration[5.2]
     create_table :file_delivery_methods do |t|
       t.string :description_sv
       t.string :description_en
+      t.boolean :default_option, default: false
 
       t.timestamps
     end

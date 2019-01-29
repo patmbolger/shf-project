@@ -346,6 +346,7 @@ sv:
       submit_button_label: *submit
       need_to_enter_name_html: Du måste ha angett ditt för- och efternamn
                           för att skapa en medlemsansökan. %{edit_profile}.
+      submit_button_explain: &submit_explain Välj ett filleveransalternativ för att aktivera Spara
 
     rendering:
       success: Aktion utfördes framgångsrikt
@@ -354,16 +355,22 @@ sv:
       success: "Tack, din ansökan har skickats. Du borde få en bekräftelse inom kort till %{email_address}."
       error: Ett eller flera problem hindrade din ansökan från att skickas.
       success_with_file_problem: DIN ANSÖKAN HAR SKAPATS, MEN OBSERVERA FELMEDDELANDE(N) HÄR
+      upload_file_or_select_method: &upload_files Var god ladda upp filer eller välj en annan leveransmetod
+      remember_to_deliver_files: &chosen_method Kom ihåg att leverera filer via den valda leveransmetoden
 
     edit:
       title: Redigera ansökan om medlemskap
       is_ready_for_review: Redo för granskning
       submit_button_label: *save
+      submit_button_explain: *submit_explain
 
     update:
       success: Ansökan har uppdaterats.
       error: Ett eller flera problem hindrade din ansökan från att sparas.
       enter_member_number: Var god granska medlemsnummer och spara.
+      success_with_file_problem: DIN ANVÄNDNING VAR UPPDATERAD, MEN OBSERVERA FELMEDDELANDE(N) HÄR
+      upload_file_or_select_method: *upload_files
+      remember_to_deliver_files: *chosen_method
 
     show:
       title: Ansökan från %{user_full_name}

@@ -398,6 +398,7 @@ CREATE TABLE public.file_delivery_methods (
     id bigint NOT NULL,
     description_sv character varying,
     description_en character varying,
+    default_option boolean DEFAULT false,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );

@@ -80,7 +80,7 @@ module ShfApplicationsHelper
 
     text_method = "description_#{locale}".to_sym
 
-    AdminOnly::FileDeliveryMethod.order('id ASC').each do |delivery_method|
+    AdminOnly::FileDeliveryMethod.order('default_option DESC').each do |delivery_method|
       collection << [ delivery_method.id, delivery_method.send(text_method) ]
     end
 

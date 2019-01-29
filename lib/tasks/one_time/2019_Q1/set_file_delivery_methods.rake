@@ -14,19 +14,28 @@ namespace :shf do
 
       delivery_methods = [
 
-        { description_sv: 'Ladda upp filer senare',
-          description_en: 'Upload files later' },
+        { description_sv: 'Ladda upp nu',
+          description_en: 'Upload now',
+          default_option: true },
 
-        { description_sv: 'Skicka via e-post (till adress nedan)',
-          description_en: 'Send via email (to address below)' },
+        { description_sv: 'Ladda upp senare',
+          description_en: 'Upload later' },
 
-        { description_sv: 'Skicka via vanlig post (till adress nedan)',
-          description_en: 'Send via regular mail (to address below)' }
+        { description_sv: 'Skicka via e-post *',
+          description_en: 'Send via email *' },
+
+        { description_sv: 'Skicka via vanlig post **',
+          description_en: 'Send via regular mail **' },
+
+        { description_sv: 'Alla filer laddas upp',
+          description_en: 'All files are uploaded' }
       ]
 
       log_file = 'log/set_file_delivery_methods.log'
 
       ActivityLogger.open(log_file, 'App Files', 'set delivery methods') do |log|
+
+        AdminOnly::FileDeliveryMethod.destroy_all
 
         delivery_methods.each do |rec|
           AdminOnly::FileDeliveryMethod.create!(rec)

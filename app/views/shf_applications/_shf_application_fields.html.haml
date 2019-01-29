@@ -12,13 +12,6 @@
   .answers
     %p= t('shf_applications.new.upload_files_instructions')
 
-    %p
-      = f.collection_radio_buttons(:file_delivery_method_id,
-                                   file_delivery_radio_buttons_collection,
-                                   :first, :second, {}) do |rb|
-        = rb.label(style: 'margin-left: 10px;', class: 'radio-inline') do
-          = rb.radio_button + ' ' + rb.text
-
     .files
       .container
         .row
@@ -49,7 +42,16 @@
                 %tbody.files{'data-toggle': "modal-gallery", 'data-target': "#modal-gallery"}
           .col-md-6
             = render 'uploaded_files_list', shf_application: @shf_application
-
+    %br
+    %p
+      %span.file-delivery-selection
+        Please select how you will deliver the files needed for your application:
+      %br
+      = f.collection_radio_buttons(:file_delivery_method_id,
+                                   file_delivery_radio_buttons_collection,
+                                   :first, :second, {}) do |rb|
+        = rb.label(style: 'margin-left: 10px;', class: 'radio-inline') do
+          = rb.radio_button + ' ' + rb.text
 
     %p.upload-more-note.instructions= t('shf_applications.new.upload_more_files') if controller.action_name == 'new'
 
