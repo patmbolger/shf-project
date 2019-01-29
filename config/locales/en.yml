@@ -343,6 +343,8 @@ en:
                           in order to create a membership application.
                           %{edit_profile}.
       submit_button_explain: &submit_explain Select a file delivery option to enable Save
+      where_to_mail_files: We will email you the address
+      email_files_subject: My Application Files
 
     rendering:
       success: Action performed successfully

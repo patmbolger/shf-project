@@ -80,6 +80,7 @@ module ShfApplicationsHelper
 
     text_method = "description_#{locale}".to_sym
 
+    # Default option will be the first (left-most) button in the set
     AdminOnly::FileDeliveryMethod.order('default_option DESC').each do |delivery_method|
       collection << [ delivery_method.id, delivery_method.send(text_method) ]
     end

@@ -1,6 +1,10 @@
 require 'rails_helper'
 
+require 'shared_context/file_delivery_method'
+
 RSpec.describe ShfApplicationsHelper, type: :helper do
+
+  include_context 'create file delivery methods'
 
 
   describe '#states_selection_list gets the localized version of each state name each time it is requested' do
@@ -236,6 +240,52 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
     it 'returns list of categories for an application' do
       expect(list_app_categories(application))
         .to eq('category1, category2, category3')
+    end
+  end
+
+  describe '#file_delivery_radio_buttons_collection' do
+
+    let(:collection_sv)  do
+      I18n.locale = :sv
+      file_delivery_radio_buttons_collection
+    end
+
+    let(:collection_en)  do
+      I18n.locale = :en
+      file_delivery_radio_buttons_collection
+    end
+
+    before(:each) do
+      upload_method
+      upload_later_method
+      email_method
+      mail_method
+    end
+
+    it 'includes all options in DB' do
+      expect(collection_sv.count).to eq 4
+    end
+
+    it 'returns option descriptions - swedish' do
+      expect(collection_sv).to contain_exactly(
+        [upload_method.id, upload_method.description_sv],
+        [upload_later_method.id, upload_later_method.description_sv],
+        [email_method.id, email_method.description_sv],
+        [mail_method.id, mail_method.description_sv]
+      )
+    end
+
+    it 'returns option descriptions - english' do
+      expect(collection_en).to contain_exactly(
+        [upload_method.id, upload_method.description_en],
+        [upload_later_method.id, upload_later_method.description_en],
+        [email_method.id, email_method.description_en],
+        [mail_method.id, mail_method.description_en]
+      )
+    end
+
+    it 'orders default option (upload) as first in list of buttons' do
+      expect(collection_en.first).to eq [upload_method.id, upload_method.description_en]
     end
   end
 end

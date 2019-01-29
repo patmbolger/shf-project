@@ -12,6 +12,8 @@ FactoryBot.define do
 
     association :user
 
+    association :file_delivery_method
+
     trait :accepted do
       state { :accepted }
       when_approved { Time.zone.now }

@@ -15,8 +15,13 @@ $app-state-border-blue: rgb(142, 173, 206);
 .shfapplication {
   .file-delivery-selection {
     font-weight: bold;
-    font-size: 18px;
+    font-size: 1.2em;
     line-height: 2em;
+  }
+
+  .file-delivery-footnotes {
+    margin-left: 10px;
+    line-height: 3em;
   }
 
   .wpcf7 {
