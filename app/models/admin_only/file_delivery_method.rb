@@ -12,7 +12,9 @@ module AdminOnly
 
     has_many :shf_applications, dependent: :nullify
 
-    validates :name, :description_en, :description_sv, presence: true
+    validates :description_en, :description_sv, presence: true
+
+    validates :name, presence: true, uniqueness: :true
 
     validates :default_option, uniqueness: true,
               :if => Proc.new { |record| record.default_option }

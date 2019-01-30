@@ -8,7 +8,7 @@ require 'rails_helper'
 #    it_behaves_like 'it_has_updated_in_date_range_scope', :payment
 #
 #   Note the Factory must have  updated_at as an attribute that can be set
-RSpec.shared_examples 'it_has_updated_in_date_range_scope' do | factory_method |
+RSpec.shared_examples 'it_has_updated_in_date_range_scope' do | factory_method, *args |
 
 
   let!(:start_date)        { Time.zone.local(2018, 01, 01, 00, 00, 00) }
@@ -19,13 +19,13 @@ RSpec.shared_examples 'it_has_updated_in_date_range_scope' do | factory_method |
   let!(:before_end_date)   { Time.zone.local(2018, 01, 31, 23, 59, 59) }
   let!(:after_end_date)    { Time.zone.local(2018, 02, 01, 00, 00, 01) }
 
-  let(:updated_before_start_date) { create(factory_method, updated_at: before_start_date) }
-  let(:updated_on_start_date)     { create(factory_method, updated_at: start_date) }
-  let(:updated_after_start_date)  { create(factory_method, updated_at: after_start_date) }
+  let(:updated_before_start_date) { create(factory_method, *args, updated_at: before_start_date) }
+  let(:updated_on_start_date)     { create(factory_method, *args, updated_at: start_date) }
+  let(:updated_after_start_date)  { create(factory_method, *args, updated_at: after_start_date) }
 
-  let(:updated_before_end_date)   { create(factory_method, updated_at: before_end_date) }
-  let(:updated_on_end_date)       { create(factory_method, updated_at: end_date) }
-  let(:updated_after_end_date)    { create(factory_method, updated_at: after_end_date) }
+  let(:updated_before_end_date)   { create(factory_method, *args, updated_at: before_end_date) }
+  let(:updated_on_end_date)       { create(factory_method, *args, updated_at: end_date) }
+  let(:updated_after_end_date)    { create(factory_method, *args, updated_at: after_end_date) }
 
 
   it 'returns all payments updated on the start_date' do

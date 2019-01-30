@@ -12,7 +12,7 @@ FactoryBot.define do
 
     association :user
 
-    association :file_delivery_method
+    association :file_delivery_method, factory: :file_delivery_upload_now
 
     trait :accepted do
       state { :accepted }
@@ -22,6 +22,15 @@ FactoryBot.define do
     trait :rejected do
       state { :rejected }
       when_approved { nil }
+    end
+
+    trait :files_uploaded_skip_validation do
+      # Most tests will use shared context 'create file delivery methods'
+      # (which creates delivery methods in the DB up front (via "let!")).
+      # But some tests require the ability to create one or more such records
+      # in addition to the shared context records. This requires turning off
+      # validation (attribute "name" is unique), or creating a record with a unique name.
+      association :file_delivery_method, :skip_validation, factory: :file_delivery_files_uploaded
     end
 
     transient do

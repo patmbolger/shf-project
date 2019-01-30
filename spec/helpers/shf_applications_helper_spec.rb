@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-require 'shared_context/file_delivery_method'
+require 'shared_context/file_delivery_methods'
 
 RSpec.describe ShfApplicationsHelper, type: :helper do
 
@@ -206,7 +206,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
 
   describe '#selected_reason_value' do
 
-    let(:member_app) { create(:shf_application) }
+    let(:member_app) { create(:shf_application, file_delivery_method: upload_now) }
 
     it '@other_reason_value if there is something in custom reason text' do
       member_app.custom_reason_text = 'something'
@@ -235,7 +235,8 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
     let(:category2) { create(:business_category, name: 'category2') }
     let(:category3) { create(:business_category, name: 'category3') }
     let(:application) { create(:shf_application, num_categories: 0,
-                               business_categories: [category1, category2, category3]) }
+                               business_categories: [category1, category2, category3],
+                               file_delivery_method: upload_now) }
 
     it 'returns list of categories for an application' do
       expect(list_app_categories(application))
@@ -266,10 +267,10 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
     end
 
     before(:each) do
-      upload_method
-      upload_later_method
-      email_method
-      mail_method
+      upload_now
+      upload_later
+      email
+      mail
       files_uploaded
     end
 
@@ -279,20 +280,20 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
 
     it 'returns option descriptions (with footnotes indicators) - swedish' do
       expect(collection_sv).to contain_exactly(
-        [upload_method.id, upload_method.description_sv],
-        [upload_later_method.id, upload_later_method.description_sv],
-        [email_method.id, email_method.description_sv + '*'],
-        [mail_method.id, mail_method.description_sv + '**'],
+        [upload_now.id, upload_now.description_sv],
+        [upload_later.id, upload_later.description_sv],
+        [email.id, email.description_sv + '*'],
+        [mail.id, mail.description_sv + '**'],
         [files_uploaded.id, files_uploaded.description_sv]
       )
     end
 
     it 'returns option descriptions (with footnotes indicators) - english' do
       expect(collection_en).to contain_exactly(
-        [upload_method.id, upload_method.description_en],
-        [upload_later_method.id, upload_later_method.description_en],
-        [email_method.id, email_method.description_en + '*'],
-        [mail_method.id, mail_method.description_en + '**'],
+        [upload_now.id, upload_now.description_en],
+        [upload_later.id, upload_later.description_en],
+        [email.id, email.description_en + '*'],
+        [mail.id, mail.description_en + '**'],
         [files_uploaded.id, files_uploaded.description_en]
       )
     end
@@ -310,7 +311,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
     end
 
     it 'orders default option (upload) as first in list of buttons' do
-      expect(collection_en.first).to eq [upload_method.id, upload_method.description_en]
+      expect(collection_en.first).to eq [upload_now.id, upload_now.description_en]
     end
   end
 end
