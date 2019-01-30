@@ -277,7 +277,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
       expect(collection_sv.count).to eq 5
     end
 
-    it 'returns option descriptions - swedish' do
+    it 'returns option descriptions (with footnotes indicators) - swedish' do
       expect(collection_sv).to contain_exactly(
         [upload_method.id, upload_method.description_sv],
         [upload_later_method.id, upload_later_method.description_sv],
@@ -297,7 +297,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
       )
     end
 
-    it 'returns option footnotes (with footnotes indicators) - swedish' do
+    it 'returns option footnotes - swedish' do
       I18n.locale = :sv
       expect(footnotes_sv).to match(/\*.*#{ENV['SHF_MEMBERSHIP_EMAIL']}/)
       expect(footnotes_sv).to match(/#{t('shf_applications.new.where_to_mail_files')}/)
