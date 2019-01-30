@@ -247,12 +247,22 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
 
     let(:collection_sv)  do
       I18n.locale = :sv
-      file_delivery_radio_buttons_collection
+      file_delivery_radio_buttons_collection.first
     end
 
     let(:collection_en)  do
       I18n.locale = :en
-      file_delivery_radio_buttons_collection
+      file_delivery_radio_buttons_collection.first
+    end
+
+    let(:footnotes_sv)  do
+      I18n.locale = :sv
+      file_delivery_radio_buttons_collection.second
+    end
+
+    let(:footnotes_en)  do
+      I18n.locale = :en
+      file_delivery_radio_buttons_collection.second
     end
 
     before(:each) do
@@ -260,28 +270,43 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
       upload_later_method
       email_method
       mail_method
+      files_uploaded
     end
 
     it 'includes all options in DB' do
-      expect(collection_sv.count).to eq 4
+      expect(collection_sv.count).to eq 5
     end
 
     it 'returns option descriptions - swedish' do
       expect(collection_sv).to contain_exactly(
         [upload_method.id, upload_method.description_sv],
         [upload_later_method.id, upload_later_method.description_sv],
-        [email_method.id, email_method.description_sv],
-        [mail_method.id, mail_method.description_sv]
+        [email_method.id, email_method.description_sv + '*'],
+        [mail_method.id, mail_method.description_sv + '**'],
+        [files_uploaded.id, files_uploaded.description_sv]
       )
     end
 
-    it 'returns option descriptions - english' do
+    it 'returns option descriptions (with footnotes indicators) - english' do
       expect(collection_en).to contain_exactly(
         [upload_method.id, upload_method.description_en],
         [upload_later_method.id, upload_later_method.description_en],
-        [email_method.id, email_method.description_en],
-        [mail_method.id, mail_method.description_en]
+        [email_method.id, email_method.description_en + '*'],
+        [mail_method.id, mail_method.description_en + '**'],
+        [files_uploaded.id, files_uploaded.description_en]
       )
+    end
+
+    it 'returns option footnotes (with footnotes indicators) - swedish' do
+      I18n.locale = :sv
+      expect(footnotes_sv).to match(/\*.*#{ENV['SHF_MEMBERSHIP_EMAIL']}/)
+      expect(footnotes_sv).to match(/#{t('shf_applications.new.where_to_mail_files')}/)
+    end
+
+    it 'returns option footnotes - english' do
+      I18n.locale = :en
+      expect(footnotes_sv).to match(/\*.*#{ENV['SHF_MEMBERSHIP_EMAIL']}/)
+      expect(footnotes_sv).to match(/#{t('shf_applications.new.where_to_mail_files')}/)
     end
 
     it 'orders default option (upload) as first in list of buttons' do

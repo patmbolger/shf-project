@@ -47,19 +47,17 @@
       %span.file-delivery-selection
         Please select how you will deliver the files needed for your application:
       %br
+
+      - radio_buttons_collection, footnotes = file_delivery_radio_buttons_collection
+      
       = f.collection_radio_buttons(:file_delivery_method_id,
-                                   file_delivery_radio_buttons_collection,
+                                   radio_buttons_collection,
                                    :first, :second, {}) do |rb|
         = rb.label(style: 'margin-left: 10px;', class: 'radio-inline') do
           = rb.radio_button + ' ' + rb.text
       %br
       %span.file-delivery-footnotes
-        *
-        = mail_to(ENV['SHF_MEMBERSHIP_EMAIL'], nil,
-                  subject: t('shf_applications.new.email_files_subject'))
-        &nbsp; &nbsp;
-        **
-        = t('shf_applications.new.where_to_mail_files')
+        = footnotes
 
     %p.upload-more-note.instructions= t('shf_applications.new.upload_more_files') if controller.action_name == 'new'
 

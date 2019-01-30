@@ -14,20 +14,25 @@ namespace :shf do
 
       delivery_methods = [
 
-        { description_sv: 'Ladda upp nu',
+        { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_now],
+          description_sv: 'Ladda upp nu',
           description_en: 'Upload now',
           default_option: true },
 
-        { description_sv: 'Ladda upp senare',
+        { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_later],
+          description_sv: 'Ladda upp senare',
           description_en: 'Upload later' },
 
-        { description_sv: 'Skicka via e-post *',
-          description_en: 'Send via email *' },
+        { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:email],
+          description_sv: 'Skicka via e-post',
+          description_en: 'Send via email' },
 
-        { description_sv: 'Skicka via vanlig post **',
-          description_en: 'Send via regular mail **' },
+        { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:mail],
+          description_sv: 'Skicka via vanlig post',
+          description_en: 'Send via regular mail' },
 
-        { description_sv: 'Alla filer laddas upp',
+        { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:files_uploaded],
+          description_sv: 'Alla filer laddas upp',
           description_en: 'All files are uploaded' }
       ]
 

@@ -136,6 +136,7 @@ ActiveRecord::Schema.define(version: 2019_01_23_144623) do
   end
 
   create_table "file_delivery_methods", comment: "User choices for how files for SHF application will be delivered", force: :cascade do |t|
+    t.string "name"
     t.string "description_sv"
     t.string "description_en"
     t.boolean "default_option", default: false

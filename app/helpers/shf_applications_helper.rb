@@ -77,15 +77,32 @@ module ShfApplicationsHelper
 
   def file_delivery_radio_buttons_collection(locale = I18n.locale)
     collection = []
+    footnotes = ''
 
     text_method = "description_#{locale}".to_sym
 
     # Default option will be the first (left-most) button in the set
     AdminOnly::FileDeliveryMethod.order('default_option DESC').each do |delivery_method|
-      collection << [ delivery_method.id, delivery_method.send(text_method) ]
+
+      option_text = delivery_method.send(text_method)
+
+      case delivery_method.name
+
+      when AdminOnly::FileDeliveryMethod::METHOD_NAMES[:email]
+        option_text += '*'
+        footnotes += '*' + mail_to(ENV['SHF_MEMBERSHIP_EMAIL'], nil,
+                  subject: t('shf_applications.new.email_files_subject'))
+
+      when AdminOnly::FileDeliveryMethod::METHOD_NAMES[:mail]
+        option_text += '**'
+        footnotes += '&nbsp; &nbsp;' unless option_text.blank?
+        footnotes += '**' + t('shf_applications.new.where_to_mail_files')
+      end
+
+      collection << [ delivery_method.id, option_text ]
     end
 
-    collection
+    [ collection, footnotes.html_safe ]
   end
 
 end

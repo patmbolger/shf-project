@@ -396,6 +396,7 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.file_delivery_methods (
     id bigint NOT NULL,
+    name character varying,
     description_sv character varying,
     description_en character varying,
     default_option boolean DEFAULT false,
