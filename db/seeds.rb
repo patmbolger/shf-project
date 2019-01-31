@@ -38,9 +38,9 @@ unless Kommun.exists?
   Rake::Task['shf:load_kommuns'].invoke
 end
 
-unless AdminOnly::FileDeliveryMethod?
+unless AdminOnly::FileDeliveryMethod.exists?
   puts 'Loading SHF app file delivery methods'
-  Rake::Task['shf:load_file_delivery_methods']
+  Rake::Task['shf:load_file_delivery_methods'].invoke
 end
 
 puts 'Creating business categories'
