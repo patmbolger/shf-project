@@ -9,11 +9,10 @@
 namespace :shf do
   namespace :one_time do
 
-    desc "Initialize file delivery methods"
-    task set_file_delivery_methods: :environment do
+    desc "Initialize app file delivery methods"
+    task load_file_delivery_methods: :environment do
 
       delivery_methods = [
-
         { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_now],
           description_sv: 'Ladda upp nu',
           description_en: 'Upload now',

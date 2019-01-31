@@ -1,4 +1,13 @@
 FactoryBot.define do
+
+  sequence(:name) { |num| "name_#{num}" }
+
+  factory :file_delivery_method, class: AdminOnly::FileDeliveryMethod do
+    name
+    description_sv { 'random - swedish' }
+    description_en { 'random - swedish' }
+  end
+
   factory :file_delivery_upload_now, class: AdminOnly::FileDeliveryMethod do
     name { AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_now] }
     description_sv { 'Ladda upp nu' }

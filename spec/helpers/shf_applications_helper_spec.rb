@@ -1,11 +1,6 @@
 require 'rails_helper'
 
-require 'shared_context/file_delivery_methods'
-
 RSpec.describe ShfApplicationsHelper, type: :helper do
-
-  include_context 'create file delivery methods'
-
 
   describe '#states_selection_list gets the localized version of each state name each time it is requested' do
 
@@ -206,7 +201,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
 
   describe '#selected_reason_value' do
 
-    let(:member_app) { create(:shf_application, file_delivery_method: upload_now) }
+    let(:member_app) { create(:shf_application) }
 
     it '@other_reason_value if there is something in custom reason text' do
       member_app.custom_reason_text = 'something'
@@ -235,8 +230,7 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
     let(:category2) { create(:business_category, name: 'category2') }
     let(:category3) { create(:business_category, name: 'category3') }
     let(:application) { create(:shf_application, num_categories: 0,
-                               business_categories: [category1, category2, category3],
-                               file_delivery_method: upload_now) }
+                               business_categories: [category1, category2, category3]) }
 
     it 'returns list of categories for an application' do
       expect(list_app_categories(application))
@@ -266,13 +260,11 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
       file_delivery_radio_buttons_collection.second
     end
 
-    before(:each) do
-      upload_now
-      upload_later
-      email
-      mail
-      files_uploaded
-    end
+    let!(:upload_now) { create(:file_delivery_upload_now) }
+    let!(:upload_later) { create(:file_delivery_upload_later) }
+    let!(:email) { create(:file_delivery_email) }
+    let!(:mail) { create(:file_delivery_mail) }
+    let!(:files_uploaded) { create(:file_delivery_files_uploaded) }
 
     it 'includes all options in DB' do
       expect(collection_sv.count).to eq 5

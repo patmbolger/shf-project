@@ -5,8 +5,6 @@ require 'support/ae_aasm_matchers/ae_aasm_matchers'
 
 require 'shared_examples/scope_updated_in_date_range_spec'
 
-require 'shared_context/file_delivery_methods'
-
 
 #================================================================================
 # Shared examples:
@@ -33,11 +31,9 @@ end
 
 RSpec.describe ShfApplication, type: :model do
 
-  include_context 'create file delivery methods'
-
   describe 'Factory' do
     it 'has a valid factory' do
-      expect(create(:shf_application, file_delivery_method: upload_now)).to be_valid
+      expect(create(:shf_application)).to be_valid
     end
   end
 
@@ -81,7 +77,7 @@ RSpec.describe ShfApplication, type: :model do
     it { is_expected.not_to allow_value('userexample.com').for(:contact_email) }
 
     describe 'uniqueness of user across all applications' do
-      subject { FactoryBot.build(:shf_application, file_delivery_method: upload_now) }
+      subject { FactoryBot.build(:shf_application) }
       it { is_expected.to validate_uniqueness_of(:user_id) }
     end
   end
@@ -89,13 +85,10 @@ RSpec.describe ShfApplication, type: :model do
   context 'scopes' do
 
     context 'open and accepted' do
-      let!(:accepted_app1) { create(:shf_application, :accepted,
-                                    file_delivery_method: files_uploaded) }
-      let!(:accepted_app2) { create(:shf_application, :accepted,
-                                    file_delivery_method: files_uploaded) }
-      let!(:rejected_app1) { create(:shf_application, :rejected,
-                                    file_delivery_method: files_uploaded) }
-      let!(:new_app1) { create(:shf_application, file_delivery_method: upload_later) }
+      let!(:accepted_app1) { create(:shf_application, :accepted) }
+      let!(:accepted_app2) { create(:shf_application, :accepted) }
+      let!(:rejected_app1) { create(:shf_application, :rejected) }
+      let!(:new_app1) { create(:shf_application) }
 
       describe 'open' do
         it 'returns all apps not accepted or rejected' do
@@ -119,35 +112,33 @@ RSpec.describe ShfApplication, type: :model do
       let!(:application_owner3) { create(:user, email: 'user_3@random.com') }
 
       let!(:shf_open_app_no_uploads_1) do
-        create(:shf_application, file_delivery_method: upload_later,
-                                 user: application_owner2,
+        create(:shf_application, user: application_owner2,
                                  contact_email: application_owner2.email)
       end
 
       let!(:shf_open_app_no_uploads_2) do
-        create(:shf_application, file_delivery_method: upload_later,
-                                 user: application_owner3,
+        create(:shf_application, user: application_owner3,
                                  contact_email: application_owner3.email)
       end
 
       let!(:shf_rejected_app_uploads_1) do
         user = create(:user, email: 'user_7@random.com')
-        create(:shf_application, :rejected, file_delivery_method: upload_later, user: user)
+        create(:shf_application, :rejected, user: user)
       end
 
       let!(:shf_rejected_app_uploads_2) do
         user = create(:user, email: 'user_8@random.com')
-        create(:shf_application, :rejected, file_delivery_method: upload_later, user: user)
+        create(:shf_application, :rejected, user: user)
       end
 
       let!(:shf_rejected_app_uploads_3) do
         user = create(:user, email: 'user_9@random.com')
-        create(:shf_application, :rejected, file_delivery_method: upload_later, user: user)
+        create(:shf_application, :rejected, user: user)
       end
 
       let!(:shf_rejected_app_uploads_4) do
         user = create(:user, email: 'user_10@random.com')
-        create(:shf_application, :rejected, file_delivery_method: upload_later, user: user)
+        create(:shf_application, :rejected, user: user)
       end
 
 
@@ -163,30 +154,27 @@ RSpec.describe ShfApplication, type: :model do
       context 'there are uploaded files in the system' do
 
         let!(:shf_open_app_uploads_1) do
-          shf_app = create(:shf_application, file_delivery_method: files_uploaded,
-                           user: application_owner1, contact_email: application_owner1.email)
+          shf_app = create(:shf_application, user: application_owner1,
+                           contact_email: application_owner1.email)
           shf_app.uploaded_files << create(:uploaded_file, :jpg, shf_application: shf_app)
         end
 
         let!(:shf_approved_app_uploads_1) do
-          member = create(:member_with_membership_app, email: 'user_4@random.com',
-                          file_delivery_method: files_uploaded)
+          member = create(:member_with_membership_app, email: 'user_4@random.com')
           shf_app = member.shf_application
           shf_app.uploaded_files << create(:uploaded_file, :jpg, shf_application: shf_app)
           shf_app
         end
 
         let!(:shf_approved_app_uploads_2) do
-          member = create(:member_with_membership_app, email: 'user_5@random.com',
-                          file_delivery_method: files_uploaded)
+          member = create(:member_with_membership_app, email: 'user_5@random.com')
           shf_app = member.shf_application
           shf_app.uploaded_files << create(:uploaded_file, :jpg, shf_application: shf_app)
           shf_app
         end
 
         let!(:shf_approved_app_uploads_3) do
-          member = create(:member_with_membership_app, email: 'user_6@random.com',
-                          file_delivery_method: files_uploaded)
+          member = create(:member_with_membership_app, email: 'user_6@random.com')
           shf_app = member.shf_application
           shf_app.uploaded_files <<  create(:uploaded_file, :png, shf_application: shf_app)
           shf_app
@@ -212,8 +200,7 @@ RSpec.describe ShfApplication, type: :model do
     end
 
     describe 'updated_in_date_range(start_date, end_date)' do
-      it_behaves_like 'it_has_updated_in_date_range_scope', :shf_application,
-                      :files_uploaded_skip_validation
+      it_behaves_like 'it_has_updated_in_date_range_scope', :shf_application
     end
   end
 
@@ -224,8 +211,7 @@ RSpec.describe ShfApplication, type: :model do
     let(:application_owner2) { create(:user, email: 'user_2@random.com') }
 
     it 'uploading a file increases the number of uploaded files by 1' do
-      app = create(:shf_application, file_delivery_method: files_uploaded,
-                                     user: application_owner)
+      app = create(:shf_application, user: application_owner)
       expect { create(:uploaded_file, shf_application: app, actual_file: (File.new(File.join(FIXTURE_DIR, 'image.jpg')))) }.to change(UploadedFile, :count).by(1)
     end
 
@@ -235,8 +221,7 @@ RSpec.describe ShfApplication, type: :model do
   describe 'User attributes nesting' do
 
     let(:user) { create(:user, first_name: 'Firstname', last_name: 'Lastname') }
-    let!(:member_app) { create(:shf_application, file_delivery_method: upload_now,
-                               user: user,
+    let!(:member_app) { create(:shf_application, user: user,
                                user_attributes: { first_name: 'New Firstname',
                                                   last_name: 'New Lastname' }) }
 
@@ -273,8 +258,7 @@ RSpec.describe ShfApplication, type: :model do
     # let(:uploaded_file) { create(:uploaded_file, actual_file: app_file) }
 
     let(:application) do
-      create(:shf_application, user: user1, state: :accepted,
-                               file_delivery_method: files_uploaded)
+      create(:shf_application, user: user1, state: :accepted)
     end
 
     let(:uploaded_file) do
@@ -285,9 +269,7 @@ RSpec.describe ShfApplication, type: :model do
     end
 
     let(:application2) do
-      create(:shf_application, user: user2, state: :new,
-             file_delivery_method: files_uploaded,
-             companies: [application.companies.last])
+      create(:shf_application, user: user2, state: :new, companies: [application.companies.last])
     end
 
     it 'invokes method to destroy uploaded files' do
@@ -323,8 +305,7 @@ RSpec.describe ShfApplication, type: :model do
   describe 'test factories' do
 
     it '1 category with default category name' do
-      member_app = create(:shf_application, num_categories: 1,
-                          file_delivery_method: upload_later)
+      member_app = create(:shf_application, num_categories: 1)
       expect(member_app.business_categories.count).to eq(1)
       expect(member_app.business_categories.first.name)
           .to eq("Business Category"),
@@ -333,8 +314,7 @@ RSpec.describe ShfApplication, type: :model do
     end
 
     it '2 categories with sequence names' do
-      member_app = create(:shf_application, num_categories: 2,
-                          file_delivery_method: upload_later)
+      member_app = create(:shf_application, num_categories: 2)
       expect(member_app.business_categories.count).to eq(2), "The number of categories should have been 2 but instead was #{member_app.business_categories.count}"
       expect(member_app.business_categories.first.name).to eq("Business Category 1"), "The first category name should have been 'Business Category 1' but instead was '#{member_app.business_categories.first.name}'"
       expect(member_app.business_categories.last.name).to eq("Business Category 2"), "The last category name should have been 'Business Category 2' but instead was '#{member_app.business_categories.first.name}'"
@@ -342,15 +322,13 @@ RSpec.describe ShfApplication, type: :model do
 
     it '1 category with the name "Special"' do
       member_app = create(:shf_application, num_categories: 1,
-                          category_name: "Special",
-                          file_delivery_method: upload_later)
+                          category_name: "Special")
       expect(member_app.business_categories.count).to eq(1)
       expect(member_app.business_categories.first.name).to eq("Special"), "The first category name should have been 'Special' but instead was '#{member_app.business_categories.first.name}'"
     end
 
     it '3 categories with the name "Special 1, Special 2, Special 3"' do
-      member_app = create(:shf_application, category_name: "Special", num_categories: 3,
-                          file_delivery_method: upload_later)
+      member_app = create(:shf_application, category_name: "Special", num_categories: 3)
       expect(member_app.business_categories.count).to eq(3)
       expect(member_app.business_categories.first.name).to eq("Special 1"), "The first category name should have been 'Special 1' but instead was '#{member_app.business_categories.first.name}'"
       expect(member_app.business_categories.last.name).to eq("Special 3"), "The first category name should have been 'Special 3' but instead was '#{member_app.business_categories.last.name}'"
@@ -362,8 +340,7 @@ RSpec.describe ShfApplication, type: :model do
 
   describe 'states, events, and transitions' do
 
-    let!(:user) { create(:user_with_membership_app,
-                        file_delivery_method: upload_later) }
+    let!(:user) { create(:user_with_membership_app) }
     let!(:application) { user.shf_application }
 
     describe 'valid states' do
@@ -533,10 +510,9 @@ RSpec.describe ShfApplication, type: :model do
 
   describe '#se_mailing_csv_str (comma sep string) of the address for the swedish postal service' do
 
-    let(:accepted_app) { create(:shf_application, :accepted,
-                                file_delivery_method: upload_later) }
+    let(:accepted_app) { create(:shf_application, :accepted) }
     let(:app_no_company) do
-      app = create(:shf_application, file_delivery_method: upload_later)
+      app = create(:shf_application)
       app.companies = []
       app
     end
@@ -561,8 +537,7 @@ RSpec.describe ShfApplication, type: :model do
   describe 'membership number generator' do
 
     let(:user) { create(:user) }
-    let(:new_app) { create(:shf_application, user: user,
-                           file_delivery_method: upload_later) }
+    let(:new_app) { create(:shf_application, user: user) }
 
     before(:each) do
       new_app.start_review
@@ -584,7 +559,7 @@ RSpec.describe ShfApplication, type: :model do
     let(:cmpy1) { create(:company, name: 'Company One') }
     let(:cmpy2) { create(:company, name: 'Company Two') }
     let(:app) do
-      app = create(:shf_application, file_delivery_method: upload_later)
+      app = create(:shf_application)
       app.companies = [cmpy1, cmpy2]
       app
     end

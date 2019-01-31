@@ -24,13 +24,8 @@ FactoryBot.define do
 
     factory :user_with_membership_app do
 
-      transient do
-        file_delivery_method {}
-      end
-
       after(:create) do |user, evaluator|
-        create_list(:shf_application, 1, user: user, contact_email: evaluator.email,
-                    file_delivery_method: evaluator.file_delivery_method) # FIXME this should not be a list. Fix tests that use this
+        create_list(:shf_application, 1, user: user, contact_email: evaluator.email) # FIXME this should not be a list. Fix tests that use this
       end
     end
 
@@ -40,16 +35,12 @@ FactoryBot.define do
 
       transient do
         company_number { 5562728336 }
-        file_delivery_method {}
       end
 
       after(:create) do |user, evaluator|
         create_list(:shf_application, 1, :accepted, user: user,
                     company_number: evaluator.company_number,
-                    contact_email: evaluator.email,
-                    file_delivery_method: evaluator.file_delivery_method)
-
-                    # FIXME this should not be a list. Fix tests that use this
+                    contact_email: evaluator.email) # FIXME this should not be a list. Fix tests that use this
       end
     end
   end
