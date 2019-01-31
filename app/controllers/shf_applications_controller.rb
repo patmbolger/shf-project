@@ -74,7 +74,8 @@ class ShfApplicationsController < ApplicationController
 
         unless @shf_application.uploaded_files.present?
           set_flash_messages_for_missing_application_files(@shf_application,
-                                                           file_delivery_selected)
+                                                           file_delivery_selected,
+                                                           'create')
         else
           helpers.flash_message(:notice, t('.success', email_address: shf_application.contact_email))
         end
@@ -114,7 +115,8 @@ class ShfApplicationsController < ApplicationController
 
         unless @shf_application.uploaded_files.present?
           set_flash_messages_for_missing_application_files(@shf_application,
-                                                           file_delivery_selected)
+                                                           file_delivery_selected,
+                                                           'update')
         end
 
       else
@@ -203,21 +205,26 @@ class ShfApplicationsController < ApplicationController
   private
 
   def set_flash_messages_for_missing_application_files(shf_application,
-                                                       file_delivery_selected)
+                                                       file_delivery_selected,
+                                                       action)
 
-    helpers.flash_message(:notice, t('.success_with_file_problem'))
+    helpers.flash_message(:notice,
+      t("shf_applications.#{action}.success_with_file_problem"))
 
     if file_delivery_selected
 
       if shf_application.file_delivery_method.default_option
-        helpers.flash_message(:warn, t('.upload_file_or_select_method'))
+        helpers.flash_message(:warn,
+          t("shf_applications.#{action}.upload_file_or_select_method"))
       else
-        helpers.flash_message(:warn, t('.remember_to_deliver_files'))
+        helpers.flash_message(:warn,
+          t("shf_applications.#{action}.remember_to_deliver_files"))
       end
 
     else
 
-      helpers.flash_message(:warn, t('.upload_file_or_select_method'))
+      helpers.flash_message(:warn,
+        t("shf_applications.#{action}.upload_file_or_select_method"))
     end
   end
 
@@ -418,8 +425,9 @@ class ShfApplicationsController < ApplicationController
       helpers.flash_message(:error, t('mailers.shf_application_mailer.acknowledge_received.error_sending', email: @shf_application.user.email))
     end
 
-    # if there is a problem sending email to the admin, do not display an error to the user.
-    send_new_shf_application_notice_to_admins(new_shf_app)
+    # No rescue for the following because if there is a problem sending email to the admin,
+    # do not display an error to the user
+    send_new_shf_application_notice_to_admins(new_shf_app) if AdminOnly::AppConfiguration.config_to_use.email_admin_new_app_received_enabled
 
 end
 

@@ -89,7 +89,8 @@ CREATE TABLE public.app_configurations (
     sweden_dog_trainers_file_name character varying,
     sweden_dog_trainers_content_type character varying,
     sweden_dog_trainers_file_size integer,
-    sweden_dog_trainers_updated_at timestamp without time zone
+    sweden_dog_trainers_updated_at timestamp without time zone,
+    email_admin_new_app_received_enabled boolean DEFAULT true
 );
 
 
@@ -1471,6 +1472,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20181228073947'),
 ('20181229015347'),
 ('20190123143128'),
-('20190123144623');
+('20190123144623'),
+('20190128210825');
 
 
