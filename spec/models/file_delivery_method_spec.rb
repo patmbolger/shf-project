@@ -32,4 +32,18 @@ RSpec.describe AdminOnly::FileDeliveryMethod, type: :model do
     it { is_expected.to have_many(:shf_applications).dependent(:nullify) }
   end
 
+  describe 'Scopes' do
+    context '.default' do
+
+      let!(:upload_now) { create(:file_delivery_upload_now) }
+      let!(:upload_later) { create(:file_delivery_upload_later) }
+      let!(:email) { create(:file_delivery_email) }
+      let!(:mail) { create(:file_delivery_mail) }
+
+      it 'returns default delivery option' do
+        expect(AdminOnly::FileDeliveryMethod.default[0].name).to eq upload_now.name
+      end
+    end
+  end
+
 end
