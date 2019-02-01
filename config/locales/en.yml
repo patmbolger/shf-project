@@ -352,7 +352,8 @@ en:
     create:
       success: "Thank You. Your membership application has been submitted. You should receive an email shortly at %{email_address} with information about what to expect next."
       error: The was a problem creating and submitting your application.
-      success_with_file_problem: YOUR APPLICATION WAS CREATED, BUT PLEASE NOTE PROBLEM(S) BELOW
+      success_with_file_upload_problem: YOUR APPLICATION WAS CREATED, BUT PLEASE NOTE FILE UPLOAD PROBLEM(S) BELOW
+      success_with_app_files_missing: YOUR APPLICATION WAS CREATED, BUT REQUIRED FILES ARE MISSING
       upload_file_or_select_method: &upload_files Please upload files or select another delivery method
       remember_to_deliver_files: &chosen_method Please remember to deliver files via the chosen delivery method
 
@@ -366,7 +367,8 @@ en:
       success: The application was updated.
       error: One or more problems prevented your application from being updated.
       enter_member_number: Please review the member number and save.
-      success_with_file_problem: YOUR APPLICATION WAS UPDATED, BUT PLEASE NOTE PROBLEM(S) BELOW
+      success_with_file_upload_problem: YOUR APPLICATION WAS UPDATED, BUT PLEASE NOTE FILE UPLOAD PROBLEM(S) BELOW
+      success_with_app_files_missing: YOUR APPLICATION WAS UPDATED, BUT REQUIRED FILES ARE MISSING
       upload_file_or_select_method: *upload_files
       remember_to_deliver_files: *chosen_method
 

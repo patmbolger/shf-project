@@ -356,7 +356,8 @@ sv:
     create:
       success: "Tack, din ansökan har skickats. Du borde få en bekräftelse inom kort till %{email_address}."
       error: Ett eller flera problem hindrade din ansökan från att skickas.
-      success_with_file_problem: DIN ANSÖKAN HAR SKAPATS, MEN OBSERVERA FELMEDDELANDE(N) HÄR
+      success_with_file_upload_problem: DIN ANSÖKAN SKAPAS, MEN VÄNLIG NOTERA FILOPPLOAD PROBLEM (ER) HÄR
+      success_with_app_files_missing: DIN ANSÖKAN SKAPAS, MEN KRAV FILER MISSAR
       upload_file_or_select_method: &upload_files Var god ladda upp filer eller välj en annan leveransmetod
       remember_to_deliver_files: &chosen_method Kom ihåg att leverera filer via den valda leveransmetoden
 
@@ -370,7 +371,8 @@ sv:
       success: Ansökan har uppdaterats.
       error: Ett eller flera problem hindrade din ansökan från att sparas.
       enter_member_number: Var god granska medlemsnummer och spara.
-      success_with_file_problem: DIN ANVÄNDNING VAR UPPDATERAD, MEN OBSERVERA FELMEDDELANDE(N) HÄR
+      success_with_file_upload_problem: DIN ANVÄNDNING VAR UPPDATERAD, MEN OBSERVERA FIL UPLOAD PROBLEM (ER) HÄR
+      success_with_app_files_missing: DIN ANVÄNDNING VAR UPPDATERAD, MEN SKRIVADE FILER MISSAR
       upload_file_or_select_method: *upload_files
       remember_to_deliver_files: *chosen_method
 
