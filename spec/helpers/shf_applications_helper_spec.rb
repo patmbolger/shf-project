@@ -260,6 +260,10 @@ RSpec.describe ShfApplicationsHelper, type: :helper do
       file_delivery_radio_buttons_collection.second
     end
 
+    after(:each) do
+      I18n.locale = I18n.default_locale
+    end
+
     let!(:upload_now) { create(:file_delivery_upload_now) }
     let!(:upload_later) { create(:file_delivery_upload_later) }
     let!(:email) { create(:file_delivery_email) }

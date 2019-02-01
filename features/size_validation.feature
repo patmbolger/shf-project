@@ -47,7 +47,7 @@ Feature: Applicant uploads too large a file for their application
     And I choose a file named "diploma_huge.pdf" to upload
     When I click on t("shf_applications.new.submit_button_label")
     Then I should see t("activerecord.errors.models.uploaded_file.attributes.actual_file_file_size.file_too_large")
-    And I should see t("shf_applications.create.success_with_file_problem")
+    And I should see t("shf_applications.create.success_with_file_upload_problem")
 
     Then I choose a file named "diploma.pdf" to upload
     When I click on t("shf_applications.edit.submit_button_label")
