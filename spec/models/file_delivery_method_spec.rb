@@ -4,7 +4,7 @@ RSpec.describe AdminOnly::FileDeliveryMethod, type: :model do
 
   describe 'Factory' do
     it 'has a valid factory' do
-      expect(create(:file_delivery_upload_now)).to be_valid
+      expect(create(:file_delivery_method)).to be_valid
     end
   end
 
@@ -21,7 +21,11 @@ RSpec.describe AdminOnly::FileDeliveryMethod, type: :model do
     it { is_expected.to validate_presence_of :description_sv }
     it { is_expected.to validate_presence_of :description_en }
     it { is_expected.to validate_uniqueness_of :default_option }
-    it { is_expected.to validate_uniqueness_of :name }
+    it 'should validate that :name is one of defined values' do
+      subject { FactoryBot.build(:file_delivery_method)
+      is_expected.to validate_inclusion_of(:name)
+          .in_array([ AdminOnly::FileDeliveryMethod::METHOD_NAMES.values ]) }
+    end
   end
 
   describe 'Associations' do

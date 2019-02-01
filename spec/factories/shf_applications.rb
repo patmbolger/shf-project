@@ -12,7 +12,8 @@ FactoryBot.define do
 
     association :user
 
-    association :file_delivery_method
+    file_delivery_method { AdminOnly::FileDeliveryMethod.first ||
+                           association(:file_delivery_method) }
 
     trait :accepted do
       state { :accepted }

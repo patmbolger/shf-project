@@ -1,14 +1,7 @@
 FactoryBot.define do
 
-  sequence(:name) { |num| "name_#{num}" }
-
-  factory :file_delivery_method, class: AdminOnly::FileDeliveryMethod do
-    name
-    description_sv { 'random - swedish' }
-    description_en { 'random - swedish' }
-  end
-
-  factory :file_delivery_upload_now, class: AdminOnly::FileDeliveryMethod do
+  factory :file_delivery_method, class: AdminOnly::FileDeliveryMethod,
+           aliases: [ :file_delivery_upload_now ] do
     name { AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_now] }
     description_sv { 'Ladda upp nu' }
     description_en { 'Upload now' }
@@ -37,9 +30,5 @@ FactoryBot.define do
     name { AdminOnly::FileDeliveryMethod::METHOD_NAMES[:files_uploaded] }
     description_sv { 'Alla filer laddas upp' }
     description_en { 'All files are uploaded' }
-  end
-
-  trait :skip_validation do
-    to_create {|instance| instance.save(validate: false)}
   end
 end
