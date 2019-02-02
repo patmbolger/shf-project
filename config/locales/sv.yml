@@ -346,7 +346,7 @@ sv:
       submit_button_label: *submit
       need_to_enter_name_html: Du måste ha angett ditt för- och efternamn
                           för att skapa en medlemsansökan. %{edit_profile}.
-      submit_button_explain: &submit_explain Välj ett filleveransalternativ för att aktivera Spara
+      submit_button_explain: Välj ett filleveransalternativ för att aktivera Skicka
       where_to_mail_files: Vi kommer att maila dig adressen
       email_files_subject: Mina applikationsfiler
 
@@ -365,7 +365,7 @@ sv:
       title: Redigera ansökan om medlemskap
       is_ready_for_review: Redo för granskning
       submit_button_label: *save
-      submit_button_explain: *submit_explain
+      submit_button_explain: Välj ett filleveransalternativ för att aktivera Spara
 
     update:
       success: Ansökan har uppdaterats.

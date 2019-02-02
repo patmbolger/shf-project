@@ -342,7 +342,7 @@ en:
       need_to_enter_name_html: You must have your first and last name defined
                           in order to create a membership application.
                           %{edit_profile}.
-      submit_button_explain: &submit_explain Select a file delivery option to enable Save
+      submit_button_explain: Select a file delivery option to enable Submit
       where_to_mail_files: We will email you the address
       email_files_subject: My Application Files
 
@@ -361,7 +361,7 @@ en:
       title: Edit Membership Application
       is_ready_for_review: Is Ready for Review
       submit_button_label: *save
-      submit_button_explain: *submit_explain
+      submit_button_explain: Select a file delivery option to enable Save
 
     update:
       success: The application was updated.
