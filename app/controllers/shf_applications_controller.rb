@@ -76,7 +76,7 @@ class ShfApplicationsController < ApplicationController
                                                                 file_delivery_selected,
                                                                 'create')
           helpers.flash_message(:notice,
-                                t('.success', email_address: shf_application.contact_email))
+                                t('.success', email_address: @shf_application.contact_email))
         end
 
         redirect_to information_path

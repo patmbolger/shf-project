@@ -52,7 +52,7 @@ And(/^the following applications exist:$/) do |table|
   end
 end
 
-And(/^the application files upload options exist$/) do
+And(/^the application file upload options exist$/) do
   FactoryBot.create(:file_delivery_upload_now)
   FactoryBot.create(:file_delivery_upload_later)
   FactoryBot.create(:file_delivery_email)
@@ -62,7 +62,9 @@ end
 
 When "I select files delivery radio button {capture_string}" do |option|
   # "option" must be a value from AdminOnly::FileDeliveryMethod::METHOD_NAMES
-  
+
   delivery = AdminOnly::FileDeliveryMethod.find_by_name(option)
-  step %{I select radio button "#{delivery.description_sv}"}
+  description = delivery.send("description_#{I18n.locale}".to_sym)
+
+  step %{I select radio button "#{description}"}
 end
