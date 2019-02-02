@@ -63,7 +63,6 @@ Feature: Edit SHF Application
   Scenario: Add 2nd company, no files uploaded, user sees success and deliver-files prompt
     Given I am logged in as "emma@random.com"
     And I am on the "user instructions" page
-    #And I am on the "landing" page
     And I click on t("menus.nav.users.my_application")
     Then I should be on "Edit My Application" page
     Then I fill in t("shf_applications.show.company_number") with "5560360793, 212000-0142"

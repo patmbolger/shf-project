@@ -170,8 +170,6 @@ Feature: Create a new membership application
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
-    #And I should see t("shf_applications.create.success", email_address: info@craft.se)
-
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2120000142"
 
@@ -202,8 +200,6 @@ Feature: Create a new membership application
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
-    # And I should see t("shf_applications.create.success", email_address: info@craft.se)
-
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2286411992"
 
@@ -224,7 +220,6 @@ Feature: Create a new membership application
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
-    #And I should see t("shf_applications.create.success", email_address: info@craft.se)
 
   @selenium
   Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]
@@ -252,8 +247,6 @@ Feature: Create a new membership application
     And I click on t("shf_applications.new.submit_button_label")
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
-
-    # And I should see t("shf_applications.create.success", email_address: info@craft.se)
 
 
   Scenario: Applicant cannot see membership number when submitting
@@ -292,8 +285,6 @@ Feature: Create a new membership application
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
-    # Then I should see t("shf_applications.create.success", email_address: applicant_1@random.com)
-
     Given I am logged in as "applicant_2@random.com"
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
@@ -313,7 +304,6 @@ Feature: Create a new membership application
     And I wait for all ajax requests to complete
     And I click on t("shf_applications.new.submit_button_label")
 
-    # Then I should see t("shf_applications.create.success", email_address: applicant_2@random.com)
 
   @selenium
   Scenario Outline: Apply for membership - when things go wrong with application data [SAD PATH]
