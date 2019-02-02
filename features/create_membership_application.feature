@@ -17,7 +17,7 @@ Feature: Create a new membership application
   PT: https://www.pivotaltracker.com/story/show/134192165
 
   Background:
-    Given the following users exists
+    Given the following users exist
       | email                  | admin | member | first_name | last_name |
       | applicant_1@random.com |       |        | Kicki      | Andersson |
       | applicant_2@random.com |       |        |            |           |
@@ -29,6 +29,8 @@ Feature: Create a new membership application
       | Groomer      |
       | Psychologist |
       | Trainer      |
+
+    And the application files upload options exist
 
     And the following companies exist:
       | name                 | company_number | email                  | region     |
@@ -50,9 +52,11 @@ Feature: Create a new membership application
       | 5560360793                           | 031-1234567                       | info@craft.se                      |
     And I select "Groomer" Category
 
+    And I select files delivery radio button "upload_now"
+
     And I click on t("shf_applications.new.submit_button_label")
     Then I should be on the "user instructions" page
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+    And I should see t("shf_applications.create.success_with_app_files_missing")
     When I am on the "edit my application" page
     Then "applicant_1@random.com" should receive an email
     And I open the email
@@ -70,9 +74,16 @@ Feature: Create a new membership application
       | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
       | 5560360793, 212000-0142              | 031-1234567                       | info@craft.se                      |
     And I select "Groomer" Category
+
+    And I select files delivery radio button "upload_later"
+
     And I click on t("shf_applications.new.submit_button_label")
     Then I should be on the "user instructions" page
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    # And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2120000142"
     Then "applicant_1@random.com" should receive an email
@@ -91,12 +102,19 @@ Feature: Create a new membership application
       | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
       | 556036-07, 2120000142                | 031-1234567                       | info@craft.se                      |
     And I select "Groomer" Category
+
+    And I select files delivery radio button "files_uploaded"
+
     And I click on t("shf_applications.new.submit_button_label")
     And I should see t("activerecord.errors.models.shf_application.attributes.companies.not_found", value: '55603607')
     Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2120000142"
     And I click on t("shf_applications.new.submit_button_label")
     Then I should be on the "user instructions" page
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    #And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2120000142"
 
@@ -108,6 +126,8 @@ Feature: Create a new membership application
       | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
       | 556036-07                            | 031-1234567                       | info@craft.se                      |
     And I select "Groomer" Category
+
+    And I select files delivery radio button "email"
 
     # Create new company in modal
     And I click on t("companies.new.title")
@@ -122,7 +142,11 @@ Feature: Create a new membership application
     Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2286411992"
     And I click on t("shf_applications.new.submit_button_label")
     Then I should be on the "user instructions" page
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    # And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2286411992"
 
@@ -135,9 +159,15 @@ Feature: Create a new membership application
       | 5560360793                           | 031-1234567                       | info@craft.se                      |
     And I select "Trainer" Category
     And I select "Psychologist" Category
+
+    And I select files delivery radio button "files_uploaded"
+
     And I click on t("shf_applications.new.submit_button_label")
     Then I should be on the "user instructions" page
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    #And I should see t("shf_applications.create.success", email_address: info@craft.se)
 
   @selenium
   Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]
@@ -154,13 +184,19 @@ Feature: Create a new membership application
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
+
+    And I select files delivery radio button "files_uploaded"
+
     And I click on t("shf_applications.new.submit_button_label")
 
     Then I should see error t("activerecord.attributes.shf_application.business_categories") t("errors.messages.blank")
 
     Then I select "Groomer" Category
     And I click on t("shf_applications.new.submit_button_label")
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    # And I should see t("shf_applications.create.success", email_address: info@craft.se)
 
 
   Scenario: Applicant cannot see membership number when submitting
@@ -186,6 +222,8 @@ Feature: Create a new membership application
       | 031-1234567                       | applicant_1@random.com             |
     And I select "Groomer" Category
 
+    And I select files delivery radio button "files_uploaded"
+
     # Create new company in modal
     And I click on t("companies.new.title")
     And I fill in t("companies.show.company_number") with "5562252998"
@@ -195,7 +233,9 @@ Feature: Create a new membership application
     And I wait for all ajax requests to complete
     And I click on t("shf_applications.new.submit_button_label")
 
-    Then I should see t("shf_applications.create.success", email_address: applicant_1@random.com)
+    And I should see t("shf_applications.create.success_with_app_files_missing")
+
+    # Then I should see t("shf_applications.create.success", email_address: applicant_1@random.com)
 
     Given I am logged in as "applicant_2@random.com"
     Given I am on the "user instructions" page
@@ -205,6 +245,8 @@ Feature: Create a new membership application
       | 2120000142                           | 031-1234567                       | applicant_2@random.com             |
     And I select "Groomer" Category
 
+    And I select files delivery radio button "files_uploaded"
+
     # Create new company in modal
     And I click on t("companies.new.title")
     And I fill in t("companies.show.company_number") with "6112107039"
@@ -213,15 +255,20 @@ Feature: Create a new membership application
     And I wait 4 seconds
     And I wait for all ajax requests to complete
     And I click on t("shf_applications.new.submit_button_label")
-    Then I should see t("shf_applications.create.success", email_address: applicant_2@random.com)
 
+    # Then I should see t("shf_applications.create.success", email_address: applicant_2@random.com)
 
+  @selenium
   Scenario Outline: Apply for membership - when things go wrong with application data [SAD PATH]
     Given I am on the "new application" page
     And I fill in the translated form with data:
       | shf_applications.new.contact_email | shf_applications.new.phone_number |
       | <c_email>                          | <phone>                           |
+
+    And I select files delivery radio button "files_uploaded"
+
     When I click on t("shf_applications.new.submit_button_label")
+
     Then I should see error <model_attribute> <error>
     And I should receive no emails
     And "admin@shf.se" should receive no emails
@@ -252,7 +299,7 @@ Feature: Create a new membership application
       | kickiimmi.nu  | 0706898525 |
 
 
-   @selenium
+  @selenium
   Scenario Outline: Apply for membership - when things go wrong with company create [SAD PATH]
     Given I am on the "new application" page
     And I fill in the translated form with data:
