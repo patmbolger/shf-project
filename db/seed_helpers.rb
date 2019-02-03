@@ -175,15 +175,15 @@ module SeedHelper
     case state
 
     when MA_ACCEPTED_STATE, MA_REJECTED_STATE, MA_READY_FOR_REVIEW_STATE
-      delivery_method = @files_uploaded ||= AdminOnly::FileDeliveryMethod
+      @files_uploaded ||= AdminOnly::FileDeliveryMethod
         .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:files_uploaded])[0]
 
     when MA_NEW_STATE, MA_WAITING_FOR_APPLICANT_STATE
-      delivery_method = @upload_later ||= AdminOnly::FileDeliveryMethod
+      @upload_later ||= AdminOnly::FileDeliveryMethod
         .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_later])[0]
 
     when MA_UNDER_REVIEW_STATE
-      delivery_method = @email ||= AdminOnly::FileDeliveryMethod
+      @email ||= AdminOnly::FileDeliveryMethod
         .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:email])[0]
     end
   end
