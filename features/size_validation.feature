@@ -57,8 +57,8 @@ Feature: Applicant uploads too large a file for their application
 
     Then I choose a file named "diploma.pdf" to upload
     And I select files delivery radio button "files_uploaded"
-    When I click on t("shf_applications.new.submit_button_label")
-    And I should see t("shf_applications.create.success", email_address: hans@new_applicant.se)
+    When I click on t("shf_applications.edit.submit_button_label")
+    And I should see t("shf_applications.update.success")
 
   @selenium
   Scenario: New application - Uploads a file just under the size limit

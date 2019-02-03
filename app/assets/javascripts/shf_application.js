@@ -6,30 +6,30 @@ $(function() {
   // if not, set callback function, on button change, to perform above actions
 
   var button_checked = false;
-  var buttons = $('input:radio[name="shf_application[file_delivery_method_id]"]');
+  var radio_buttons = $('input:radio[name="shf_application[file_delivery_method_id]"]');
 
-  buttons.each(function () {
+  radio_buttons.each(function () {
     if ($(this).is(':checked')) {
-      enable_submit_button(buttons);
+      enable_submit_button(radio_buttons);
       button_checked = true;
       return false;
     }
   });
 
   if ( !button_checked ) {
-    buttons.each(function () {
+    radio_buttons.each(function () {
       $(this).change(function() {
-        enable_submit_button(buttons);
+        enable_submit_button(radio_buttons);
       });
     });
   }
 });
 
-function enable_submit_button (buttons) {
+function enable_submit_button (radio_buttons) {
   $('.app-submit').prop('disabled', false);
   $('.submit-button-explain').addClass('hide');
 
-  buttons.each(function () {
+  radio_buttons.each(function () {
     $(this).off('change');
   });
 }
