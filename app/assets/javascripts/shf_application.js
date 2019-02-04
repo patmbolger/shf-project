@@ -10,7 +10,7 @@ $(function() {
 
   radio_buttons.each(function () {
     if ($(this).is(':checked')) {
-      enable_submit_button(radio_buttons);
+      enable_submit_button();
       button_checked = true;
       return false;
     }
@@ -19,16 +19,19 @@ $(function() {
   if ( !button_checked ) {
     radio_buttons.each(function () {
       $(this).change(function() {
-        enable_submit_button(radio_buttons);
+        enable_submit_button();
+        remove_change_callback_for_radio_buttons(radio_buttons);
       });
     });
   }
 });
 
-function enable_submit_button (radio_buttons) {
+function enable_submit_button () {
   $('.app-submit').prop('disabled', false);
   $('.submit-button-explain').addClass('hide');
+}
 
+function remove_change_callback_for_radio_buttons (radio_buttons) {
   radio_buttons.each(function () {
     $(this).off('change');
   });
