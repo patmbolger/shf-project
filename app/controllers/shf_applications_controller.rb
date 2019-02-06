@@ -64,15 +64,15 @@ class ShfApplicationsController < ApplicationController
 
     @shf_application.companies = companies_and_numbers[:companies] if all_valid
 
-    file_delivery_selected = file_delivery_selection_date_set
+    file_delivery_selected = user_selected_file_delivery_option?
 
     if all_valid && @shf_application.save
 
       send_new_app_emails(@shf_application)
 
-      if try_to_upload_files(params)
+      if process_upload_files_without_error?(params)
 
-        unless set_flash_messages_for_missing_application_files(@shf_application,
+        unless set_flash_messages_for_missing_application_files?(@shf_application,
                                                                 file_delivery_selected,
                                                                 'create')
           helpers.flash_message(:notice,
@@ -101,13 +101,13 @@ class ShfApplicationsController < ApplicationController
 
     @shf_application.companies = companies_and_numbers[:companies] if all_valid
 
-    file_delivery_selected = file_delivery_selection_date_set
+    file_delivery_selected = user_selected_file_delivery_option?
 
-    if all_valid && @shf_application.update(shf_application_params) && try_to_upload_files(params)
+    if all_valid && @shf_application.update(shf_application_params) && process_upload_files_without_error?(params)
 
       check_and_mark_if_ready_for_review(params['shf_application'])
 
-      unless set_flash_messages_for_missing_application_files(@shf_application,
+      unless set_flash_messages_for_missing_application_files?(@shf_application,
                                                               file_delivery_selected,
                                                               'update')
         helpers.flash_message(:notice, t('.success'))
@@ -194,7 +194,7 @@ class ShfApplicationsController < ApplicationController
 
   private
 
-  def set_flash_messages_for_missing_application_files(shf_application,
+  def set_flash_messages_for_missing_application_files?(shf_application,
                                                        file_delivery_selected,
                                                        action)
 
@@ -221,13 +221,13 @@ class ShfApplicationsController < ApplicationController
     true
   end
 
-  def file_delivery_selection_date_set
+  def user_selected_file_delivery_option?
     file_delivery_selected = false
 
-    unless params[:shf_application][:file_delivery_method_id].blank? &&
-      (!@shf_application.file_delivery_method ||
-        @shf_application.file_delivery_method.id != params[:shf_application][:file_delivery_method_id])
+    method_id = params[:shf_application][:file_delivery_method_id]
+    current_method = @shf_application.file_delivery_method
 
+    if method_id.present? && (!current_method || current_method.id != method_id)
       @shf_application.file_delivery_selection_date = Date.current
       file_delivery_selected = true
     end
@@ -280,7 +280,7 @@ class ShfApplicationsController < ApplicationController
   end
 
 
-  def try_to_upload_files(params)
+  def process_upload_files_without_error?(params)
     # Returns true if no errors, false otherwise
     # (*true* return value does NOT mean that one or more files were actually uploaded)
 
