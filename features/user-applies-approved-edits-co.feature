@@ -38,7 +38,7 @@ Feature: Whole process of a new user creating a login, applying, being approved,
       | shf_applications.new.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
       | 5560360793                          | 031-1234567                       | new_user@example.com               |
     And I select "Groomer" Category
-    And I select files delivery radio button "upload_now"
+    And I select files delivery radio button "upload_later"
 
     And I click on t("shf_applications.new.submit_button_label")
     And I should see t("shf_applications.create.success_with_app_files_missing")

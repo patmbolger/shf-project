@@ -63,7 +63,7 @@ end
 When "I select files delivery radio button {capture_string}" do |option|
   # "option" must be a value from AdminOnly::FileDeliveryMethod::METHOD_NAMES
 
-  delivery = AdminOnly::FileDeliveryMethod.find_by_name(option)
+  delivery = AdminOnly::FileDeliveryMethod.get_method(option.to_sym)
   description = delivery.send("description_#{I18n.locale}".to_sym)
 
   step %{I select radio button "#{description}"}

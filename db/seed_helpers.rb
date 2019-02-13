@@ -132,7 +132,7 @@ module SeedHelper
 
     ma.state = state
 
-    ma.file_delivery_method = get_delivery_method_for_state(state)
+    ma.file_delivery_method = get_delivery_method_for_app(state)
 
     # make a full company object (instance) for the membership application
     ma.companies << make_new_company(co_number)
@@ -170,21 +170,19 @@ module SeedHelper
     user
   end
 
-  def get_delivery_method_for_state(state)
+  def get_delivery_method_for_app(state)
+    klass = AdminOnly::FileDeliveryMethod
 
     case state
 
     when MA_ACCEPTED_STATE, MA_REJECTED_STATE, MA_READY_FOR_REVIEW_STATE
-      @files_uploaded ||= AdminOnly::FileDeliveryMethod
-        .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:files_uploaded])[0]
+      @files_uploaded ||= klass.get_method(:files_uploaded)
 
     when MA_NEW_STATE, MA_WAITING_FOR_APPLICANT_STATE
-      @upload_later ||= AdminOnly::FileDeliveryMethod
-        .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:upload_later])[0]
+      @upload_later ||= klass.get_method(:upload_later)
 
     when MA_UNDER_REVIEW_STATE
-      @email ||= AdminOnly::FileDeliveryMethod
-        .where(name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:email])[0]
+      @email ||= klass.get_method(:email)
     end
   end
 

@@ -86,17 +86,16 @@ module ShfApplicationsHelper
 
       option_text = delivery_method.send(text_method)
 
-      case delivery_method.name
+      if delivery_method.email?
 
-      when AdminOnly::FileDeliveryMethod::METHOD_NAMES[:email]
         option_text += '*'
         footnotes += '*' + mail_to(ENV['SHF_MEMBERSHIP_EMAIL'], nil,
                   subject: t('shf_applications.new.email_files_subject'))
 
-      when AdminOnly::FileDeliveryMethod::METHOD_NAMES[:mail]
+      elsif delivery_method.mail?
+        
         option_text += '**'
-        footnotes += '&nbsp; &nbsp;' unless option_text.blank?
-        footnotes += '**' + t('shf_applications.new.where_to_mail_files')
+        footnotes += '&nbsp; &nbsp; **' + t('shf_applications.new.where_to_mail_files')
       end
 
       collection << [ delivery_method.id, option_text ]

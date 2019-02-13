@@ -45,6 +45,7 @@ RSpec.describe ShfApplication, type: :model do
     it { is_expected.to have_db_column :custom_reason_text }
     it { is_expected.to have_db_column :user_id }
     it { is_expected.to have_db_column :member_app_waiting_reasons_id }
+    it { is_expected.to have_db_column :when_approved }
     it { is_expected.to have_db_column :file_delivery_method_id }
     it { is_expected.to have_db_column :file_delivery_selection_date }
   end

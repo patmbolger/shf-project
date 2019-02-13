@@ -99,7 +99,7 @@ Feature: When a new application is received, all admins get an email notificatio
       | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
       | 5560360793                           | 031-1234567                       | emma@happymutts.com                 |
 
-    And I select files delivery radio button "email"
+    And I select files delivery radio button "upload_later"
 
     And I click on t("shf_applications.new.submit_button_label")
 

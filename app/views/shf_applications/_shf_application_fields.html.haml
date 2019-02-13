@@ -53,7 +53,7 @@
       = f.collection_radio_buttons(:file_delivery_method_id,
                                    radio_buttons_collection,
                                    :first, :second, {}) do |rb|
-        = rb.label(style: 'margin-left: 10px;', class: 'radio-inline') do
+        = rb.label(class: 'radio-inline radio-inline-label') do
           = rb.radio_button + ' ' + rb.text
       %br
       %span.file-delivery-footnotes

@@ -327,7 +327,7 @@ class ShfApplicationsController < ApplicationController
     # User.accepts_nested_attributes_for :shf_application will add a second
     # validation - for the file delivery method - to the model errors hash.
     # This means model errors will have 2 errors for the same problem (File
-    # delivery method not selected by the user).  This lines removes one of those:
+    # delivery method not selected by the user).  This line removes one of those:
     @shf_application.errors.delete(:"user.shf_application.file_delivery_method")
 
     @shf_application = add_company_errors_to_model(@shf_application,
