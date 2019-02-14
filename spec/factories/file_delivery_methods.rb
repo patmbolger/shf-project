@@ -31,7 +31,7 @@ FactoryBot.define do
 
   factory :file_delivery_files_uploaded, class: klass do
     name { method_names[:files_uploaded] }
-    description_sv { 'Alla filer laddas upp' }
+    description_sv { 'Alla filer är uppladdade' }
     description_en { 'All files are uploaded' }
   end
 end

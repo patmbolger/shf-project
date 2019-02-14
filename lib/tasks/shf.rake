@@ -188,7 +188,7 @@ namespace :shf do
           description_en: 'Send via regular mail' },
 
         { name: AdminOnly::FileDeliveryMethod::METHOD_NAMES[:files_uploaded],
-          description_sv: 'Alla filer laddas upp',
+          description_sv: 'Alla filer är uppladdade',
           description_en: 'All files are uploaded' }
       ]
 

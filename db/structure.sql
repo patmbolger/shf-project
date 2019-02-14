@@ -397,7 +397,7 @@ ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 CREATE TABLE public.file_delivery_methods (
     id bigint NOT NULL,
-    name character varying,
+    name character varying NOT NULL,
     description_sv character varying,
     description_en character varying,
     default_option boolean DEFAULT false,
@@ -1207,6 +1207,13 @@ CREATE INDEX index_events_on_latitude_and_longitude ON public.events USING btree
 --
 
 CREATE INDEX index_events_on_start_date ON public.events USING btree (start_date);
+
+
+--
+-- Name: index_file_delivery_methods_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_file_delivery_methods_on_name ON public.file_delivery_methods USING btree (name);
 
 
 --
