@@ -23,6 +23,8 @@ RSpec.describe AdminOnly::FileDeliveryMethod, type: :model do
   end
 
   describe 'Validations' do
+    subject { create(:file_delivery_method) }
+    
     it { is_expected.to validate_presence_of :name }
     it { is_expected.to validate_uniqueness_of :name }
     it { is_expected.to validate_presence_of :description_sv }
@@ -61,7 +63,7 @@ RSpec.describe AdminOnly::FileDeliveryMethod, type: :model do
         email
         mail
         files_uploaded
-        
+
         expect(klass.get_method(:upload_now)).to eq upload_now
         expect(klass.get_method(:upload_later)).to eq upload_later
         expect(klass.get_method(:email)).to eq email
