@@ -357,7 +357,7 @@ sv:
       success: "Tack, din ansökan har skickats. Du borde få en bekräftelse inom kort till %{email_address}."
       error: Ett eller flera problem hindrade din ansökan från att skickas.
       success_with_file_problem: Din ansökan har skapats. Observera felmeddelanden angående filer
-      success_with_app_files_missing: "** Din ansökan har sparats, men den saknar nödvändiga filer **"
+      success_with_app_files_missing: "!! Din ansökan har sparats, men den saknar nödvändiga filer !!"
       upload_file_or_select_method: &upload_files Var god ladda upp filer eller välj en annan leveransmetod
       remember_to_deliver_files: &chosen_method Kom ihåg att leverera filer via den valda leveransmetoden
 
@@ -371,7 +371,7 @@ sv:
       success: Ansökan har uppdaterats.
       error: Ett eller flera problem hindrade din ansökan från att sparas.
       enter_member_number: Var god granska medlemsnummer och spara.
-      success_with_app_files_missing: "** Din ansökan laddades upp men den saknar filer **"
+      success_with_app_files_missing: "!! Din ansökan laddades upp men den saknar filer !!"
       upload_file_or_select_method: *upload_files
       remember_to_deliver_files: *chosen_method
 
