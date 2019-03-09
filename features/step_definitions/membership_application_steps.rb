@@ -1,6 +1,8 @@
 And(/^the following applications exist:$/) do |table|
   table.hashes.each do |hash|
-    attributes = hash.except('user_email', 'categories', 'company_name', 'company_number')
+
+    attributes = hash.except('user_email', 'categories', 'company_name',
+                             'company_number', 'legacy')
     user = User.find_by(email: hash[:user_email].downcase)
 
     companies = []
@@ -25,6 +27,8 @@ And(/^the following applications exist:$/) do |table|
     contact_email = hash['contact_email'] && ! hash['contact_email'].empty? ?
                     hash['contact_email'] : hash[:user_email]
 
+    legacy_app = hash['legacy'] == 'true' ? true : false
+
     if (ma = user.shf_application)
 
       user.shf_application.companies << companies
@@ -32,11 +36,19 @@ And(/^the following applications exist:$/) do |table|
     else
       num_categories = hash[:categories] ? 0 : 1
 
-      ma = FactoryBot.build(:shf_application,
-                            attributes.merge(user: user,
-                            contact_email: contact_email,
-                            create_company: false,
-                            num_categories: num_categories))
+      if legacy_app
+        ma = FactoryBot.build(:shf_application, :legacy_application,
+                              attributes.merge(user: user,
+                              contact_email: contact_email,
+                              create_company: false,
+                              num_categories: num_categories))
+      else
+        ma = FactoryBot.build(:shf_application,
+                              attributes.merge(user: user,
+                              contact_email: contact_email,
+                              create_company: false,
+                              num_categories: num_categories))
+      end
       ma.companies = companies
     end
 
@@ -48,7 +60,11 @@ And(/^the following applications exist:$/) do |table|
       end
       ma.business_categories = categories
     end
-    ma.save
+
+    # A "legacy application" was created before we required the user to specify
+    # a file-delivery method (upload, email, etc.).  We have to skip validation
+    # for such an application since it will fail with current validation rules.
+    ma.save(validate: (legacy_app ? false : true))
   end
 end
 

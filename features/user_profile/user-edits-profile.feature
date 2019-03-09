@@ -10,8 +10,8 @@ Feature: As a registered user
       | user@random.com   | password | false | false     | ulysses    | user      |
 
     And the following applications exist:
-      | user_email        | company_number | state    | contact_email     |
-      | member@random.com | 5560360793     | accepted | public@random.com |
+      | user_email        | company_number | state    | contact_email     | legacy |
+      | member@random.com | 5560360793     | accepted | public@random.com | true   |
 
     And the following payments exist
       | user_email        | start_date | expire_date | payment_type | status | hips_id |
