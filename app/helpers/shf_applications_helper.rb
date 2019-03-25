@@ -105,15 +105,17 @@ module ShfApplicationsHelper
   def file_delivery_method_status(application, locale = I18n.locale)
 
     fdm = application.file_delivery_method
-    fdm_desc = fdm ? fdm.description_for_locale(locale) : 'None'
+    fdm_desc = fdm ? fdm.description_for_locale(locale) : t('none')
 
-    status = 'Chosen delivery method: "' + fdm_desc + '".'
-
-    debugger
+    status = t('shf_applications.show.files_delivery_method')+ ': ' + fdm_desc
 
     if fdm
-      status += " (chosen #{application.file_delivery_selection_date}"
+      status += ' ' +
+        t('shf_applications.show.method_chosen_when',
+          date: application.file_delivery_selection_date)
     end
+
+    status
   end
 
 end
