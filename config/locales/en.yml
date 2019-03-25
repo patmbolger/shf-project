@@ -75,13 +75,15 @@ en:
   name: &name Name
   org_nr: &org_nr Org no.
 
-  toggle:
+  accordion_label:
     company_search_form:
-      hide: Hide Form
-      show: Show Form
+      hide: &hide_search Hide search form
+      show: &show_search Show search form
+
+  toggle:
     application_search_form:
-      hide: Hide Form
-      show: Show Form
+      hide: *hide_search
+      show: *show_search
     set_new_password_form:
       hide: "Hide the Change Password info"
       show: "Change the User's Password"
@@ -146,7 +148,7 @@ en:
         last_name: &last_name Last name
         email: &email Login Email
         password: *password
-        password_confirmation: Password confirmation
+        password_confirmation: &password_confirmation Password confirmation
         membership_number: &membership_number Membership number
         created: &created Created
         current_sign_in_at: &user_current_signed_in_time Currently signed in at
@@ -671,7 +673,7 @@ en:
   business_categories:
 
     index:
-      title: '*business_category / Company categories'
+      title: Company categories
       name: *business_category_name
       description: *description
       view: *view
@@ -981,25 +983,50 @@ en:
       update:
         success: Application data updated successfully
         error: There was a problem with updating configuration data
+
     dashboard:
       title: ADMIN DASHBOARD
-      total_members: "members"
 
-      payments: *payments
+      tabs:
+        current:
+          tab-title: Current
+          title: "Current Items of Note:"
+          open_apps_no_files: "Open Applications with no files uploaded"
+          app_approved_no_payment: "Applications approved but no membership payment yet"
+          companies_no_branding_payment: "companies Branding license fee not yet paid"
+          companies_incomplete: "companies with information not yet complete"
 
-      member_fee_payments: "%{number_payments} member fee payments"
-      branding_fee_payments: "%{number_payments} branding fee payments"
+        activity:
+          tab-title: Activity
+          title: "Activity in the past %{recent_num_days} days:"
+          payments: *payments
+          member_fee_payments: "%{number_payments} member fee payments"
+          branding_fee_payments: "%{number_payments} branding fee payments"
 
-      recent_activity_section_title: "Activity in the past %{recent_num_days} days:"
+        applications:
+          tab-title: &applications Applications
+          title: *applications
 
-      current_items_section_title: "Current Items of Note:"
-      open_apps_no_files: "Open Applications with no files uploaded"
-      app_approved_no_payment: "Applications approved but no membership payment yet"
-      companies_no_branding_payment: "companies Branding license fee not yet paid"
-      companies_incomplete: "companies with information not yet complete"
+        users:
+          tab-title: &users Users
+          title: *users
+
+        members:
+          tab-title: &members Members
+          title: *members
+          total_members: *members
+
+        payments_memberships:
+          tab-title: &payments_membership "Payments: Membership"
+          title: *payments_membership
+
+        payments_h_branding:
+          tab-title: &payments_h_branding "Payments: H-Branding"
+          title: *payments_h_branding
+
 
   mailers:
-    login_here: "Click here to go to the login page."
+    login_here: "Click here to go to the login page:"
     may_need_to_login_first: "You may need to log in first.  Here's the login page:"
 
     application_mailer:
@@ -1080,13 +1107,22 @@ en:
           extend_membership: You can extend your membership for another
                              12 months by paying the membership fee.
 
-      h_branding_fee_past_due:
-        subject: The H-Branding fee for your company is unpaid/past due
+      h_branding_fee_will_expire:
+        subject: The H-Branding fee for your company will be due soon
         greeting: *email_greeting
         message_text:
-          fee_is_unpaid: Please note that your current H-branding fee is unpaid.
-          how_to_pay_fee: You can pay your H-branding for another 12 months by paying the fee. This makes you visible on the map.
-          company_link_login_msg: " (You may need to login first before you can see the button to pay)."
+          expire_alert_html: "Please note that your current H-branding fee period will expire on <span class='date-warning'>%{expire_date}</span>."
+          how_to_pay_fee: &pay_hbrand_be_mapped You can extend your H-branding for another 12 months by paying the fee. This makes you visible on the map.
+          company_link_login_msg: "Once you are logged in, you will be able to see the license expiration date on the company page and see the button to pay:"
+
+      h_branding_fee_past_due:
+          subject: The H-Branding fee for your company is unpaid/past due
+          greeting: *email_greeting
+          message_text:
+            fee_is_unpaid: Please note that your current H-branding fee is unpaid.
+            how_to_pay_fee: *pay_hbrand_be_mapped
+            company_link_login_msg: " (You may need to login first before you can see the button to pay)."
+
 
       membership_lapsed:
         subject: "Your SHF membership has expired"
@@ -1134,6 +1170,11 @@ en:
         confirm_are_you_sure: Are you sure your want to DELETE your account?
         back: *back
         success: Your account has been updated successfully
+        password_header: Change password
+        new_password: New password
+        info_header: Edit name and e-mail
+        password_confirmation: *password_confirmation
+
     sessions:
       new:
         log_in: &log_in Log In
@@ -1172,19 +1213,25 @@ en:
   #   the key for the section.)
   menus:
     skip_to_content: Skip to content
+    menu: Menu
     nav:
       shf_main_site: &shf_main_site SHF main site
       home: &home Home
 
       visitor:
         home: *home
+        association: Association
         brochure: Brochure
+        board: Board
+        our_policy: Our Policy
+        board_statues: Board Statues
+        history: History
         dog_owners:
           submenu_title: For Dog Owners
           about_us: &about_us About us
           h_label: H Label
-          knowledge_bank: &knowledge_bank Knowledge bank
-          are_you_unsatisfied: 'Are you unsatisfied?'
+          knowledge_bank: &knowledge_bank_text Knowledge bank
+          are_you_interested: 'Are you interested?'
           become_supporter: Become a Supporter
           being_dog_owners: Being Dog Owners
         entrepreneurs:
@@ -1195,15 +1242,15 @@ en:
           member_criteria: Member Criteria
           member_benefits: Member Benefits
           quality_standards: Member Standards
-          knowledge_bank: *knowledge_bank
-        knowledge_bank:
-          submenu_title: *knowledge_bank
-          blogs: Blogs
-          books: Books
-          research: Research
-          pod: Podcasts
-          popular_science: Popular Science
-          video: Video
+          gdpr: "GDPR"
+          knowledge_bank:
+            submenu_title:  *knowledge_bank_text
+            blogs: Blogs
+            books: Books
+            research: Research
+            pod: Podcasts
+            popular_science: Popular Science
+            video: Video
         contact: Contact
         find_dog_businesses: Find Dog Company
 
