@@ -106,12 +106,12 @@ And "I should see {capture_string} files for the {capture_string} listed applica
   # Use to confirm uploaded files count in ShfApplication index view
   # If more than one app then make sure the sort order supports the test step.
   # Examples:
-  #  "I should see 0 files for the first listed application"
-  #  "I should see 3 files for the second listed application"
+  #  I should see "0" files for the "first" listed application
+  #  I should see "3" files for the "second" listed application
 
-  index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
+  index = [0, 1, 2, 3, 4].send(ordinal.lstrip)
 
-  ele = all('#shf_applications_list table tr > td.number_of_files')[0]
+  ele = all('#shf_applications_list table tr > td.number_of_files')[index]
 
   expect(ele.text).to eq count
 end
