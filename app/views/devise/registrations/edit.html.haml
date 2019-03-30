@@ -43,7 +43,7 @@
                     t('activerecord.attributes.user.membership_number')
           = f.text_field :membership_number,  class: 'form-control'
 
-    - unless current_user.admin?
+    - else
       .row
         .form-group.col
           = f.label :current_password, "#{t('.current_password')}", class: 'required'
