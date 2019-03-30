@@ -1,19 +1,30 @@
 %header.entry-header
   %h1.entry-title= t('.title')
 .entry-content
+
   .row.mb-4
     .col-6
+      .panel-group.m-2#accordion{ "aria-multiselectable" => "true", :role => "tablist" }
+      .panel.panel-default
+        .panel-heading#toggle-heading{ :role => "tab" }
+          %h4.panel-title.hide-toggler
+            %a{ "aria-controls" => "application_search_form", "aria-expanded" => "true",
+                "data-parent" => "#accordion", "data-toggle" => "collapse",
+                :href => "#application_search_form", :role => "button",
+                id: 'company_search_form' }
+
+              #{t('toggle.application_search_form.hide')}
+
+
+    .col-4.offset-2
       = render partial: 'administration_panel' if @current_user.admin?
 
-    .col-6
-      %button.btn.btn-outline-light.pull-right{ id: 'toggle_search_form',
-                                        href: '#application_search_form' }
-        #{t('toggle.application_search_form.hide')}
 
   .clearfix
 
-  .panel.panel-default.search-form#application_search_form
+  .panel.panel-default.search-form#application_search_form{ "aria-labelledby" => "toggle-heading", :role => "tabpanel" }
     = render 'search_form'
+
 
   - if @shf_applications.empty?
     %strong
