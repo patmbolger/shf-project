@@ -8,7 +8,7 @@
       .panel.panel-default
         .panel-heading#toggle-heading{ :role => "tab" }
           %h4.panel-title.hide-toggler
-            %a{ "aria-controls" => "application_search_form", "aria-expanded" => "true",
+            %a{ "aria-controls" => "application-search-form", "aria-expanded" => "true",
                 "data-parent" => "#accordion", "data-toggle" => "collapse",
                 :href => "#application_search_form", :role => "button",
                 id: 'company_search_form' }
@@ -22,7 +22,7 @@
 
   .clearfix
 
-  .panel.panel-default.search-form#application_search_form{ "aria-labelledby" => "toggle-heading", :role => "tabpanel" }
+  .panel.panel-default.search-form#application-search-form{ "aria-labelledby" => "toggle-heading", :role => "tabpanel" }
     = render 'search_form'
 
 
@@ -30,4 +30,5 @@
     %strong
       #{t('.no_search_results')}
   - else
-    = render partial: 'shf_applications_list'
+    #shf_applications_list
+      = render partial: 'shf_applications_list'
