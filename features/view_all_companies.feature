@@ -201,7 +201,7 @@ Feature: Visitor sees all companies
     Given the date is set to "2017-10-01"
     Given I am Logged out
     And I am on the "landing" page
-    And I click on t("accordion_label.company_search_form.hide")
+    And I hide the companies search form
     # Ensure the list is sorted by name so we will see Company02
     And I click on t("activerecord.attributes.company.name")
     And I should see "Company02"
@@ -240,7 +240,7 @@ Feature: Visitor sees all companies
     Given the date is set to "2017-10-01"
     Given I am Logged out
     And I am on the "landing" page
-    And I click on t("accordion_label.company_search_form.hide")
+    And I hide the companies search form
     And "items_count" should have "10" selected
     And I should see "10" companies
     # Ensure the list is sorted by name so we will see Company02
@@ -265,7 +265,7 @@ Feature: Visitor sees all companies
     Given the date is set to "2017-10-01"
     Given I am Logged out
     And I am on the "landing" page
-    And I click on t("accordion_label.company_search_form.hide")
+    And I hide the companies search form
     And "items_count" should have "10" selected
     Then I select "All" in select list "items_count"
     And I should see "27" companies

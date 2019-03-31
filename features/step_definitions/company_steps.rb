@@ -84,3 +84,13 @@ end
 And(/I scroll so the top of the list of companies is visible/) do
   step %{I scroll so element with id "shf_applications_list" is visible}
 end
+
+
+And "I hide the companies search form" do
+  step %{I click on t("accordion_label.company_search_form.hide")}
+end
+
+
+And "I show the companies search form" do
+  step %{I click on t("accordion_label.company_search_form.hide")}
+end
