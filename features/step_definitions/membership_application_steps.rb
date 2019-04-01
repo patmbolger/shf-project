@@ -130,10 +130,10 @@ end
 
 
 And "I hide the membership applications search form" do
-  step %{I click on t("toggle.application_search_form.hide")}
+  step %{I click on t("accordion_label.application_search_form.hide")}
 end
 
 
 And "I show the membership applications search form" do
-  step %{I click on t("toggle.application_search_form.show")}
+  step %{I click on t("accordion_label.application_search_form.show")}
 end
