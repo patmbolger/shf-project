@@ -1,7 +1,15 @@
+- if local_assigns[:admin_action]
+  -# Rendered from AdminOnly::UserProfileController
+  - url = admin_only_user_profile_update(user)
+  - resource = user
+  - resource_name = 'user'
+- else
+  - url = registration_path(resource_name)
+
 %header.entry-header
   %h1.entry-title= t('.title')
 .entry-content.container
-  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+  = form_for(resource, as: resource_name, url: url, html: { method: :put }) do |f|
     != model_errors_helper(resource)
     = render partial: 'member_photo', locals: { user: resource, f: f }
     %h3= t('.info_header')
