@@ -1034,6 +1034,14 @@ en:
           tab-title: &payments_h_branding "Payments: H-Branding"
           title: *payments_h_branding
 
+    user_profile:
+      edit:
+        title: 'Edit profile: %{user}'
+
+      member_photo:
+        pic_header: Edit your picture admin
+
+
 
   mailers:
     login_here: "Click here to go to the login page:"
@@ -1184,6 +1192,8 @@ en:
         new_password: New password
         info_header: Edit name and e-mail
         password_confirmation: *password_confirmation
+
+    shared:
       member_photo:
         pic_header: Edit your picture
 

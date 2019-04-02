@@ -17,7 +17,6 @@ module AdminOnly
     end
 
     def edit
-      render 'devise/registrations/edit', locals: { admin_action: true }
     end
 
     def update
@@ -43,6 +42,11 @@ module AdminOnly
     end
 
     def get_params
+      if params[:user][:password].blank?
+        params[:user].delete(:password)
+        params[:user].delete(:password_confirmation)
+      end
+
       params.require(:user).permit(:first_name, :last_name, :email, :password,
                                    :password_confirmation, :membership_number,
                                    shf_application_attributes: [ :contact_email ])
