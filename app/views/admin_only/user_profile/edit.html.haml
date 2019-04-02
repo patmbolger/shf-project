@@ -49,3 +49,8 @@
       .col
         = f.submit "#{t('devise.registrations.edit.submit_button_label')}",
                    class: 'btn btn-primary form-control m-2'
+
+  %hr
+  .text-center
+    = link_to t('.become_this_user'), admin_only_become_user_path(@user),
+              class: 'btn btn-sm btn-light'

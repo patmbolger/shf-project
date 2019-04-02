@@ -1037,9 +1037,13 @@ en:
     user_profile:
       edit:
         title: 'Edit profile: %{user}'
+        become_this_user: Become this User
+      update:
+        success: User profile updated successfully
+        error: One or more problems prevented the profile from being updated.
+      become:
+        have_become: You are now acting as user with id %{user_id}
 
-      member_photo:
-        pic_header: Edit your picture admin
 
 
 

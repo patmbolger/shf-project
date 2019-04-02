@@ -10,8 +10,7 @@ module AdminOnly
 
       bypass_sign_in(User.find(params[:id]))
 
-      helpers.flash_message(:warn,
-        "You are now acting as user with id #{params[:id]}")
+      helpers.flash_message(:warn, t('.have_become', user_id: @user.id))
 
       redirect_to user_path(params[:id])
     end
@@ -21,14 +20,11 @@ module AdminOnly
 
     def update
       if @user.update(get_params)
-        redirect_to @user, notice: t('.success')
+        helpers.flash_message(:notice, t('.success'))
       else
         helpers.flash_message(:alert, t('.error'))
-
-        @user.errors.full_messages.each { |err_message| helpers.flash_message(:alert, err_message) }
-
-        render :show
       end
+      render :edit
     end
 
     private

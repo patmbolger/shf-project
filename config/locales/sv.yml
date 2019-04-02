@@ -1038,6 +1038,12 @@ sv:
     user_profile:
       edit:
         title: 'Redigera profil: %{user}'
+        become_this_user: Bli den här användaren
+      update:
+        success: Användarprofil uppdaterad framgångsrikt
+        error: Ett eller flera problem hindrade profilen från att uppdateras.
+      become:
+        have_become: Du fungerar nu som användare med id %{user_id}
 
 
   mailers:
