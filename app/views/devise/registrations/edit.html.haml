@@ -1,28 +1,20 @@
-- if local_assigns[:admin_action]
-  -# Rendered from AdminOnly::UserProfileController
-  - url = admin_only_user_profile_update(user)
-  - resource = user
-  - resource_name = 'user'
-- else
-  - url = registration_path(resource_name)
-
 %header.entry-header
   %h1.entry-title= t('.title')
 .entry-content.container
-  = form_for(resource, as: resource_name, url: url, html: { method: :put }) do |f|
+  = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
     != model_errors_helper(resource)
     = render partial: 'member_photo', locals: { user: resource, f: f }
     %h3= t('.info_header')
     .row
-      .form-group.col
-        = f.label :first_name, class: 'required'
+      .form-group.col-sm
+        = f.label :first_name
         = f.text_field :first_name, placeholder: "#{t('activerecord.attributes.user.first_name')}", class: 'form-control'
-      .form-group.col
-        = f.label :last_name, class: 'required'
+      .form-group.col-sm
+        = f.label :last_name
         = f.text_field :last_name, placeholder: "#{t('activerecord.attributes.user.last_name')}", class: 'form-control'
     .row
-      .form-group.col
-        = f.label :email, class: 'required'
+      .form-group.col-sm
+        = f.label :email
         = f.email_field :email, placeholder: "#{t('activerecord.attributes.user.email')}", class: 'form-control'
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           %div
@@ -44,22 +36,12 @@
         = f.label :password_confirmation
         = f.password_field :password_confirmation, autocomplete: 'off', placeholder: "#{t('.confirm_password')}", class: 'form-control'
 
-    - if current_user.admin?
-      .row
-        .form-group.col-3
-          = f.label :membership_number,
-                    t('activerecord.attributes.user.membership_number')
-          = f.text_field :membership_number,  class: 'form-control'
-
-    - else
-      .row
-        .form-group.col
-          = f.label :current_password, "#{t('.current_password')}", class: 'required'
-          = f.password_field :current_password, autocomplete: 'off', placeholder: "#{t('.current_password')}", class: 'form-control'
-          %small.form-text.text-muted= t('.required_to_save_changes')
-
     .row
-      .col
+      .form-group.col-sm
+        = f.label :current_password, "#{t('.current_password')}", class: 'required'
+        = f.password_field :current_password, autocomplete: 'off', placeholder: "#{t('.current_password')}", class: 'form-control'
+        %small.form-text.text-muted= t('.required_to_save_changes')
+
         %p= render 'application/required_fields'
     .row
       .col
