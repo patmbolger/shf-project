@@ -9,7 +9,7 @@ RSpec.describe AdminOnly::AdminOnlyPolicy do
 
   let(:simple_record) { create(:business_category) }
 
-  CRUD_ACTIONS = [:index, :show, :new, :create, :edit, :update, :destroy]
+  CRUD_ACTIONS = [:index, :show, :new, :create, :edit, :update, :destroy, :become]
 
 
   describe 'Admin is permitted everything' do
