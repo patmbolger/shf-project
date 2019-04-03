@@ -7,13 +7,13 @@ RSpec.describe AdminOnly::UserProfilePolicy do
   let(:admin)  { create(:user, email: 'admin@shf.com', admin: true) }
   let(:visitor) { build(:visitor) }
 
-  CRUD_ACTIONS = [:edit, :update, :become]
+  CONTROLLER_ACTIONS = [:edit, :update, :become]
 
   describe 'Admin is permitted everything' do
 
     subject { described_class.new(admin, nil) }
 
-    CRUD_ACTIONS.each do | action |
+    CONTROLLER_ACTIONS.each do | action |
       it { is_expected.to permit_action action }
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe AdminOnly::UserProfilePolicy do
   describe 'Member is forbidden everything' do
     subject { described_class.new(member, nil) }
 
-    CRUD_ACTIONS.each do | action |
+    CONTROLLER_ACTIONS.each do | action |
       it { is_expected.to forbid_action action }
     end
   end
@@ -31,7 +31,7 @@ RSpec.describe AdminOnly::UserProfilePolicy do
   describe 'User (logged in) is forbidden everything' do
     subject { described_class.new(user_1, nil) }
 
-    CRUD_ACTIONS.each do | action |
+    CONTROLLER_ACTIONS.each do | action |
       it { is_expected.to forbid_action action }
     end
   end
@@ -39,7 +39,8 @@ RSpec.describe AdminOnly::UserProfilePolicy do
   describe 'Visitor (not logged in) is forbidden everything' do
     subject { described_class.new(visitor, nil) }
 
-    CRUD_ACTIONS.each do | action |
+    CONTROLLER_ACTIONS
+    .each do | action |
       it { is_expected.to forbid_action action }
     end
   end

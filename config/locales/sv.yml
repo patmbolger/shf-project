@@ -1192,10 +1192,8 @@ sv:
         new_password: Nytt lösenord
         info_header: Redigera namn och e-post
         password_confirmation: *password_confirmation
-
-    shared:
-      member_photo:
-        pic_header: Redigera profilbild
+        member_photo:
+          pic_header: Redigera profilbild
 
     sessions:
       new:
