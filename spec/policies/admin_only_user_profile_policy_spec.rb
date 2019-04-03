@@ -39,8 +39,7 @@ RSpec.describe AdminOnly::UserProfilePolicy do
   describe 'Visitor (not logged in) is forbidden everything' do
     subject { described_class.new(visitor, nil) }
 
-    CONTROLLER_ACTIONS
-    .each do | action |
+    CONTROLLER_ACTIONS.each do | action |
       it { is_expected.to forbid_action action }
     end
   end
