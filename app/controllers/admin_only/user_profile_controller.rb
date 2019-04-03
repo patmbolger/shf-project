@@ -30,7 +30,7 @@ module AdminOnly
     private
 
     def authorize_admin
-      authorize AdminOnly::AppConfiguration
+      authorize AdminOnly::UserProfile
     end
 
     def get_user
