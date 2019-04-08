@@ -173,7 +173,7 @@ Feature: Create a new membership application
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2120000142"
 
-  @selenium  @skip_ci_test
+  @selenium
   Scenario: User creates App with two companies, creates one company, corrects error in company number
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
@@ -186,8 +186,10 @@ Feature: Create a new membership application
 
     # Create new company in modal
     And I click on t("companies.new.title")
-    And I fill in t("companies.show.company_number") with "2286411992"
+
+    And I fill in "company-number-in-modal" with "2286411992"
     And I fill in t("companies.show.email") with "info@craft.se"
+
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
@@ -221,7 +223,7 @@ Feature: Create a new membership application
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
 
-  @selenium @skip_ci_test
+  @selenium
   Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
@@ -231,8 +233,10 @@ Feature: Create a new membership application
 
     # Create new company in modal
     And I click on t("companies.new.title")
-    And I fill in t("companies.show.company_number") with "2286411992"
+
+    And I fill in "company-number-in-modal" with "2286411992"
     And I fill in t("companies.show.email") with "info@craft.se"
+
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
@@ -263,7 +267,7 @@ Feature: Create a new membership application
     And the field t("shf_applications.new.phone_number") should not have a required field indicator
     And I should see t("is_required_field")
 
-  @selenium  @skip_ci_test
+  @selenium
   Scenario: Two users can submit a new Membership Application (with empty membershipnumbers)
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
@@ -276,8 +280,10 @@ Feature: Create a new membership application
 
     # Create new company in modal
     And I click on t("companies.new.title")
-    And I fill in t("companies.show.company_number") with "5562252998"
+
+    And I fill in "company-number-in-modal" with "5562252998"
     And I fill in t("companies.show.email") with "info@craft.se"
+
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
@@ -297,8 +303,10 @@ Feature: Create a new membership application
 
     # Create new company in modal
     And I click on t("companies.new.title")
-    And I fill in t("companies.show.company_number") with "6112107039"
+
+    And I fill in "company-number-in-modal" with "6112107039"
     And I fill in t("companies.show.email") with "info@craft.se"
+
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
@@ -384,9 +392,10 @@ Feature: Create a new membership application
 
     # Create new company in modal
     And I click on t("companies.new.title")
-    And I fill in the translated form with data:
-      | companies.show.company_number | companies.show.email |
-      | 00                   | kicki@immi.nu           |
+
+    And I fill in "company-number-in-modal" with "00"
+    And I fill in t("companies.show.email") with "kicki@immi.nu"
+
     And I click on t("companies.create.create_submit")
     Then I should not see t("shf_applications.uploads.please_upload_again")
 
