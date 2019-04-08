@@ -241,6 +241,8 @@ Feature: Create a new membership application
     And I wait 4 seconds
     And I wait for all ajax requests to complete
 
+    And I should see t("shf_applications.new.file_delivery_selection")
+
     And I select files delivery radio button "files_uploaded"
 
     And I click on t("shf_applications.new.submit_button_label")
@@ -285,6 +287,8 @@ Feature: Create a new membership application
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
+
+    And I should see t("shf_applications.new.file_delivery_selection")
 
     And I select files delivery radio button "upload_later"
 

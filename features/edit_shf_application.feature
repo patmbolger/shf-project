@@ -107,6 +107,8 @@ Feature: Edit SHF Application
     And I wait 4 seconds
     And I wait for all ajax requests to complete
 
+    And I should see t("shf_applications.new.file_delivery_selection")
+
     And I select files delivery radio button "email"
 
     And I click on t("shf_applications.edit.submit_button_label")
