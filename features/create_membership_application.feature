@@ -194,6 +194,8 @@ Feature: Create a new membership application
     And I wait 4 seconds
     And I wait for all ajax requests to complete
 
+    And I select files delivery radio button "upload_later"
+
     And I click on t("shf_applications.new.submit_button_label")
     And I should see t("activerecord.errors.models.shf_application.attributes.companies.not_found", value: '55603607')
     Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2286411992"
@@ -276,8 +278,6 @@ Feature: Create a new membership application
       | 031-1234567                       | applicant_1@random.com             |
     And I select "Groomer" Category
 
-    And I select files delivery radio button "files_uploaded"
-
     # Create new company in modal
     And I click on t("companies.new.title")
 
@@ -287,6 +287,9 @@ Feature: Create a new membership application
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
+
+    And I select files delivery radio button "upload_later"
+
     And I click on t("shf_applications.new.submit_button_label")
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
