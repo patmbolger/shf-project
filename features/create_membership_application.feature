@@ -173,7 +173,7 @@ Feature: Create a new membership application
     When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2120000142"
 
-  @selenium
+  @selenium @skip_ci_test
   Scenario: User creates App with two companies, creates one company, corrects error in company number
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
@@ -223,7 +223,7 @@ Feature: Create a new membership application
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
 
-  @selenium
+  @selenium @skip_ci_test
   Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]
     Given I am on the "user instructions" page
     And I click on first t("menus.nav.users.apply_for_membership") link
