@@ -182,8 +182,6 @@ Feature: Create a new membership application
       | 556036-07                            | 031-1234567                       | info@craft.se                      |
     And I select "Groomer" Category
 
-    And I select files delivery radio button "email"
-
     # Create new company in modal
     And I click on t("companies.new.title")
 
@@ -302,8 +300,6 @@ Feature: Create a new membership application
       | 2120000142                           | 031-1234567                       | applicant_2@random.com             |
     And I select "Groomer" Category
 
-    And I select files delivery radio button "files_uploaded"
-
     # Create new company in modal
     And I click on t("companies.new.title")
 
@@ -313,6 +309,9 @@ Feature: Create a new membership application
     And I click on t("companies.create.create_submit")
     And I wait 4 seconds
     And I wait for all ajax requests to complete
+
+    And I select files delivery radio button "upload_later"
+
     And I click on t("shf_applications.new.submit_button_label")
 
 
