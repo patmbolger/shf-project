@@ -92,7 +92,7 @@ end
 
 
 And "I show the companies search form" do
-  step %{I click on t("accordion_label.company_search_form.hide")}
+  step %{I click on t("accordion_label.company_search_form.show")}
 end
 
 
@@ -110,4 +110,3 @@ end
 And "I should see {capture_string} {digits} time(s) in the list of companies" do | expected_string, num_times|
   step %{I should see "#{expected_string}" #{num_times} time in the div with id "#{COMPANIES_LIST_ID}"}
 end
-

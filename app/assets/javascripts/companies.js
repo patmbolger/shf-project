@@ -7,6 +7,11 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
+  $('body').on('ajax:success', '#companies_search', function (e, data) {
+    $('#companies_list').html(data);
+    $('[data-toggle="tooltip"]').tooltip();
+  });
+
   $('body').on('ajax:success', '.events_pagination', function (e, data) {
     $('#company-events').html(data);
     // In case there is tooltip(s) in rendered element:
@@ -33,7 +38,7 @@ $(function() {
     if (data.status === 'errors') {
       ele.html(data.value);
     } else {
-      
+
       $('#company-create-modal').on('hidden.bs.modal', function() {
         ele.val( function( index, val ) {
           return (val.length > 0 ? val + ', ' + data.value : data.value);

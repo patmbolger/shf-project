@@ -136,11 +136,13 @@ Scenario: Search by company (and confirm admin can search with all company names
   And I am on the "all companies" page
   And I select "NoPayment" in select list t("activerecord.models.company.one")
   And I click on t("search")
+  Then I hide the companies search form
   And I should see "NoPayment"
   And I should not see "We Luv Dogs"
   And I reload the page
   And I select "NoMember" in select list t("activerecord.models.company.one")
   And I click on t("search")
+  Then I hide the companies search form
   And I should see "NoMember"
   And I should not see "We Luv Dogs"
   And I should not see "HappyMutts"
@@ -148,19 +150,26 @@ Scenario: Search by company (and confirm admin can search with all company names
   And I should not see "Dogs R Us"
   And I should not see "NoPayment"
 
-@selenium @time_adjust
+@selenium_browser @time_adjust
 Scenario: Search by kommun and region
   Given I am Logged out
   And I am on the "landing" page
   Then I select "Alingsås" in select list t("activerecord.attributes.company.kommun")
   And I click on t("search")
+  Then I hide the companies search form
   And I should not see "HappyMutts"
   And I should not see "We Luv Dogs"
   And I should see "Barky Boys"
   And I should not see "Dogs R Us"
+  Then I show the companies search form
   Then I select "Norrbotten" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
+  Then I hide the companies search form
+
+  And I wait 20 seconds
+
   And I should not see "HappyMutts"
+  Then I show the companies search form
   Then I select "Stockholm" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
   And I should see "Barky Boys"
