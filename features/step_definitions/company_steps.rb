@@ -2,12 +2,14 @@ And(/^the following companies exist:$/) do |table|
   table.hashes.each do |company|
     region = company.delete('region') || 'Stockholm'
     kommun = company.delete('kommun') || 'Stockholm'
+    city = company.delete('city') || 'Stockholm'
     visibility = company.delete('visibility') || 'street_address'
 
     cmpy = FactoryBot.create(:company, company)
 
     cmpy.addresses.first.update(region: Region.find_or_create_by(name: region),
                                 kommun: Kommun.find_or_create_by(name: kommun),
+                                city: city,
                                 visibility: visibility)
 
   end
@@ -88,11 +90,13 @@ end
 
 And "I hide the companies search form" do
   step %{I click on t("accordion_label.company_search_form.hide")}
+  step %{I wait for all ajax requests to complete}
 end
 
 
 And "I show the companies search form" do
   step %{I click on t("accordion_label.company_search_form.show")}
+  step %{I wait for all ajax requests to complete}
 end
 
 
