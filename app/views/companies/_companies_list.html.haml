@@ -1,5 +1,5 @@
-.table-responsive
-  %table.table.table-hover.table-sm
+.table-responsive-lg
+  %table.table.table-hover.table-md
     %thead
       %tr
         %th
@@ -17,9 +17,7 @@
                       t('activerecord.attributes.address.kommun'), {},
                       { class: 'companies_pagination', remote: true })
         %th
-          = sort_link(search_params, :addresses_city,
-                      t('activerecord.attributes.address.city'), {},
-                      { class: 'companies_pagination', remote: true })
+          = t('activerecord.attributes.address.city')
 
         - if current_user.admin?
           %th

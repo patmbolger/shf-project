@@ -43,7 +43,7 @@
       = f.label :addresses_id_in,
                 "#{t('activerecord.attributes.address.city')}"
       = f.collection_select :addresses_id_in,
-                     Address.order(:city).select(:id, :city).distinct,
+                     Address.visible.order(:city).select(:id, :city).uniq {|a| a.city},
                      :id, :city, { include_blank: false },
                      { multiple: true, size: 5, style: 'width: 100%;',
                        class: 'form-control search_field',

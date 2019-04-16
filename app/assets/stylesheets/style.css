@@ -127,6 +127,10 @@ margin-bottom:.8em;
 white-space:nowrap;
 }
 
+.company td.name {
+  white-space: normal;
+}
+
 .company-story img {
 max-width:100%;
 height:auto!important;
@@ -468,7 +472,7 @@ nav.navbar a:hover,a:focus,a:hover,button:hover,.content .entry-title a:hover,.c
 color:#5692ce;
 }
 button:focus {
-color:#fff;    
+color:#fff;
 }
 
 p {
@@ -498,7 +502,7 @@ font-size:.9em;
     margin-top:10px;
     position:absolute;
     }
-    
+
     .navbar-expand-md .navbar-nav .dropdown-menu .dropdown-menu {
     position:static;
     }
@@ -516,7 +520,7 @@ font-size:.9em;
     margin-top:3px;
     vertical-align:default;
     }
-    
+
     .dropdown-menu {
     border:none;
     clear:both;
@@ -527,21 +531,21 @@ font-size:.9em;
     position:static;
     width:100%;
     }
-    
+
     .navbar-brand {
     position:relative;
     text-align:center;
     width:100%;
     z-index:1000;
     }
-    
+
     .navbar-nav a {
     border:none;
     margin-bottom:1px;
     padding:16px 0 16px 10px;
     width:100%;
     }
-    
+
     .navbar-toggler {
     font-size:14px;
     line-height:20px;
