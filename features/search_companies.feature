@@ -247,6 +247,7 @@ Scenario: Search by category and region 2
   Then I select "Sweden" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
   And I should see "We Luv Dogs"
+  And I should see "city4" in the list of companies
 
 @selenium @time_adjust
 Scenario: Toggle Hide/Show search form

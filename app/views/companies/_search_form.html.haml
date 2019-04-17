@@ -9,7 +9,7 @@
                       :id, :name, { include_blank: false },
                       { multiple: true, size: 5, style: 'width: 100%;',
                         class: 'form-control search_field',
-                        data: {language: "#{@locale}" } }
+                        data: {language: language } }
     .col-sm.form-group
       = f.label :name_in,
                 "#{t('activerecord.models.company.one')}"
@@ -18,7 +18,7 @@
                       :name, :name, { include_blank: false },
                       { multiple: true, size: 5, style: 'width: 100%;',
                         class: 'form-control search_field',
-                        data: {language: "#{@locale}" } }
+                        data: {language: language } }
   .form-row
     .col-sm.form-group
       = f.label :addresses_region_id_in,
@@ -28,7 +28,7 @@
                       :id, :name, { include_blank: false },
                       { multiple: true, size: 5, style: 'width: 100%;',
                         class: 'form-control search_field',
-                        data: {language: "#{@locale}" } }
+                        data: {language: language } }
 
     .col-sm.form-group
       = f.label :addresses_kommun_id_in,
@@ -38,7 +38,7 @@
                      :id, :name, { include_blank: false },
                      { multiple: true, size: 5, style: 'width: 100%;',
                        class: 'form-control search_field',
-                       data: {language: "#{@locale}" } }
+                       data: {language: language } }
     .col-sm.form-group
       = f.label :addresses_id_in,
                 "#{t('activerecord.attributes.address.city')}"
@@ -47,7 +47,7 @@
                      :id, :city, { include_blank: false },
                      { multiple: true, size: 5, style: 'width: 100%;',
                        class: 'form-control search_field',
-                       data: {language: "#{@locale}" } }
+                       data: {language: language } }
   .form-row
     .col-sm.d-flex.align-items-baseline
       = f.submit "#{t('search')}", class: 'btn btn-block btn-primary mt-auto p-2'

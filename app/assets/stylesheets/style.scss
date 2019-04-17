@@ -132,10 +132,10 @@ margin-bottom:0;
 
 .company td {
   white-space: nowrap;
-}
 
-.company td.name {
-  white-space: normal;
+  &.name {
+    white-space: normal;
+  }
 }
 
 .company-story img {
