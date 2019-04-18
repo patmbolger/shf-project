@@ -126,6 +126,9 @@ class Company < ApplicationRecord
   rescue Dinkurs::Errors::InvalidKey
     errors.add(:dinkurs_company_id, :invalid)
     return false
+  rescue URI::InvalidURIError
+    errors.add(:dinkurs_company_id, :invalid)
+    return false
   end
 
 
