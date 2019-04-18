@@ -89,20 +89,19 @@ Scenario: View all searchable companies, sort by columns
 Scenario: Search by category
   Given I am Logged out
   And I am on the "landing" page
-  And I should see "Barky Boys"
-  And I should see "HappyMutts"
-  And I should see "Dogs R Us"
-  And I should see "We Luv Dogs"
+  And I should see "Barky Boys" in the list of companies
+  And I should see "HappyMutts" in the list of companies
+  And I should see "Dogs R Us" in the list of companies
+  And I should see "We Luv Dogs" in the list of companies
   Then I select "Groomer" in select list t("activerecord.models.business_category.one")
   And I click on t("search")
-  Then I hide the companies search form
-  And I should see "Barky Boys"
-  And I should see "We Luv Dogs"
-  And I should not see "HappyMutts"
-  And I should not see "Dogs R Us"
-  And I should see "Trainer"
-  And I should see "Walker"
-  And I should not see "Psychologist"
+  And I should see "Barky Boys" in the list of companies
+  And I should see "We Luv Dogs" in the list of companies
+  And I should not see "HappyMutts" in the list of companies
+  And I should not see "Dogs R Us" in the list of companies
+  And I should see "Trainer" in the list of companies
+  And I should see "Walker" in the list of companies
+  And I should not see "Psychologist" in the list of companies
 
 @selenium @time_adjust
 Scenario: Search by region
@@ -110,11 +109,10 @@ Scenario: Search by region
   And I am on the "landing" page
   Then I select "Västerbotten" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
-  Then I hide the companies search form
-  Then I should see "HappyMutts"
-  And I should not see "Barky Boys"
-  And I should not see "Dogs R Us"
-  And I should not see "We Luv Dogs"
+  Then I should see "HappyMutts" in the list of companies
+  And I should not see "Barky Boys" in the list of companies
+  And I should not see "Dogs R Us" in the list of companies
+  And I should not see "We Luv Dogs" in the list of companies
 
 @selenium @time_adjust
 Scenario: Search by company (and confirm non-admin cannot search with non-searchable company name)
@@ -124,11 +122,10 @@ Scenario: Search by company (and confirm non-admin cannot search with non-search
   And I cannot select "NoMember" in select list t("activerecord.models.company.one")
   Then I select "We Luv Dogs" in select list t("activerecord.models.company.one")
   And I click on t("search")
-  Then I hide the companies search form
-  And I should see "We Luv Dogs"
-  And I should not see "HappyMutts"
-  And I should not see "Barky Boys"
-  And I should not see "Dogs R Us"
+  And I should see "We Luv Dogs" in the list of companies
+  And I should not see "HappyMutts" in the list of companies
+  And I should not see "Barky Boys" in the list of companies
+  And I should not see "Dogs R Us" in the list of companies
 
 @selenium @time_adjust
 Scenario: Search by company (and confirm admin can search with all company names)
@@ -136,19 +133,17 @@ Scenario: Search by company (and confirm admin can search with all company names
   And I am on the "all companies" page
   And I select "NoPayment" in select list t("activerecord.models.company.one")
   And I click on t("search")
-  Then I hide the companies search form
-  And I should see "NoPayment"
-  And I should not see "We Luv Dogs"
+  And I should see "NoPayment" in the list of companies
+  And I should not see "We Luv Dogs" in the list of companies
   And I reload the page
   And I select "NoMember" in select list t("activerecord.models.company.one")
   And I click on t("search")
-  Then I hide the companies search form
   And I should see "NoMember"
-  And I should not see "We Luv Dogs"
-  And I should not see "HappyMutts"
-  And I should not see "Barky Boys"
-  And I should not see "Dogs R Us"
-  And I should not see "NoPayment"
+  And I should not see "We Luv Dogs" in the list of companies
+  And I should not see "HappyMutts" in the list of companies
+  And I should not see "Barky Boys" in the list of companies
+  And I should not see "Dogs R Us" in the list of companies
+  And I should not see "NoPayment" in the list of companies
 
 @selenium @time_adjust
 Scenario: Search by kommun and region
@@ -156,22 +151,20 @@ Scenario: Search by kommun and region
   And I am on the "landing" page
   Then I select "Alingsås" in select list t("activerecord.attributes.company.kommun")
   And I click on t("search")
-  Then I hide the companies search form
-  And I should see "Barky Boys"
-  And I should not see "HappyMutts"
-  And I should not see "We Luv Dogs"
-  And I should not see "Dogs R Us"
-  Then I show the companies search form
+  And I should see "Barky Boys" in the list of companies
+  And I should not see "HappyMutts" in the list of companies
+  And I should not see "We Luv Dogs" in the list of companies
+  And I should not see "Dogs R Us" in the list of companies
   Then I select "Norrbotten" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
-  Then I hide the companies search form
   And I should not see "HappyMutts" in the list of companies
 
   And I reload the page
 
   Then I select "Stockholm" in select list t("activerecord.attributes.company.region")
   And I click on t("search")
-  And I should see "Barky Boys"
+  And I wait for all ajax requests to complete
+  And I should see "Barky Boys" in the list of companies
 
 @selenium @time_adjust
 Scenario: Search by category and region

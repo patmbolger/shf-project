@@ -92,13 +92,11 @@ end
 
 And "I hide the companies search form" do
   step %{I click on t("accordion_label.company_search_form.hide")}
-  step %{I wait for all ajax requests to complete}
 end
 
 
 And "I show the companies search form" do
   step %{I click on t("accordion_label.company_search_form.show")}
-  step %{I wait for all ajax requests to complete}
 end
 
 
