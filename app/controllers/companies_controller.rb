@@ -49,17 +49,23 @@ class CompaniesController < ApplicationController
 
     respond_to do |format|
       format.html
+      
       format.js do
         list_html = render_to_string(partial: 'companies_list',
                                      locals: { companies: @companies,
                                                search_params: @search_params })
 
-        markers = helpers.location_and_markers_for(@all_visible_companies)
+        if params[:page]  # handling a pagination request - update companies list
+          render json: { list_html: list_html }
+        else              # handling a search request
 
-        map_html = render_to_string(partial: 'map_companies',
-                                    locals: { markers: markers })
+          markers = helpers.location_and_markers_for(@all_visible_companies)
 
-        render json: { list_html: list_html, map_html: map_html }
+          map_html = render_to_string(partial: 'map_companies',
+                                      locals: { markers: markers })
+
+          render json: { list_html: list_html, map_html: map_html }
+        end
       end
     end
   end
