@@ -7,8 +7,17 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
-  $('body').on('ajax:success', '#companies_search', function (e, data) {
-    $('#companies_list').html(data);
+  $('body').on('ajax:complete', '#companies_search', function (e, response) {
+
+    if (response.status !== 200) {
+      alert('Something went wrong - please reload page and try again.');
+      return;
+    }
+
+    var data = JSON.parse(response.responseText);
+
+    $('#companies_list').html(data.list_html);
+    $('#companies_map').html(data.map_html);
     $('[data-toggle="tooltip"]').tooltip();
   });
 
