@@ -43,6 +43,7 @@ Background:
     | We Luv Dogs | 5569467466     | alpha@weluvdogs.com  | Sweden       | Laxå      | city4 |
     | NoPayment   | 8028973322     | hello@nopayment.se   | Stockholm    | Alingsås  | city5 |
     | NoMember    | 9697222900     | hello@nomember.se    | Stockholm    | Alingsås  | city6 |
+    | New Company | 8248600598     | newco@newco.com      | Stockholm    | Alingsås  | ' space city ' |
 
   And the following payments exist
     | user_email          | start_date | expire_date | payment_type | status | hips_id | company_number |
@@ -50,13 +51,14 @@ Background:
     | john@happymutts.com | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 2120000142     |
     | anna@dogsrus.com    | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 5562252998     |
     | emma@weluvdogs.com  | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 5569467466     |
+    | emma@weluvdogs.com  | 2017-01-01 | 2017-12-31  | branding_fee | betald | none    | 8248600598     |
 
   And the following applications exist:
     | user_email          | company_number | state    | categories      |
     | fred@barkyboys.com  | 5560360793     | accepted | Groomer, Trainer|
     | john@happymutts.com | 2120000142     | accepted | Psychologist    |
     | anna@dogsrus.com    | 5562252998     | accepted | Trainer         |
-    | emma@weluvdogs.com  | 5569467466     | accepted | Groomer, Walker |
+    | emma@weluvdogs.com  | 5569467466, 8248600598 | accepted | Groomer, Walker |
     | lars@nopayment.se   | 8028973322     | accepted | Groomer, Trainer|
 
   Given the date is set to "2017-10-01"
@@ -268,3 +270,14 @@ Scenario: Toggle Hide/Show search form
     And I should see "HappyMutts"
     And I should see "Barky Boys"
     And I should not see "We Luv Dogs" in the list of companies
+
+  @selenium @time_adjust
+  Scenario: Search by city ignores leading and trailing whitespace in city name
+    Given I am Logged out
+    And I am on the "landing" page
+    Then I select "space city" in select list t("activerecord.attributes.company.city")
+    And I click on t("search")
+    And I should see "New Company"
+    And I should not see "HappyMutts" in the list of companies
+    And I should not see "We Luv Dogs" in the list of companies
+    And I should not see "Dogs R Us" in the list of companies
