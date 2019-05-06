@@ -338,7 +338,7 @@ class CompaniesController < ApplicationController
   def adjust_city_match_names(params)
     # Remove leading and trailing whitespace for city names and set up "LIKE" match
 
-    return unless (city_matches = params[:q]&.[]('addresses_city_matches_any'))
+    return params unless (city_matches = params[:q]&.[]('addresses_city_matches_any'))
 
     params[:q]['addresses_city_matches_any'] = city_matches.map do |v|
       if v.empty?
