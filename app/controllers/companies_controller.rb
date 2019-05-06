@@ -50,7 +50,7 @@ class CompaniesController < ApplicationController
         end
       end
 
-      @addresses_select_list = addresses.uniq { |a| a.city }
+      @addresses_select_list = addresses.uniq { |a| a.city.downcase.strip }
                                 .sort { |a,b| a.city.downcase.strip <=> b.city.downcase.strip }
     end
 
@@ -336,7 +336,7 @@ class CompaniesController < ApplicationController
   end
 
   def adjust_city_match_names(params)
-    # Remove leading and trailing whitespace for city names
+    # Remove leading and trailing whitespace for city names and set up "LIKE" match
 
     return unless city_matches = params[:q]&.[]('addresses_city_matches_any')
 
