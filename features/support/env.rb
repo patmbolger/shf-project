@@ -15,6 +15,8 @@ require_relative '../../spec/support/geocoder'
 #
 # Chromedriver.set_version "2.24" unless ENV.has_key?('SEMAPHORECI')
 
+Webdrivers.install_dir = Rails.root.join('features', 'support', 'webdrivers')
+
 ActionController::Base.allow_rescue = false
 
 begin
