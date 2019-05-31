@@ -4,8 +4,8 @@ When(/^I choose (?:a file|files) named "([^"]*)" to upload$/) do | filename |
   filenames.each do |file|
     filepaths << File.join(Rails.root, 'spec', 'fixtures','uploaded_files', file)
   end
-  # page.attach_file "uploaded_file[actual_files][]", File.join(Rails.root, 'spec', 'fixtures','uploaded_files', filename), visible: false #selenium won't find the upload button without visible: false
-  page.attach_file "uploaded_file[actual_files][]", filepaths, visible: false #selenium won't find the upload button without visible: false
+  page.attach_file "uploaded_file[actual_files][]", filepaths, visible: false
+  # ^^ selenium won't find the upload button without visible: false
 end
 
 And(/^I should( not)? see "([^"]*)" uploaded for this membership application$/) do |negate, filename|
