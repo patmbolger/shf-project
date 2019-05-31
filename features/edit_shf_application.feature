@@ -94,14 +94,14 @@ Feature: Edit SHF Application
     And I should not see t("shf_applications.update.success_with_app_files_missing")
 
     @selenium
-    Scenario: User deletes uploaded file
+    Scenario: User deletes uploaded files
       Given I am logged in as "emma@random.com"
       And I am on the "user instructions" page
       And I click on first t("menus.nav.users.my_application") link
       Then I should be on "Edit My Application" page
 
       And I select files delivery radio button "upload_now"
-      And I choose a file named "diploma.pdf" to upload
+      And I choose files named "diploma.pdf, image.jpg" to upload
 
       And I click on t("shf_applications.edit.submit_button_label")
       Then I should be on the "show my application" page for "emma@random.com"
@@ -112,9 +112,16 @@ Feature: Edit SHF Application
       And I click on first t("menus.nav.users.my_application") link
       Then I should be on "Edit My Application" page
 
-      And I delete the first uploaded file
+      And I delete the second uploaded file
+      And I should not see "image.jpg"
 
+      And I should be on "Edit My Application" page
+
+      And I should see "diploma.pdf"
+
+      And I delete the first uploaded file
       And I should not see "diploma.pdf"
+
       And I should see t("shf_applications.uploads.no_files")
 
 
