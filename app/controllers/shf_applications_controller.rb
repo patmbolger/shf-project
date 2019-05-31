@@ -113,10 +113,24 @@ class ShfApplicationsController < ApplicationController
         helpers.flash_message(:notice, t('.success'))
       end
 
-      redirect_to define_path(evaluate_update(params))
+      respond_to do |format|
+        format.html { redirect_to define_path(evaluate_update(params)) }
+        format.js do
+          uploaded_html = render_to_string(partial: 'uploaded_files_list',
+                                           locals: { shf_application: @shf_application })
+
+          render json: { uploaded_html: uploaded_html, status: :ok }
+        end
+      end
     else
 
-      create_or_update_error(t('.error'), companies_and_numbers, numbers_str, :edit)
+      respond_to do |format|
+        format.html { create_or_update_error(t('.error'),
+                                             companies_and_numbers,
+                                             numbers_str, :edit) }
+
+        format.js { render json: { status: :internal_server_error } }
+      end
     end
   end
 
