@@ -65,6 +65,14 @@ class SHFStepsError < StandardError
       "#{self.class.name}: This was raised after this error: #{self.original_error_message}."
     end
   end
+
+  def message
+    if self.cause
+      "#{self.class.name}: This was raised after this error: #{self.cause.message}."
+    else
+      self.class.name
+    end
+  end
 end
 
 
@@ -154,4 +162,3 @@ class UnableToVisitConstructedPath < PathHelperError
     "Unable to visit the manually constructed path#{space(empty_or_quoted(self.constructed_path))}.\n  #{MAYBE_ADD_TO_KNOWN_PAGES_PATHS}"
   end
 end
-

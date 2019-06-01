@@ -14,7 +14,10 @@ RSpec.describe 'Cucumber Steps Errors' do
       begin
         raise NoMethodError
       rescue NoMethodError
-        shf_error = error_class.new
+        begin
+          raise SHFStepsError
+        rescue SHFStepsError => shf_error
+        end
       end
 
       expect(shf_error.message).to eq "SHFStepsError: This was raised after this error: NoMethodError."
@@ -32,11 +35,10 @@ RSpec.describe 'Cucumber Steps Errors' do
       expect(shf_error.message).to eq "SHFStepsError"
     end
 
-    it 'shows just the class nameif it was the most recent error rasied' do
+    it 'shows just the class name if it was the most recent error raised' do
       begin
         raise error_class
-      rescue error_class
-        shf_error = error_class.new
+      rescue error_class => shf_error
       end
       expect(shf_error.message).to eq "SHFStepsError"
     end
@@ -61,7 +63,10 @@ RSpec.describe 'Cucumber Steps Errors' do
         begin
           raise NoMethodError
         rescue NoMethodError
-          shf_error = PagenameUnknown.new(page_name: 'blorfo')
+          begin
+            raise PagenameUnknown.new(page_name: 'blorfo')
+          rescue PagenameUnknown => shf_error
+          end
         end
 
         expect(shf_error.message).to eq "PagenameUnknown: This was raised after this error: NoMethodError.: The page name 'blorfo' is unknown.\n  You may need to add it to the list of known paths in the get_path() case statement."
@@ -89,7 +94,10 @@ RSpec.describe 'Cucumber Steps Errors' do
         begin
           raise NoMethodError
         rescue NoMethodError
-          shf_error = UnableToVisitConstructedPath.new(constructed_path: 'some_constructed_path')
+          begin
+            raise UnableToVisitConstructedPath.new(constructed_path: 'some_constructed_path')
+          rescue => shf_error
+          end
         end
 
         expect(shf_error.message).to eq "UnableToVisitConstructedPath: This was raised after this error: NoMethodError.: Unable to visit the manually constructed path 'some_constructed_path'.\n  You may need to add it to the list of known paths in the get_path() case statement."
