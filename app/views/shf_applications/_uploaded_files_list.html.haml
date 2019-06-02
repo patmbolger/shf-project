@@ -28,8 +28,8 @@
               %td{ class: "delete-uploaded-file-#{uploaded_file.id}" }
                 - trash_icon = icon('fas', 'trash')
                 = link_to trash_icon,
-                          shf_application_path(shf_application.id,
-                                               shf_application: { uploaded_files_attributes: { id: uploaded_file.id,  '_destroy' => true }}),
+                          remove_attachment_shf_application_path(shf_application.id,
+                            shf_application: { uploaded_files_attributes: { id: uploaded_file.id,  '_destroy' => true }}),
                           method: :put, remote: true,
                           id: "uploaded-file-#{uploaded_file.id}",
                           class: "action-delete",

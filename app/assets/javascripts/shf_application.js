@@ -3,11 +3,10 @@ $(function() {
 
   // Successful delete of file attached to application
   $('body').on('ajax:complete', 'a[class="action-delete"]', function (e, response) {
-    var data = JSON.parse(response.responseText);
 
-    if (data.status !== 'ok') {
-      alert('Something went wrong. Please reload page and try again.');
-    } else {
+    if (Utility.handleError(e, response) === false) {
+      var data = JSON.parse(response.responseText);
+
       $('#uploaded-files').html(data.uploaded_html);
       $('[data-toggle="tooltip"]').tooltip();
     }

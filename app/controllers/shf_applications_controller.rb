@@ -118,18 +118,34 @@ class ShfApplicationsController < ApplicationController
         format.js do
           uploaded_html = render_to_string(partial: 'uploaded_files_list',
                                            locals: { shf_application: @shf_application })
-
           render json: { uploaded_html: uploaded_html, status: :ok }
         end
       end
+      # redirect_to define_path(evaluate_update(params))
     else
+      respond_to do |format|
+        format.html { create_or_update_error(t('.error'), companies_and_numbers, numbers_str, :edit) }
+        format.js { render json: { status: :unprocessable_entity } }
+      end
+
+      # create_or_update_error(t('.error'), companies_and_numbers, numbers_str, :edit)
+    end
+  end
+
+  def remove_attachment
+    if @shf_application.update(shf_application_params)
 
       respond_to do |format|
-        format.html { create_or_update_error(t('.error'),
-                                             companies_and_numbers,
-                                             numbers_str, :edit) }
-
-        format.js { render json: { status: :internal_server_error } }
+        format.js do
+          uploaded_html = render_to_string(partial: 'uploaded_files_list',
+                                           locals: { shf_application: @shf_application })
+          render json: { uploaded_html: uploaded_html, status: :ok }
+        end
+      end
+      # redirect_to define_path(evaluate_update(params))
+    else
+      respond_to do |format|
+        format.js { render json: { status: :unprocessable_entity } }
       end
     end
   end
