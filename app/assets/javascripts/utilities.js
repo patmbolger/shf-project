@@ -50,9 +50,6 @@ var Utility = {
   },
 
   handleError: function(event, response) {
-    console.log(response);
-    console.log(response.responseText);
-    console.log(response.statusText);
 
     if (response.status !== 200 || (response.statusText !== 'OK')) {
       // HTTP error or Action cannot be completed
