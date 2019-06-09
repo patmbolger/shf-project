@@ -51,6 +51,7 @@ namespace :shf do
       #      log the error and continue with condition processing.
       #      (If Slack connection is up, we'll have already notified via that).
       rescue StandardError => e
+        log.error("Class: #{class_name}")
         log.error("Exception: #{e}:  #{e.inspect}")
         next
       end

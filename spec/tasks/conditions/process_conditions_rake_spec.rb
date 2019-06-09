@@ -60,12 +60,10 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
       expect { subject.invoke }.not_to raise_error
 
       # post-conditions:
-      # 1) Log file indicates all conditions were processed successfully
-      valid_conditions.each do |condition|
-        expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
-      end
+      # 1) Log file indicates all valid conditions were processed successfully
+      confirm_valid_condition_processing(filepath, valid_conditions)
 
-      # 1) Log file does not contain error message(s)
+      # 2) Log file does not contain error message(s)
       expect(File.read(filepath)).not_to include('[error]')
     end
   end
@@ -95,14 +93,10 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
         # post-conditions:
         # 1) log should have the Slack Notification Exception info
-        EXPECTED_SLACK_EXCEPTION_LOG_ENTRIES.each do |msg|
-          expect(File.read(filepath)).to include msg
-        end
+        confirm_slack_notification_exception(filepath)
 
-        # 2) All conditions were processed successfully
-        valid_conditions.each do |condition|
-          expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
-        end
+        # 2) All valid conditions were processed successfully
+        confirm_valid_condition_processing(filepath, valid_conditions)
       end
 
     end
@@ -128,13 +122,10 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
         # post-conditions:
         # 1) Log should have the processing Exception info
-        expect(File.read(filepath))
-            .to include EXPECTED_PROCESSING_EXCEPTION_LOG_ENTRY
+        confirm_invalid_condition_exception(filepath, invalid_condition)
 
-        # 2) Log file indicates other conditions were processed successfully
-        valid_conditions.each do |condition|
-          expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
-        end
+        # 2) All valid conditions were processed successfully
+        confirm_valid_condition_processing(filepath, valid_conditions)
       end
 
     end
@@ -160,19 +151,13 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
         # post-conditions:
         # 1) Log should have the processing Exception info
-        expect(File.read(filepath))
-            .to include EXPECTED_PROCESSING_EXCEPTION_LOG_ENTRY
+        confirm_invalid_condition_exception(filepath, invalid_condition)
 
         # 2) Log should have the Slack Notification Exception info
-        EXPECTED_SLACK_EXCEPTION_LOG_ENTRIES.each do |msg|
-          expect(File.read(filepath)).to include msg
-        end
+        confirm_slack_notification_exception(filepath)
 
-        # 3) Log file indicates other conditions were processed successfully
-        valid_conditions.each do |condition|
-          expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
-        end
-
+        # 3) Log file indicates valid conditions were processed successfully
+        confirm_valid_condition_processing(filepath, valid_conditions)
       end
 
     end
@@ -181,6 +166,26 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
   def output_loaded_condition_info
     puts "      #{Condition.count} conditions were loaded into the db: #{Condition.order(:class_name).map { |h_cond| h_cond[:class_name] }.join(', ')}"
+  end
+
+  def confirm_valid_condition_processing(filepath, conditions)
+    conditions.each do |condition|
+      expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
+      expect(File.read(filepath)).not_to include("[error] Class: condition[:class_name]")
+    end
+  end
+
+  def confirm_invalid_condition_exception(filepath, condition)
+    expect(File.read(filepath))
+        .to include EXPECTED_PROCESSING_EXCEPTION_LOG_ENTRY
+    expect(File.read(filepath))
+        .to include("[error] Class: #{condition[0][:class_name]}")
+  end
+
+  def confirm_slack_notification_exception(filepath)
+    EXPECTED_SLACK_EXCEPTION_LOG_ENTRIES.each do |msg|
+      expect(File.read(filepath)).to include msg
+    end
   end
 
 end
