@@ -59,11 +59,7 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
       expect { subject.invoke }.not_to raise_error
 
-      # post-conditions:
-      # 1) Log file indicates all valid conditions were processed successfully
-      confirm_valid_condition_processing(filepath, valid_conditions)
-
-      # 2) Log file does not contain error message(s)
+      confirm_valid_condition_processing_log_entries(filepath, valid_conditions)
       expect(File.read(filepath)).not_to include('[error]')
     end
   end
@@ -91,12 +87,8 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
         # the error will not percolate up and be raised; processing continues
         expect { subject.invoke }.not_to raise_error
 
-        # post-conditions:
-        # 1) log should have the Slack Notification Exception info
-        confirm_slack_notification_exception(filepath)
-
-        # 2) All valid conditions were processed successfully
-        confirm_valid_condition_processing(filepath, valid_conditions)
+        confirm_slack_notification_exception_log_entries(filepath)
+        confirm_valid_condition_processing_log_entries(filepath, valid_conditions)
       end
 
     end
@@ -120,12 +112,8 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
         expect { subject.invoke }.not_to raise_error
 
-        # post-conditions:
-        # 1) Log should have the processing Exception info
-        confirm_invalid_condition_exception(filepath, invalid_condition)
-
-        # 2) All valid conditions were processed successfully
-        confirm_valid_condition_processing(filepath, valid_conditions)
+        confirm_invalid_condition_exception_log_entry(filepath, invalid_condition)
+        confirm_valid_condition_processing_log_entries(filepath, valid_conditions)
       end
 
     end
@@ -149,15 +137,10 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
 
         expect { subject.invoke }.not_to raise_error
 
-        # post-conditions:
-        # 1) Log should have the processing Exception info
-        confirm_invalid_condition_exception(filepath, invalid_condition)
 
-        # 2) Log should have the Slack Notification Exception info
-        confirm_slack_notification_exception(filepath)
-
-        # 3) Log file indicates valid conditions were processed successfully
-        confirm_valid_condition_processing(filepath, valid_conditions)
+        confirm_invalid_condition_exception_log_entry(filepath, invalid_condition)
+        confirm_slack_notification_exception_log_entries(filepath)
+        confirm_valid_condition_processing_log_entries(filepath, valid_conditions)
       end
 
     end
@@ -168,21 +151,21 @@ RSpec.describe 'conditions/process_conditions shf:process_conditions', type: :ta
     puts "      #{Condition.count} conditions were loaded into the db: #{Condition.order(:class_name).map { |h_cond| h_cond[:class_name] }.join(', ')}"
   end
 
-  def confirm_valid_condition_processing(filepath, conditions)
+  def confirm_valid_condition_processing_log_entries(filepath, conditions)
     conditions.each do |condition|
       expect(File.read(filepath)).to include("[info] #{condition[:class_name]}")
       expect(File.read(filepath)).not_to include("[error] Class: condition[:class_name]")
     end
   end
 
-  def confirm_invalid_condition_exception(filepath, condition)
+  def confirm_invalid_condition_exception_log_entry(filepath, condition)
     expect(File.read(filepath))
         .to include EXPECTED_PROCESSING_EXCEPTION_LOG_ENTRY
     expect(File.read(filepath))
         .to include("[error] Class: #{condition[0][:class_name]}")
   end
 
-  def confirm_slack_notification_exception(filepath)
+  def confirm_slack_notification_exception_log_entries(filepath)
     EXPECTED_SLACK_EXCEPTION_LOG_ENTRIES.each do |msg|
       expect(File.read(filepath)).to include msg
     end
