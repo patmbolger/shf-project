@@ -12,7 +12,7 @@
           %th
       %tbody
         - @business_categories.each do |business_category|
-          %tr.business_category
+          %tr.business_category.accordion
             %td.name= business_category.name
             %td.description= business_category.description
             %td.view= link_to t('.view'), business_category
@@ -20,6 +20,8 @@
             %td.delete= link_to icon('fas', 'trash', class: 'delete'),
               business_category, method: :delete,
               :data => { :confirm => t('.delete_confirm') }
+          %tr.subcategory
+            %td{ colspan: 5 } This is a sample row
 
   %hr
   .text-center
