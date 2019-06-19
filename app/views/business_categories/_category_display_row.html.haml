@@ -1,0 +1,16 @@
+%tr.category-display-row{ id: "category-display-row-#{business_category.id}" }
+  %td.name= business_category.name
+  %td.description= business_category.description
+  %td.view= link_to t('.view'), business_category
+
+  %td.edit
+    = link_to icon('fas', 'edit'),
+              get_edit_row_business_category_path(business_category),
+              remote: true,
+              class: 'edit-category-button'
+
+  %td.delete
+    = link_to icon('fas', 'trash'),
+              business_category, method: :delete, remote: true,
+              data: { confirm: t('confirm_are_you_sure') },
+              class: 'delete-category'

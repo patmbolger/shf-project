@@ -12,17 +12,39 @@
           %th
       %tbody
         - @business_categories.each do |business_category|
-          %tr.business_category.accordion
-            %td.name= business_category.name
-            %td.description= business_category.description
-            %td.view= link_to t('.view'), business_category
-            %td.edit= link_to icon('fas', 'edit'), edit_business_category_path(business_category)
-            %td.delete= link_to icon('fas', 'trash', class: 'delete'),
-              business_category, method: :delete,
-              :data => { :confirm => t('.delete_confirm') }
-          %tr.subcategory
-            %td{ colspan: 5 } This is a sample row
+
+          = render 'category_display_row', business_category: business_category
+
+          - if business_category.children?
+            %tr
+              %td{ colspan: 5 } Subcategories
+            %tr
+              %td{ colspan: 5 }
+                %table.table.table-hover.table-sm
+                  %thead
+                    %tr
+                      %th= t('.name')
+                      %th= t('.description')
+                      %th
+                      %th
+                      %th
+                  %tbody
+                    - business_category.children.each do |subcategory|
+                      %tr.business_category
+                        %td.name= subcategory.name
+                        %td.description= subcategory.description
+                        %td.view= link_to t('.view'), subcategory
+                        %td.edit= link_to icon('fas', 'edit'), edit_business_category_path(subcategory)
+                        %td.delete= link_to icon('fas', 'trash', class: 'delete'),
+                          business_category, method: :delete,
+                          :data => { :confirm => t('.delete_confirm') }
+
+
 
   %hr
   .text-center
-    = link_to t('business_categories.new_business_category'), new_business_category_path, class: 'btn btn-sm btn-light'
+    = link_to t('business_categories.new_business_category'),
+              new_business_category_path,
+              remote: true,
+              class: 'btn btn-sm btn-light',
+              id: 'new-category-button'

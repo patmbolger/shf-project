@@ -1,0 +1,40 @@
+%tr.category-edit-row{ id: "category-edit-row-#{business_category.id}" }
+
+  %td(colspan = 5)
+
+    #category-edit-errors
+
+    = form_for business_category, remote: true,
+               html: { class: 'edit-category-form' } do |f|
+
+      %table.category-edit-row-table
+        %tbody
+          %tr
+            %td
+              - if context == 'existing_category'
+                %b= business_category.name
+              - else
+                %b= t('business_categories.new.title')
+              %br
+              %br
+              = f.submit t('submit'), class: 'btn btn-success btn-small'
+              %br
+              %br
+              - if context == 'existing_category'
+                = link_to t('cancel'),
+                          get_display_row_business_category_path(business_category),
+                          remote: true,
+                          class: 'edit-category-cancel-button btn btn-danger btn-small',
+                          id: "cancel-category-edit-#{business_category.id}"
+              - else
+                = link_to t('cancel'), {}, href: '#',
+                          class: 'new-category-cancel-button btn btn-danger btn-small'
+
+            %td
+              .form-group
+                = f.label :name, t('activerecord.attributes.business_category.name') , class: 'required'
+                = f.text_field :name, class: 'form-control'
+            %td
+              .form-group
+                = f.label :description, t('activerecord.attributes.business_category.description')
+                = f.text_field :description, class: 'form-control'
