@@ -1,0 +1,12 @@
+%tr{ id: "subcategories-for-#{business_category.id}" }
+  %td{ colspan: 5 }
+    %table.table.table-hover.table-sm
+      = render 'cat_table_head', parent_cat_id: business_category.id
+
+      %tbody
+        - business_category.children.each do |subcategory|
+
+          = render 'category_display_row',
+                   business_category: subcategory,
+                   context: 'subcategory',
+                   parent_cat_id: business_category.id

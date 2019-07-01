@@ -728,6 +728,7 @@ en:
       clue_selected_categories: &clue_selected_categories Blue box = selected categories
 
     new_business_category: New business category
+    new_business_subcategory: New subcategory
     all_business_categories: All categories
 
   users:

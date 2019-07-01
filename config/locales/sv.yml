@@ -735,6 +735,7 @@ sv:
       clue_selected_categories: *clue_selected_categories
 
     new_business_category: Skapa ny företagstyp (kategori)
+    new_business_subcategory: Ny underkategori
     all_business_categories: Alla kategorier
 
   users:

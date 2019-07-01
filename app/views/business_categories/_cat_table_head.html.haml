@@ -1,0 +1,9 @@
+%thead
+  %tr
+    %th= t('.name')
+    %th= t('.description')
+    %th{ colspan: 4 }
+      -# = link_to t('business_categories.new_business_category'),
+      -#           new_business_category_path(parent_cat_id: parent_cat_id),
+      -#           remote: true,
+      -#           class: 'btn btn-sm btn-light new-category-button'

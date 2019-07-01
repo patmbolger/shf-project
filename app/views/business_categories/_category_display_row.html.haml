@@ -1,11 +1,22 @@
 %tr.category-display-row{ id: "category-display-row-#{business_category.id}" }
   %td.name= business_category.name
   %td.description= business_category.description
-  %td.view= link_to t('.view'), business_category
+
+  %td.add_subcategory
+    - if context == 'category'
+      = link_to t('business_categories.new_business_subcategory'),
+                  new_business_category_path(parent_cat_id: parent_cat_id),
+                  remote: true,
+                  class: 'btn btn-sm btn-light new-category-button'
+
+
+  %td.view
+    = link_to icon('fas', 'eye'), business_category
 
   %td.edit
     = link_to icon('fas', 'edit'),
-              get_edit_row_business_category_path(business_category),
+              get_edit_row_business_category_path(business_category,
+                                                  parent_cat_id: parent_cat_id),
               remote: true,
               class: 'edit-category-button'
 
@@ -14,3 +25,15 @@
               business_category, method: :delete, remote: true,
               data: { confirm: t('confirm_are_you_sure') },
               class: 'delete-category'
+
+-# %tr{ id: "subcategories-for-#{business_category.id}" }
+-#   %td{ colspan: 5 }
+-#     %table.table.table-hover.table-sm
+-#       = render 'cat_table_head', parent_cat_id: business_category.id
+-#
+-#       - if business_category.children?
+-#
+-#         %tbody
+-#           - business_category.children.each do |subcategory|
+-#
+-#             = render 'category_display_row', business_category: subcategory

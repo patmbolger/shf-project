@@ -11,16 +11,19 @@
         %tbody
           %tr
             %td
-              - if context == 'existing_category'
+              - if record_type == 'existing_category'
                 %b= business_category.name
               - else
-                %b= t('business_categories.new.title')
+                - if context == 'category'
+                  %b= t('business_categories.new.title')
+                - else
+                  %b= t('business_categories.new_business_subcategory')
               %br
               %br
               = f.submit t('submit'), class: 'btn btn-success btn-small'
               %br
               %br
-              - if context == 'existing_category'
+              - if record_type == 'existing_category'
                 = link_to t('cancel'),
                           get_display_row_business_category_path(business_category),
                           remote: true,
@@ -38,3 +41,5 @@
               .form-group
                 = f.label :description, t('activerecord.attributes.business_category.description')
                 = f.text_field :description, class: 'form-control'
+            %td
+              = hidden_field_tag :parent_cat_id, parent_cat_id
