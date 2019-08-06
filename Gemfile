@@ -78,6 +78,7 @@ gem 'counter_culture', '~> 2.0'
 
 gem 'ancestry'
 
+gem 'cookies_eu'
 
 group :development, :test do
   gem 'rspec-rails'
