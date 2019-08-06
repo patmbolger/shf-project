@@ -24,6 +24,7 @@ var categories = {
       var $displayRow = $('#category-display-row-' + data.business_category_id);
 
       $displayRow.replaceWith(data.edit_row);
+      return false;
     }
   },
 
@@ -31,10 +32,11 @@ var categories = {
     if (Utility.checkHttpError(response) === false) {
       var data = JSON.parse(response.responseText);
 
-      // Receiving display row from server - replace display row with that
+      // Receiving display row from server - replace edit row with that
       var $editRow = $('#category-edit-row-' + data.business_category_id);
 
       $editRow.replaceWith(data.display_row);
+      return false;
     }
   },
 
@@ -51,13 +53,13 @@ var categories = {
         // Insert this row immediately after the category row.
 
         $(this).closest('tr').after(data.new_row);
-
       }
     }
   },
 
   removeNewCategoryRow: function(e, response) {
     categories.removeThisRow(this);
+    return false;
   },
 
   removeThisRow: function(this_one) {

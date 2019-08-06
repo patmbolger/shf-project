@@ -1,13 +1,24 @@
+-# Local vars -
+  business_category: the BusinessCategory instance
+  record_type: 'new_category' or 'existing_category' (can be parent or child (sub))
+  context: 'category' or 'subcategory'
+  parent_cat_id: ID of the parent category for a subcategory
+
 %tr.category-edit-row{ id: "category-edit-row-#{business_category.id}" }
 
-  %td(colspan = 5)
+  %td(colspan = 6)
 
     #category-edit-errors
 
     = form_for business_category, remote: true,
                html: { class: 'edit-category-form' } do |f|
 
-      %table.category-edit-row-table
+      %table.table.category-edit-row-table
+        %thead
+          %tr(colspan=6)
+            - title = record_type == 'new_category' ? 'Add ' : 'Edit '
+            - title += context.capitalize
+            = title
         %tbody
           %tr
             %td

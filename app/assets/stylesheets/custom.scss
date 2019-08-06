@@ -28,6 +28,39 @@
 
 
 .edit a,
-.delete a {
+.delete a,
+.view a {
   border-bottom: 0;
+}
+
+.col-width-60pc {
+  width: 0%;
+}
+
+.col-width-40pc {
+  width: 40%;
+}
+
+.col-width-35pc {
+  width: 35%;
+}
+
+.col-width-25pc {
+  width: 25%;
+}
+
+.col-width-15pc {
+  width: 15%;
+}
+
+.col-width-10pc {
+  width: 10%;
+}
+
+.col-width-5pc {
+  width: 5%;
+}
+
+.add-entity-button {
+  color: green;
 }

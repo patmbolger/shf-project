@@ -1,13 +1,22 @@
-%tr.category-display-row{ id: "category-display-row-#{business_category.id}" }
-  %td.name= business_category.name
-  %td.description= business_category.description
+-# Local vars -
+  context: 'subcategory' or 'category'
+  business_category: the BusinessCategory instance
+  parent_cat_id: ID of the parent category for a subcategory
 
-  %td.add_subcategory
-    - if context == 'category'
-      = link_to t('business_categories.new_business_subcategory'),
-                  new_business_category_path(parent_cat_id: parent_cat_id),
-                  remote: true,
-                  class: 'btn btn-sm btn-light new-category-button'
+%tr.category-display-row{ id: "category-display-row-#{business_category.id}",
+                          class: context == 'subcategory' ? 'table-warning' : '' }
+
+  %td.name= business_category.name
+
+  - if context == 'category'
+    %td.description= business_category.description
+    %td.add_subcategory
+      = link_to icon('fas', 'plus', class: 'add-entity-button'),
+                new_business_category_path(parent_cat_id: parent_cat_id),
+                remote: true,
+                class: 'btn btn-sm btn-light new-category-button'
+  - else
+    %td.description{ colspan: 2}= business_category.description
 
 
   %td.view

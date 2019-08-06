@@ -18,10 +18,13 @@
 
 @import 'bootstrap';
 @import 'bootstrap-toggle';
-@import 'font-awesome-sprockets';
-@import 'font-awesome';
+@import 'companies';
+@import 'custom';
+@import 'dashboard';
 @import 'maps';
 @import 'pagination';
 @import 'style';
-@import 'custom';
-@import 'dashboard';
+@import 'users';
+
+@import 'font-awesome-sprockets';
+@import 'font-awesome';

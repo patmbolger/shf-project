@@ -3,7 +3,7 @@
 .entry-content
   .table-responsive
     %table.table.table-hover.table-sm#business_categories
-      = render 'cat_table_head', parent_cat_id: nil
+      = render 'cat_table_head', parent_category: true
 
       %tbody
         - @business_categories.roots.each do |business_category|
@@ -18,18 +18,6 @@
             = render 'subcategories_display_row',
                      business_category: business_category
 
-  -#           %tr{ id: "subcategories-for-#{business_category.id}" }
-  -#             %td{ colspan: 5 }
-  -#               %table.table.table-hover.table-sm
-  -#                 = render 'cat_table_head', parent_cat_id: business_category.id
-  -#
-  -#                 %tbody
-  -#                   - business_category.children.each do |subcategory|
-  -#
-  -#                     = render 'category_display_row',
-  -#                              business_category: subcategory,
-  -#                              context: 'subcategory',
-  -#                              parent_cat_id: business_category.id
   %hr
     .text-center
       = link_to t('business_categories.new.title'),

@@ -6,7 +6,7 @@ class BusinessCategoriesController < ApplicationController
 
   def index
     authorize BusinessCategory
-    @business_categories = BusinessCategory.all
+    @business_categories = BusinessCategory.order(:name)
   end
 
 
@@ -20,6 +20,7 @@ class BusinessCategoriesController < ApplicationController
 
 
   def new
+
     authorize BusinessCategory
     @business_category = BusinessCategory.new
 
@@ -31,7 +32,7 @@ class BusinessCategoriesController < ApplicationController
         new_row = render_to_string(partial: 'category_edit_row',
                                    locals: { business_category: @business_category,
                                              parent_cat_id: params[:parent_cat_id],
-                                             record_type: :new_category,
+                                             record_type: 'new_category',
                                              context: context })
         render json: { new_row: new_row, context: context }
       end
@@ -89,10 +90,13 @@ class BusinessCategoriesController < ApplicationController
   end
 
   def get_edit_row
+    context = @business_category.root? ? 'category' : 'subcategory'
+
     edit_row = render_to_string(partial: 'category_edit_row',
                                 locals: { business_category: @business_category,
                                           parent_cat_id: params[:parent_cat_id],
-                                          record_type: 'existing_category' })
+                                          record_type: 'existing_category',
+                                          context: context })
 
     respond_to do |format|
       format.js do
@@ -103,10 +107,13 @@ class BusinessCategoriesController < ApplicationController
   end
 
   def get_new_row
+    context = params[:parent_cat_id] ? 'subcategory' : 'category'
+
     new_row = render_to_string(partial: 'category_edit_row',
                                 locals: { business_category: BusinessCategory.new,
                                           parent_cat_id: params[:parent_cat_id],
-                                          record_type: 'new_category' })
+                                          record_type: 'new_category',
+                                          context: context })
 
     respond_to do |format|
       format.js { render json: { new_row: new_row } }
@@ -114,10 +121,12 @@ class BusinessCategoriesController < ApplicationController
   end
 
   def get_display_row
+    context = @business_category.root? ? 'category' : 'subcategory'
+
     display_row = render_to_string(partial: 'category_display_row',
                                    locals: { business_category: @business_category,
                                              parent_cat_id: params[:parent_cat_id],
-                                             context: 'existing_category' })
+                                             context: context })
 
     respond_to do |format|
       format.js do
