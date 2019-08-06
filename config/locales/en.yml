@@ -230,6 +230,7 @@ en:
       business_category:
         name: &business_category_name  Name
         description: &description  Description
+        subcategory: &subcategory Subcategory
 
       shf_document:
         title: &title Title
@@ -695,6 +696,10 @@ en:
       edit: *edit
       delete: *remove
       delete_confirm: *are_you_sure_confirm
+      add_subcategory: Add Subcategory
+      add_category: Add Category
+      edit_subcategory: Edit Subcategory
+      edit_category: Edit Category
 
     show:
       title: Business category (type of dog-related service)

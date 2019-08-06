@@ -46,7 +46,7 @@ var categories = {
 
       if (data.context === 'category') {
         // Receiving edit-category row (for new category) from server.
-        $('#business_categories').prepend(data.new_row);
+        $('#business_categories').append(data.new_row);
       }
       else {
         // Receiving edit-category row (for new subcategory) from server.
@@ -74,7 +74,7 @@ var categories = {
       if (Utility.checkActionError(response, data) === false) {
         // Receiving a display row from server
         // If we find a matching edit row, replace that with the display row
-        // If not, the display row is for a *new* category - prepend to table.
+        // If not, the display row is for a *new* category - append to table.
 
         var $editRow = $('#category-edit-row-' + data.business_category_id);
         if ($editRow.length === 1) {
@@ -82,7 +82,7 @@ var categories = {
         } else {
 
           if (data.context === 'category') {
-            $('#business_categories').prepend(data.display_row);
+            $('#business_categories').append(data.display_row);
           } else {
             // Look for subcategory row - if found, replace; otherwise add
             var $subcatRow = $('#subcategories-for-' + data.business_category_id);

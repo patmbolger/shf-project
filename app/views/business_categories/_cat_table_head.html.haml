@@ -3,10 +3,10 @@
 
 %thead
   %tr
-    %th.col-width-25pc= parent_category ? t('.category') : t('subcategory')
-    %th.col-width-35pc= t('.description')
-    %th.col-width-25pc= parent_category ? t('.add_subcategory') : ''
+    %th.col-width-25pc= parent_category ? t('activerecord.models.business_category.one') : |
+                                          t('activerecord.attributes.business_category.subcategory') |
+    %th.col-width-40pc= t('activerecord.attributes.business_category.description')
+    %th.col-width-20pc= parent_category ? t('business_categories.index.add_subcategory') : ''
     %th.col-width-5pc
     %th.col-width-5pc
     %th.col-width-5pc
-    -# %th{ colspan: 4 }

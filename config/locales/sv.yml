@@ -230,6 +230,7 @@ sv:
       business_category:
         name: &business_category_name  Namn
         description: &description  Beskrivning
+        subcategory: &subcategory Underkategori
 
       shf_document:
         title: &title Titel
@@ -701,6 +702,10 @@ sv:
       edit: *edit
       delete: *remove
       delete_confirm: *are_you_sure_confirm
+      add_subcategory: Lägg till underkategori
+      add_category: Lägg till Kategori
+      edit_subcategory: Redigera underkategori
+      edit_category: Redigera kategori
 
     show:
       title: Hundföretag av typen

@@ -3,7 +3,7 @@
 %tr{ id: "subcategories-for-#{business_category.id}" }
   %td{ colspan: 6 }
     -# Nested tables inherit BS styling from parent
-    %table.table.thead-light
+    %table.table
       = render 'cat_table_head', parent_category: false
 
       %tbody

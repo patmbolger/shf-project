@@ -15,34 +15,27 @@
 
       %table.table.category-edit-row-table
         %thead
-          %tr(colspan=6)
-            - title = record_type == 'new_category' ? 'Add ' : 'Edit '
-            - title += context.capitalize
-            = title
+          %tr
+            %th.center-text(colspan=6)
+              - key = 'business_categories.index.'
+              - key += record_type == 'new_category' ? 'add_' : 'edit_'
+              - key += context
+              = t(key)
         %tbody
           %tr
             %td
-              - if record_type == 'existing_category'
-                %b= business_category.name
-              - else
-                - if context == 'category'
-                  %b= t('business_categories.new.title')
-                - else
-                  %b= t('business_categories.new_business_subcategory')
-              %br
-              %br
-              = f.submit t('submit'), class: 'btn btn-success btn-small'
+              = f.submit t('submit'), class: 'btn btn-success btn-sm'
               %br
               %br
               - if record_type == 'existing_category'
                 = link_to t('cancel'),
                           get_display_row_business_category_path(business_category),
                           remote: true,
-                          class: 'edit-category-cancel-button btn btn-danger btn-small',
+                          class: 'edit-category-cancel-button btn btn-danger btn-sm',
                           id: "cancel-category-edit-#{business_category.id}"
               - else
                 = link_to t('cancel'), {}, href: '#',
-                          class: 'new-category-cancel-button btn btn-danger btn-small'
+                          class: 'new-category-cancel-button btn btn-danger btn-sm'
 
             %td
               .form-group
