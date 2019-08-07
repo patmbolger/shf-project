@@ -13,7 +13,7 @@
     = form_for business_category, remote: true,
                html: { class: 'edit-category-form' } do |f|
 
-      %table.table.category-edit-row-table
+      %table.table.border.border-dark.category-edit-row-table
         %thead
           %tr
             %th.center-text(colspan=6)
@@ -45,5 +45,6 @@
               .form-group
                 = f.label :description, t('activerecord.attributes.business_category.description')
                 = f.text_field :description, class: 'form-control'
-            %td
+                
+            %td.border-right.border-dark
               = hidden_field_tag :parent_cat_id, parent_cat_id
