@@ -106,20 +106,6 @@ class BusinessCategoriesController < ApplicationController
     end
   end
 
-  def get_new_row
-    context = params[:parent_cat_id] ? 'subcategory' : 'category'
-
-    new_row = render_to_string(partial: 'category_edit_row',
-                                locals: { business_category: BusinessCategory.new,
-                                          parent_cat_id: params[:parent_cat_id],
-                                          record_type: 'new_category',
-                                          context: context })
-
-    respond_to do |format|
-      format.js { render json: { new_row: new_row } }
-    end
-  end
-
   def get_display_row
     context = @business_category.root? ? 'category' : 'subcategory'
 
@@ -151,11 +137,17 @@ class BusinessCategoriesController < ApplicationController
 
       format.js do
         if saved
-          context = params[:parent_cat_id].present? ? 'subcategory' : 'category'
+          if params[:parent_cat_id].present?
+            context = 'subcategory'
+            parent_cat_id = @business_category.id
+          else
+            context = 'category'
+            parent_cat_id = nil
+          end
 
           display_row = render_to_string(partial: 'category_display_row',
                                          locals: { business_category: @business_category,
-                                                   parent_cat_id: @business_category.id,
+                                                   parent_cat_id: parent_cat_id,
                                                    context: context })
 
           render json: { business_category_id: @business_category.id,
