@@ -6,7 +6,7 @@
 
 %tr.category-edit-row{ id: "category-edit-row-#{business_category.id}" }
 
-  %td(colspan = 6)
+  %td{ colspan: 6 }
 
     #category-edit-errors
 
@@ -16,11 +16,12 @@
       %table.table.border.border-dark.category-edit-row-table
         %thead
           %tr
-            %th.center-text(colspan=6)
-              - key = 'business_categories.index.'
-              - key += record_type == 'new_category' ? 'add_' : 'edit_'
-              - key += context
-              = t(key)
+            %th.center-text{ colspan: 6 }
+              :ruby
+                key = 'business_categories.index.'
+                key += record_type == 'new_category' ? 'add_' : 'edit_'
+                key += context
+                haml_io.write t(key)
         %tbody
           %tr
             %td
@@ -45,6 +46,6 @@
               .form-group
                 = f.label :description, t('activerecord.attributes.business_category.description')
                 = f.text_field :description, class: 'form-control'
-                
+
             %td.border-right.border-dark
               = hidden_field_tag :parent_cat_id, parent_cat_id
