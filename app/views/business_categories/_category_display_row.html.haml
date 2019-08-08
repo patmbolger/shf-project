@@ -20,17 +20,17 @@
 
 
   %td.view
-    = link_to icon('fas', 'eye'), business_category
+    = link_to icon('far', 'eye'), business_category
 
   %td.edit
-    = link_to icon('fas', 'edit'),
+    = link_to icon('far', 'edit'),
               get_edit_row_business_category_path(business_category,
                                                   parent_cat_id: parent_cat_id),
               remote: true,
               class: 'edit-category-button'
 
   %td.delete
-    = link_to icon('fas', 'trash'),
+    = link_to icon('far', 'trash-alt'),
               business_category, method: :delete, remote: true,
               data: { confirm: t('confirm_are_you_sure') },
               class: 'delete-category'
