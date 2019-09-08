@@ -5,6 +5,7 @@ SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
+SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
@@ -90,7 +91,21 @@ CREATE TABLE public.app_configurations (
     sweden_dog_trainers_content_type character varying,
     sweden_dog_trainers_file_size integer,
     sweden_dog_trainers_updated_at timestamp without time zone,
-    email_admin_new_app_received_enabled boolean DEFAULT true
+    email_admin_new_app_received_enabled boolean DEFAULT true,
+    site_name character varying DEFAULT 'Sveriges Hundföretagare'::character varying NOT NULL,
+    site_meta_title character varying DEFAULT 'Hitta H-märkt hundföretag, hundinstruktör'::character varying NOT NULL,
+    site_meta_description character varying DEFAULT 'Här hittar du etiska, svenska, H-märkta hundföretag. Du hittar bland annat hundinstruktörer, hundpsykologer, hunddagis, trim med mera.'::character varying NOT NULL,
+    site_meta_keywords character varying DEFAULT 'hund, hundägare, hundinstruktör, hundentreprenör, Sveriges Hundföretagare, svenskt hundföretag, etisk, H-märkt, hundkurs'::character varying NOT NULL,
+    site_meta_image_width integer DEFAULT 0 NOT NULL,
+    site_meta_image_height integer DEFAULT 0 NOT NULL,
+    og_type character varying DEFAULT 'website'::character varying NOT NULL,
+    twitter_card_type character varying DEFAULT 'summary'::character varying NOT NULL,
+    facebook_app_id bigint DEFAULT '1292810030791186'::bigint NOT NULL,
+    site_meta_image_file_name character varying,
+    site_meta_image_content_type character varying,
+    site_meta_image_file_size integer,
+    site_meta_image_updated_at timestamp without time zone,
+    singleton_guard integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1168,6 +1183,10 @@ CREATE INDEX index_addresses_on_region_id ON public.addresses USING btree (regio
 --
 
 CREATE INDEX index_business_categories_on_ancestry ON public.business_categories USING btree (ancestry);
+-- Name: index_app_configurations_on_singleton_guard; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_app_configurations_on_singleton_guard ON public.app_configurations USING btree (singleton_guard);
 
 
 --
@@ -1500,6 +1519,5 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20190128210825'),
 ('20190312204251'),
 ('20190326120854'),
-('20190616183023');
-
-
+('20190514172102'),
+('20190815215041');

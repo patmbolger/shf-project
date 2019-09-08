@@ -141,4 +141,5 @@ group :test do
   gem 'timecop'
   gem 'rubocop-rspec'
 
+  gem "show_me_the_cookies"
 end
