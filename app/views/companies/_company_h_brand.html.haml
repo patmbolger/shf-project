@@ -4,7 +4,7 @@
     = stylesheet_link_tag 'company-h-brand', media: 'all'
   %body
 
-    #company-h-brand
+    .custom-context#company-h-brand
       - render_to = :html unless local_assigns[:render_to]
 
       - if app_config.h_brand_logo
