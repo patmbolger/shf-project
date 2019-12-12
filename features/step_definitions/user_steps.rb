@@ -1,4 +1,7 @@
-Given(/^the following users exist(?:s|)$/) do |table|
+# This should match any of the following
+#  the following users exist
+#  the following users exist:
+Given(/^the following users exist(?:[:])?$/) do |table|
 
   # Hash value "is_legacy" indicates a user account that was created before we
   # migrated the user's name attributes (first_name, last_name) from the
@@ -13,6 +16,7 @@ Given(/^the following users exist(?:s|)$/) do |table|
 
     user.delete('last_name') if user['last_name'].blank?
     user.delete('first_name') if user['first_name'].blank?
+    user['sign_in_count'] = 0 if user['sign_in_count'].blank?
 
     is_legacy == 'true' ? FactoryBot.create(:user_without_first_and_lastname, user) : FactoryBot.create(:user, user)
 

@@ -129,7 +129,7 @@ en:
         other: &business_categories Categories
 
       company:
-        one: Company
+        one: &company_one Company
         other: Companies
 
       shf_document:
@@ -220,7 +220,10 @@ en:
         kommun: *kommun
         region: *region
         region_short: *region_short
-        website: Website
+        website: &company_website Website
+        facebook_url: Facebook page URL
+        instagram_url: Instagram URL
+        youtube_url: Youtube channel
         org_nr: *org_nr
         dinkurs_key: &dinkurs_company_key Dinkurs Company key
         dinkurs_company_id: Dinkurs company key
@@ -235,7 +238,8 @@ en:
         title: &title Title
         description: *description
         uploader: &uploader Uploader
-
+        actual_file_content_type: Uploaded file type
+        actual_file: Uploaded file
 
       member_app_waiting_reason:
         name_sv: "Name (Swedish)"
@@ -606,6 +610,7 @@ en:
       success_with_dinkurs_problem: THE COMPANY WAS CREATED, BUT PLEASE NOTE PROBLEM(S) BELOW
     edit:
       title: 'Editing: %{company_name}'
+      social_media_links: Social Media Links
     update:
       error: There was a problem updating the company.
       success: The company was updated.
@@ -617,7 +622,7 @@ en:
       main_address: Main Address
       other_addresses: Other Addresses
       address: Address
-      mailing_address: Mail
+      mailing_address: &post_address Mail
       street: *street
       post_code: *post_code
       city: *city
@@ -626,7 +631,7 @@ en:
       website: Company website
       org_nr: *org_nr
       delete: "Delete company"
-      confirm_are_you_sure: '*are_you_sure_confirm you want to delete the company?'
+      confirm_are_you_sure: *are_you_sure_confirm
       add_address: 'Add address'
       click_to_edit: 'click to edit'
       edit_branding_status: Edit Branding Status
@@ -917,7 +922,7 @@ en:
     all_shf_documents: All SHF Documents
     all_shf_minutes: All Meeting Minutes
 
-    invalid_upload_type: Sorry, this is not a file type you can upload.
+    invalid_upload_type: *invalid_upload_type
     file_too_large: *file_too_large_5MB
 
     contents_access_error: 'There was an error accessing the file: %{message}'
@@ -1110,7 +1115,7 @@ en:
         success: User profile updated successfully
         error: One or more problems prevented the profile from being updated.
       become:
-        have_become: You are now acting as user with id %{user_id}
+        have_become: "You are now acting as user %{user_name} (id: %{user_id}). Log out then log back in as the admin if you need to administrate again."
 
 
 
@@ -1155,7 +1160,7 @@ en:
           new_app_arrived: "A new membership application has been submitted that you should look at: "
           from: From
           view_app_here: "You can view the membership application here: "
-          must_be_logged_in: "(You must be logged in as the administrator to view it.)"
+          must_be_logged_in: &must_be_logged_in_as_admin "(You must be logged in as the administrator to view it.)"
 
       member_unpaid_over_x_months:
         subject: Members unpaid for more than %{num_months} months
@@ -1164,6 +1169,20 @@ en:
           full_name: Name
 
         error_sending:  FIXME - need text to display if there is a problem sending this email
+
+
+      new_membership_granted_co_hbrand_paid:
+        subject: New Member to welcome and send packet to
+        message_text:
+          this_is_member: "This person has paid and is now a member. Welcome them and send member package, you clever creature!"
+          member_number: *membership_number
+          categories: *business_categories
+          company: *company_one
+          company_website: *company_website
+          company_facebook_url: Facebook
+          company_postal_address: *post_address
+
+          must_be_logged_in: *must_be_logged_in_as_admin
 
 
     shf_application_mailer:
@@ -1239,7 +1258,7 @@ en:
         message_text:
           expire_alert_html: "Your SHF membership term ended on <span class='date-warning'> %{expire_date}.</span>"
           renew_membership: You can renew your membership and keep taking advantage of SHF member benefits by logging in and paying your membership fee.
-          pay_on_acct_page: "Go to your account page to pay:"
+          pay_on_acct_page: &pay_on_acct_page "Go to your account page to pay:"
 
 
       co_info_incomplete:
@@ -1253,6 +1272,11 @@ en:
           co_region_missing: "company address"
           please_complete: "Please add the above information so the company information is complete."
           company_link_login_msg: "Here's the link to the company so you can edit it: "
+
+      first_membership_fee_owed:
+        subject: "Approved, but haven't paid yet?"
+        greeting: *email_greeting
+        message_text: "You have been approved to become a member, but you must pay a membership fee in order to take advantage of the benefits, offers and discounts included in the membership. You can easily pay by following the steps below."
 
 
   devise:
