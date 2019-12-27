@@ -51,17 +51,42 @@ And(/^I complete the branding payment for "([^"]*)"$/) do |company_name|
   visit payment_success_path(user_id: @user.id, id: payment.id)
 end
 
-And(/^I abandon the payment$/) do
-  page.evaluate_script('window.history.back()')
+And(/^I abandon the payment by going back to the previous page$/) do
+  #page.evaluate_script('window.history.back()')
+  page.go_back
 end
 
 And(/^I incur an error in payment processing$/) do
   payment = @user.most_recent_membership_payment
+  # if there are no payments, make one so we can show the error page
+  unless payment
+    user_id = @user.id
+    start_date, expire_date = User.next_membership_payment_dates(user_id)
+    payment = Payment.create(payment_type: Payment::PAYMENT_TYPE_MEMBER,
+                              user_id: user_id,
+                              company_id: nil,
+                              status: Payment.order_to_payment_status(nil),
+                              start_date: start_date,
+                              expire_date: expire_date)
+    payment.save
+  end
   visit payment_error_path(user_id: @user.id, id: payment.id)
 end
 
 And(/^I incur an error in branding payment processing for "([^"]*)"$/) do |company_name|
   company = Company.find_by_name(company_name)
   payment = company.most_recent_branding_payment
+  # if there are no payments, make one so we can show the error page
+  unless payment
+    user_id = @user.id
+    start_date, expire_date = Company.next_branding_payment_dates(company.id)
+    payment = Payment.create(payment_type: Payment::PAYMENT_TYPE_BRANDING,
+                             user_id: user_id,
+                             company_id: company.id,
+                             status: Payment.order_to_payment_status(nil),
+                             start_date: start_date,
+                             expire_date: expire_date)
+    payment.save
+  end
   visit payment_error_path(user_id: @user.id, company_id: company.id, id: payment.id)
 end

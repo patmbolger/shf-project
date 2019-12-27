@@ -8,29 +8,29 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip();
   });
 
-  $("#userStatusForm").on("ajax:success", function(e, data) {
-    $("#userMemberStatus").html(data);
+  $("#user-status-form").on("ajax:success", function(e, data) {
+    $("#user-member-status").html(data);
     $('[data-toggle="tooltip"]').tooltip();
   });
 
-  $("#editUserStatusSubmit").click(function() {
-    $("#editStatusModal").modal("hide");
+  $("#edit-user-status-submit").click(function() {
+    $("#edit-status-modal").modal("hide");
   });
 
-  $(".custom-context").on("contextmenu", e => {
+  $(".custom-context-menu").on("contextmenu", e => {
     e.preventDefault();
     custom_context_id = e.currentTarget.id;
-    $(".custom-menu").toggle(100).css({
+    $(".image-actions-custom-menu").toggle(100).css({
       top: e.pageY + "px",
       left: e.pageX + "px"
     });
   });
 
   $(document).on("click", () => {
-    $(".custom-menu").hide(100);
+    $(".image-actions-custom-menu").hide(100);
   });
 
-  $(".custom-menu li").click(function(e) {
+  $(".image-actions-custom-menu li").click(function(e) {
     const data = {
       "company-h-brand": {
         download: ".download_h_mark",

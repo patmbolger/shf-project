@@ -1,10 +1,13 @@
-// TODO:  Is this file used??
-
 @import "shf-custom-colors";
+@import "payor";
 
 
 .is-admin {
   color: $is-admin-color;
+  font-weight: bold;
+}
+
+.login-email {
   font-weight: bold;
 }
 
@@ -22,8 +25,30 @@
     margin-left: 0;
   }
 
+  .login-name {
+    font-size: larger;
+    font-weight: bold;
+  }
+}
+
+
+.users {
+
+  table {
+    margin-top: 0;
+  }
+
 }
 
 #text {
   margin-top: 1rem;
+}
+
+
+.edit_user {
+  label.current-password {
+    color: $primary;
+    font-size: larger;
+    font-weight: bold;
+  }
 }
