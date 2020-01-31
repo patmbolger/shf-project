@@ -3,6 +3,8 @@
   business_category: the BusinessCategory instance
   parent_cat_id: ID of the parent category for a subcategory
 
+- add_subcat_title = "#{icon('fas', 'plus', class: 'add-entity-button')} #{t('business_categories.index.add_subcategory')}".html_safe
+
 %tr.category-display-row{ id: "category-display-row-#{business_category.id}",
                           class: context == 'subcategory' ? 'table-warning' : '' }
 
@@ -11,7 +13,7 @@
   - if context == 'category'
     %td.description= business_category.description
     %td.add_subcategory
-      = link_to icon('fas', 'plus', class: 'add-entity-button'),
+      = link_to add_subcat_title,
                 new_business_category_path(parent_cat_id: business_category.id),
                 remote: true,
                 class: 'btn btn-sm btn-light new-category-button'

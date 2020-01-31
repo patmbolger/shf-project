@@ -4,7 +4,6 @@ class BusinessCategoriesController < ApplicationController
 
   include RobotsMetaTagShowActionOnly
 
-  before_action :set_business_category, only: [:show, :edit, :update, :destroy]
   before_action :authorize_business_category, only: [:update, :show, :edit, :destroy]
 
 

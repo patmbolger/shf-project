@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_14_172102) do
+ActiveRecord::Schema.define(version: 2019_11_30_225826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,9 @@ ActiveRecord::Schema.define(version: 2019_05_14_172102) do
     t.string "site_meta_image_content_type"
     t.integer "site_meta_image_file_size"
     t.datetime "site_meta_image_updated_at"
+    t.integer "singleton_guard", default: 0, null: false
+    t.integer "payment_too_soon_days", default: 60, null: false, comment: "Warn user that they are paying too soon if payment is due more than this many days away."
+    t.index ["singleton_guard"], name: "index_app_configurations_on_singleton_guard", unique: true
   end
 
   create_table "business_categories", force: :cascade do |t|
@@ -74,6 +77,8 @@ ActiveRecord::Schema.define(version: 2019_05_14_172102) do
     t.string "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "ancestry"
+    t.index ["ancestry"], name: "index_business_categories_on_ancestry"
   end
 
   create_table "business_categories_shf_applications", force: :cascade do |t|
@@ -110,6 +115,9 @@ ActiveRecord::Schema.define(version: 2019_05_14_172102) do
     t.string "dinkurs_company_id"
     t.boolean "show_dinkurs_events"
     t.string "short_h_brand_url"
+    t.string "facebook_url"
+    t.string "instagram_url"
+    t.string "youtube_url"
     t.index ["company_number"], name: "index_companies_on_company_number", unique: true
   end
 
@@ -180,6 +188,27 @@ ActiveRecord::Schema.define(version: 2019_05_14_172102) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "one_time_tasker_task_attempts", force: :cascade do |t|
+    t.string "task_name", null: false
+    t.string "task_source"
+    t.datetime "attempted_on", null: false
+    t.boolean "was_successful", default: false, null: false
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "ordered_list_entries", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "description"
+    t.integer "list_position", null: false, comment: "This is zero-based. It is the order (position) that this item should appear in its checklist"
+    t.string "ancestry"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ancestry"], name: "index_ordered_list_entries_on_ancestry"
+    t.index ["name"], name: "index_ordered_list_entries_on_name"
   end
 
   create_table "payments", force: :cascade do |t|
