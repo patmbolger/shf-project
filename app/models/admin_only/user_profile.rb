@@ -1,5 +1,5 @@
 module AdminOnly
-  # Allows pundit for find policy class
+  # Allows pundit to find policy class
   class UserProfile
   end
 end

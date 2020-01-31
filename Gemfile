@@ -80,6 +80,8 @@ gem 'ancestry'
 
 gem 'cookies_eu'
 
+gem 'ancestry'
+
 group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
