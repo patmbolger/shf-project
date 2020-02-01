@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_30_225826) do
+ActiveRecord::Schema.define(version: 2020_01_08_194625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,21 @@ ActiveRecord::Schema.define(version: 2019_11_30_225826) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "master_checklists", force: :cascade do |t|
+    t.string "name", null: false, comment: "This is a shortened way to refer to the item."
+    t.string "displayed_text", null: false, comment: "This is what users see"
+    t.string "description"
+    t.integer "list_position", default: 0, null: false, comment: "This is zero-based. It is the order (position) that this item should appear in its checklist"
+    t.string "ancestry"
+    t.string "notes", comment: "Notes about this item."
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_in_use", default: true, null: false
+    t.datetime "is_in_use_changed_at"
+    t.index ["ancestry"], name: "index_master_checklists_on_ancestry"
+    t.index ["name"], name: "index_master_checklists_on_name"
+  end
+
   create_table "member_app_waiting_reasons", comment: "reasons why SHF is waiting for more info from applicant. Add more columns when more locales needed.", force: :cascade do |t|
     t.string "name_sv", comment: "name of the reason in svenska/Swedish"
     t.string "description_sv", comment: "description for the reason in svenska/Swedish"
@@ -198,17 +213,6 @@ ActiveRecord::Schema.define(version: 2019_11_30_225826) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "ordered_list_entries", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "description"
-    t.integer "list_position", null: false, comment: "This is zero-based. It is the order (position) that this item should appear in its checklist"
-    t.string "ancestry"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["ancestry"], name: "index_ordered_list_entries_on_ancestry"
-    t.index ["name"], name: "index_ordered_list_entries_on_name"
   end
 
   create_table "payments", force: :cascade do |t|
@@ -275,6 +279,21 @@ ActiveRecord::Schema.define(version: 2019_11_30_225826) do
     t.index ["shf_application_id"], name: "index_uploaded_files_on_shf_application_id"
   end
 
+  create_table "user_checklists", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "master_checklist_id"
+    t.string "name", null: false
+    t.string "description"
+    t.datetime "date_completed"
+    t.string "ancestry"
+    t.integer "list_position", null: false, comment: "This is zero-based. It is the order (position) that this item should appear in its checklist"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["ancestry"], name: "index_user_checklists_on_ancestry"
+    t.index ["master_checklist_id"], name: "index_user_checklists_on_master_checklist_id"
+    t.index ["user_id"], name: "index_user_checklists_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -317,4 +336,6 @@ ActiveRecord::Schema.define(version: 2019_11_30_225826) do
   add_foreign_key "shf_applications", "users"
   add_foreign_key "shf_documents", "users", column: "uploader_id"
   add_foreign_key "uploaded_files", "shf_applications"
+  add_foreign_key "user_checklists", "master_checklists"
+  add_foreign_key "user_checklists", "users"
 end

@@ -5,7 +5,7 @@
 
 - add_subcat_title = "#{icon('fas', 'plus', class: 'add-entity-button')} #{t('business_categories.index.add_subcategory')}".html_safe
 
-%tr.category-display-row{ id: "category-display-row-#{business_category.id}" }
+%tr.business_category.category-display-row{ id: "category-display-row-#{business_category.id}" }
 
   %td.name= business_category.name
 
@@ -31,7 +31,7 @@
               class: 'edit-category-button'
 
   %td.delete
-    = link_to icon('far', 'trash-alt'),
+    = link_to icon('far', 'trash-alt', class: 'delete-category'),
               business_category, method: :delete, remote: true,
               data: { confirm: t('confirm_are_you_sure') },
               class: 'delete-category'
