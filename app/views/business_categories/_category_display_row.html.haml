@@ -5,8 +5,7 @@
 
 - add_subcat_title = "#{icon('fas', 'plus', class: 'add-entity-button')} #{t('business_categories.index.add_subcategory')}".html_safe
 
-%tr.category-display-row{ id: "category-display-row-#{business_category.id}",
-                          class: context == 'subcategory' ? 'table-warning' : '' }
+%tr.category-display-row{ id: "category-display-row-#{business_category.id}" }
 
   %td.name= business_category.name
 
