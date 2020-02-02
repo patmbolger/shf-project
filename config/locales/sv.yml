@@ -56,7 +56,7 @@ sv:
 
   time_ago: '%{amount_of_time} sedan'
 
-  confirm_are_you_sure: &are_you_sure_confirm Är du säker
+  confirm_are_you_sure: &are_you_sure_confirm Är du säker?
 
   hello: Hallå, %{name}
 

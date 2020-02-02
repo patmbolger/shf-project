@@ -1,6 +1,13 @@
 And(/^the following business categories exist$/) do |table|
   table.hashes.each do |business_category|
-    FactoryBot.create(:business_category, business_category)
+
+    subcategories = business_category.delete('subcategories').split(/\s*,\s*/)
+
+    cat = FactoryBot.create(:business_category, business_category)
+
+    subcategories.each do |subcategory_name|
+      FactoryBot.create(:business_category, name: subcategory_name, parent_id: cat.id)
+    end
   end
 end
 

@@ -10,54 +10,61 @@ Feature: As an admin
       | applicant@random.com |       |
       | admin@shf.com        | true  |
 
+    And the following business categories exist
+      | name         | description      | subcategories          |
+      | dog grooming | grooming dogs    | light trim, custom cut |
+
     And I am logged in as "admin@shf.com"
 
-
-
-    
-
-  Scenario Outline: Admin creates a new Business Category
+  @selenium
+  Scenario Outline: Admin creates new Business Subcategories
     Given I am on the "business categories" page
-    And I click on t("business_categories.new_business_category")
+    And I click the icon with CSS class "add-entity-button" for the row with "dog grooming"
+    And I should see t("business_categories.index.add_subcategory")
     When I fill in the translated form with data:
       | activerecord.attributes.business_category.name | activerecord.attributes.business_category.description |
-      | <category_name>                        | <category_description>                        |
-    And I click on t("business_categories.form.save")
-    And I should see t("business_categories.create.success")
-    And I should see "<category_name>"
+      | <subcategory_name>                             | <subcategory_description>                             |
+
+    When I click on t("submit")
+    Then I should see "<subcategory_name>"
 
     Scenarios:
-      | category_name    | category_description                                                                                |
-      | dog grooming     | washing, brushing, cutting, and trimming hair and nails on dogs                                     |
-      | agility training | training dogs to complete agility courses, from beginners to expert competition level               |
-      | dog psychology   | addresses behavioural issues of dogs, including the emotional, cognitive, and psycho-social aspects |
-      | carting/drafting |                                                                                                     |
+      | subcategory_name    | subcategory_description         |
+      | overall grooming    | full service grooming           |
+      | trim nails          | so you don't get scratched!     |
+      | light trim          | make him or her presentable     |
+      | custom cut          | impress your friends            |
 
-  Scenario Outline: Create a new category - when things go wrong
+
+  @selenium
+  Scenario Outline: Create new subcategory - when things go wrong
     Given I am on the "business categories" page
-    And I click on t("business_categories.new_business_category")
+    And I click the icon with CSS class "add-entity-button" for the row with "dog grooming"
+    And I should see t("business_categories.index.add_subcategory")
+
     When I fill in the translated form with data:
       | activerecord.attributes.business_category.name | activerecord.attributes.business_category.description |
-      | <category_name>                        | <category_description>                        |
-    When I click on t("business_categories.form.save")
+      | <subcategory_name>                             | <subcategory_description>                             |
+
+    When I click on t("submit")
     Then I should see <error>
 
     Scenarios:
-      | category_name | category_description | error                      |
-      |               |                      | t("errors.messages.blank") |
-      |               | some description     | t("errors.messages.blank") |
+      | subcategory_name | subcategory_description | error                      |
+      |                  |                         | t("errors.messages.blank") |
+      |                  | some description        | t("errors.messages.blank") |
 
+
+  @selenium
+  Scenario: Delete a subcategory
+    Given I am on the "business categories" page
+    Then I should see "light trim"
+    When I click and accept the icon with CSS class "delete-category" for the row with "light trim"
+    Then I should not see "light trim"
+
+
+  @selenium
   Scenario: Indicate required field
     Given I am on the "business categories" page
-    And I click on t("business_categories.new_business_category")
+    And I click the icon with CSS class "add-entity-button" for the row with "dog grooming"
     Then the field t("activerecord.attributes.business_category.name") should have a required field indicator
-
-  Scenario: Listing Business Categories restricted for Non-admins
-    Given I am logged in as "applicant@random.com"
-    And I am on the "business categories" page
-    Then I should see a message telling me I am not allowed to see that page
-
-  Scenario: Listing Business Categories restricted for visitors
-    Given I am Logged out
-    And I am on the "business categories" page
-    Then I should see a message telling me I am not allowed to see that page
