@@ -27,7 +27,7 @@ RSpec.describe ShfIconsHelper, type: :helper do
 
       it 'uses the icon specified in the entry' do
         expect(helper.edit_icon).to match(/<i(.*)class="(.*) fa-edit"(.*)><\/i>/)
-        expect(helper.destroy_icon).to match(/<i(.*)class="(.*) fa-trash"(.*)><\/i>/)
+        expect(helper.destroy_icon).to match(/<i(.*)class="(.*) fa-trash-alt"(.*)><\/i>/)
       end
 
       it 'calls get_fa_icon to then produce the code via FontAwesome icon() method' do
@@ -85,12 +85,10 @@ RSpec.describe ShfIconsHelper, type: :helper do
 
       it 'returns the icon name' do
         expect(helper.edit_fa_icon_name).to eq 'fa-edit'
-        expect(helper.destroy_fa_icon_name).to eq 'fa-trash'
+        expect(helper.destroy_fa_icon_name).to eq 'fa-trash-alt'
       end
     end
   end
 
 
 end
-
-

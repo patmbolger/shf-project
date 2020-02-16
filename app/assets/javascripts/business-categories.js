@@ -77,30 +77,41 @@ var categories = {
         // If not, the display row is for a *new* category - append to table.
 
         var $editRow = $('#category-edit-row-' + data.business_category_id);
+
         if ($editRow.length === 1) {
+
           $editRow.replaceWith(data.display_row);
+
         } else {
 
           if (data.context === 'category') {
-            $('#business_categories').append(data.display_row);
-          } else {
-            // Look for subcategory row - if found, replace; otherwise add
-            var $subcatRow = $('#subcategories-for-' + data.business_category_id);
 
-            if ($subcatRow.length === 1) {
-              $subcatRow.replaceWith(data.display_row);
-            } else {
-              $('#category-display-row-' + data.business_category_id).after(data.display_row);
-            }
+            $('#business_categories').append(data.display_row);
+
+          } else {
+
+            categories.addOrReplaceSubcategory(data);
           }
 
-          // Remove the edit row where the category was created
+          // Remove the edit row where the category (or subcategory) was created
           categories.removeThisRow(this);
         }
 
       } else {
         $('#category-edit-errors').html(data.errors);
       }
+    }
+  },
+
+  addOrReplaceSubcategory: function(data) {
+    var $subcatRow = $('#subcategories-for-' + data.business_category_id);
+
+    // Look for subcategory row - if found, replace; otherwise add
+
+    if ($subcatRow.length === 1) {
+      $subcatRow.replaceWith(data.display_row);
+    } else {
+      $('#category-display-row-' + data.business_category_id).after(data.display_row);
     }
   },
 

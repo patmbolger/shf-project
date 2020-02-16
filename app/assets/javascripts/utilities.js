@@ -62,7 +62,8 @@ var Utility = {
 
   actionErrorOccurred: function(response, data) {
     // Check "status" value in response payload.
-    // Value should equal an HTTP status code
+    // Value should equal a Rails HTTP status code (int or lower-case string)
+    // Return true if error, false otherwise
     var action_status;
     if (data !== undefined && data.status !== undefined) {
       action_status = data.status;
@@ -70,11 +71,9 @@ var Utility = {
       action_status = 200;
     }
 
-    if (action_status !== 200) { return true; }
+    if (action_status === 200 || action_status === 'ok') { return false; }
 
-    return false;
+    return true;
   }
-
-
 
 };
