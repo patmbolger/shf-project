@@ -17,7 +17,7 @@ var categories = {
   },
 
   showEditRow: function(e, response) {
-    if (Utility.checkHttpError(response) === false) {
+    if (Utility.httpErrorOccurred(response) === false) {
       var data = JSON.parse(response.responseText);
 
       // Receiving an edit row from server - replace display row with that
@@ -29,7 +29,7 @@ var categories = {
   },
 
   showDisplayRow: function(e, response) {
-    if (Utility.checkHttpError(response) === false) {
+    if (Utility.httpErrorOccurred(response) === false) {
       var data = JSON.parse(response.responseText);
 
       // Receiving display row from server - replace edit row with that
@@ -41,7 +41,7 @@ var categories = {
   },
 
   showNewCategoryRow: function(e, response) {
-    if (Utility.checkHttpError(response) === false) {
+    if (Utility.httpErrorOccurred(response) === false) {
       var data = JSON.parse(response.responseText);
 
       if (data.context === 'category') {
@@ -68,10 +68,10 @@ var categories = {
   },
 
   handleFormResults: function(e, response) {
-    if (Utility.checkHttpError(response) === false) {
+    if (Utility.httpErrorOccurred(response) === false) {
       var data = JSON.parse(response.responseText);
 
-      if (Utility.checkActionError(response, data) === false) {
+      if (Utility.actionErrorOccurred(response, data) === false) {
         // Receiving a display row from server
         // If we find a matching edit row, replace that with the display row
         // If not, the display row is for a *new* category - append to table.
@@ -105,7 +105,7 @@ var categories = {
   },
 
   removeCategory: function(e, response) {
-    if (Utility.checkHttpError(response) === false) {
+    if (Utility.httpErrorOccurred(response) === false) {
       var $targetRow = $(e.target).closest('tr');
       var $targetTable = $targetRow.closest('table');
       var targetRowId = $targetRow.attr('id');

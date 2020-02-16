@@ -13,7 +13,7 @@
     = form_for business_category, remote: true,
                html: { class: 'edit-category-form' } do |f|
 
-      %table.table.border.border-dark.category-edit-row-table
+      %table.table.border.border-dark
         %thead
           %tr
             %th.center-text{ colspan: 4 }
@@ -21,7 +21,7 @@
                 key = 'business_categories.index.'
                 key += record_type == 'new_category' ? 'add_' : 'edit_'
                 key += context
-                haml_io.write t(key)
+              = t(key)
         %tbody
           %tr
             %td

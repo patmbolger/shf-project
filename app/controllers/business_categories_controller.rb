@@ -77,7 +77,8 @@ class BusinessCategoriesController < ApplicationController
           else
             category_id =  @business_category.parent_id
             display_row = render_to_string(partial: 'subcategories_display_row',
-                                           locals: { business_category: @business_category.parent })
+                                           locals: { context: context,
+                                                     business_category: @business_category.parent })
           end
 
           render json: { business_category_id: category_id,
@@ -155,10 +156,10 @@ class BusinessCategoriesController < ApplicationController
 
           render json: { business_category_id: @business_category.id,
                          display_row: display_row,
-                         status: 200 }
+                         status: :ok }
         else
           render json: { errors: helpers.model_errors_helper(@business_category),
-                         status: 422 }
+                         status: :unprocessable_entity }
 
         end
       end
@@ -171,7 +172,7 @@ class BusinessCategoriesController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to business_categories_url, notice: t('.success') }
-      format.js { render json: { status: 200 } }
+      format.js { render json: { status: :ok } }
     end
 
   rescue ActiveRecord::RecordNotFound

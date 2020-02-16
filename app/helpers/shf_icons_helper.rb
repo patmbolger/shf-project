@@ -75,7 +75,7 @@ module ShfIconsHelper
   # Standard actions: edit, view, destroy, etc.,  icons:
   FA_EDIT = 'edit'
   FA_VIEW = 'eye'
-  FA_DESTROY = 'trash'
+  FA_DESTROY = 'trash-alt'
 
 
   # Icons for specific pages/views:

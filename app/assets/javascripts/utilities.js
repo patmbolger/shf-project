@@ -49,7 +49,7 @@ var Utility = {
     }
   },
 
-  checkHttpError: function(response) {
+  httpErrorOccurred: function(response) {
     // Check HTTP error code in jquery response
     // Show alert if error.
     // Return true if error, false otherwise
@@ -60,7 +60,7 @@ var Utility = {
     return false;
   },
 
-  checkActionError: function(response, data) {
+  actionErrorOccurred: function(response, data) {
     // Check "status" value in response payload.
     // Value should equal an HTTP status code
     var action_status;
