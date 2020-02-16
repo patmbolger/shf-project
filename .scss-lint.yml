@@ -212,8 +212,8 @@ linters:
     spaces: 0
 
   StringQuotes:
-    enabled: true
-    style: double_quotes or single_quotes
+    enabled: false
+    style: double_quotes # or single_quotes
 
   TrailingSemicolon:
     enabled: true
