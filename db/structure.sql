@@ -30,7 +30,9 @@ CREATE TABLE public.addresses (
     latitude double precision,
     longitude double precision,
     visibility character varying DEFAULT 'street_address'::character varying,
-    mail boolean DEFAULT false
+    mail boolean DEFAULT false,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1768,6 +1770,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20191030162238'),
 ('20191130225826'),
 ('20191204203416'),
-('20200108194625');
+('20200108194625'),
+('20200205213528');
 
 

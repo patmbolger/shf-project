@@ -5,7 +5,8 @@
 
 - parent_cat_id = local_assigns.fetch(:parent_cat_id, nil)
 
-- add_subcat_title = "#{icon('fas', 'plus', class: 'add-entity-button')} #{t('business_categories.index.add_subcategory')}".html_safe
+- add_subcat_title = plus_icon(html_options: { class: 'add-entity-button' },
+                               text: t('business_categories.index.add_subcategory')).html_safe
 
 %tr.business_category.category-display-row{ id: "category-display-row-#{business_category.id}" }
 
@@ -33,8 +34,7 @@
               class: 'edit-category-button'
 
   %td.delete
-    = link_to destroy_icon(fa_style: 'far',
-                           html_options: { class: 'delete-category text-danger' }),
+    = link_to destroy_icon(html_options: { class: 'delete-category text-danger' }),
               business_category, method: :delete, remote: true,
               data: { confirm: t('confirm_are_you_sure') },
               class: 'delete-category'
