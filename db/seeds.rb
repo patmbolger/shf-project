@@ -15,12 +15,20 @@ require_relative 'require_all_seeders_and_helpers'
 
 include SeedHelper
 
-# Defer guideline start date to allow users to become members w/o completing that.
-ENV['SHF_MEMBERSHIP_GUIDELINES_CHECKLIST_REQUIRED_START_DATE'] = Time.zone.tomorrow.to_s
-
 
 SEEDING_LOG_FILE_NAME = LogfileNamer.name_for('db:seed') unless defined?(SEEDING_LOG_FILE_NAME)
 SEEDING_LOG_FACILITY = 'db:seed' unless defined?(SEEDING_LOG_FACILITY)
+
+ActivityLogger.open(SEEDING_LOG_FILE_NAME, SEEDING_LOG_FACILITY, 'Init') do |log|
+  unless ENV['SHF_MEMBERSHIP_GUIDELINES_CHECKLIST_REQUIRED_START_DATE']
+    ENV['SHF_MEMBERSHIP_GUIDELINES_CHECKLIST_REQUIRED_START_DATE'] = Time.zone.tomorrow.to_s
+
+    log.warn("****************************************************************************")
+    log.warn("Using default for SHF_MEMBERSHIP_GUIDELINES_CHECKLIST_REQUIRED_START_DATE")
+    log.warn("If you don't want this you should define that in .env.development\n")
+    log.warn("****************************************************************************")
+  end
+end
 
 
 SEED_USERS = 100 unless defined?(SEED_USERS)
