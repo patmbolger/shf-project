@@ -31,7 +31,9 @@ class Company < ApplicationRecord
   has_many :payments, dependent: :destroy
   accepts_nested_attributes_for :payments
 
-  has_many :business_categories, through: :shf_applications
+  has_many :business_categories,
+              -> { where("shf_applications.state = 'accepted'") },
+              through: :shf_applications
 
   has_many :addresses, as: :addressable, dependent: :destroy,
            inverse_of: :addressable
@@ -162,7 +164,10 @@ class Company < ApplicationRecord
 
 
   def categories_names
-    categories.select(:name).distinct.order(:name).pluck(:name)
+    # Fetch category names only for accepted applications from members
+    categories.select(:name).distinct.order(:name).joins(shf_applications: :user)
+              .where("users.member = ?", true)
+              .pluck(:name)
   end
 
 
