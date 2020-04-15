@@ -21,6 +21,7 @@ Feature: User completes (or not) Membership Ethical Guidelines checklist
   Scenario: User checks all guidelines - completes the list
     Given I am logged in as "new_user@example.com"
     And I am on the "user account" page for "new_user@example.com"
+    And I should see t("users.ethical_guidelines_link_or_checklist.agree_to_guidelines")
     When I click on t("users.ethical_guidelines_link_or_checklist.agree_to_guidelines") link
     Then I should be on the "first unchecked membership guideline" page for "new_user@example.com"
     And I should see "Medlemsåtagande" in the h1 title
