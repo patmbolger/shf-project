@@ -13,6 +13,9 @@
 
 .entry-content.container
   - if @user.member?
-    = render partial: 'show_for_member', locals: { user: @user, current_user: @current_user, app_config: @app_configuration }
+    = render partial: 'show_for_member',
+             locals: { user: @user,
+                       current_user: @current_user,
+                       app_config: @app_configuration }
   - else
     = render partial: 'show_for_applicant', locals: { user: @user, current_user: @current_user }

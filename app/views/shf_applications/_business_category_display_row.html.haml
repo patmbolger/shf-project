@@ -1,0 +1,22 @@
+-# Local vars -
+  shf_application: a member's SHF application
+  business_category: the BusinessCategory instance
+
+%tr.business_category.category-display-row{ id: "subcategories-display-row-#{business_category.id}" }
+
+  %td.name= business_category.name
+
+  %td.name
+    - subcategories = shf_application.business_subcategories(business_category)
+    - if subcategories
+      = subcategories.map(&:name).join(', ')
+    - else
+      None
+
+  %td.edit
+    %span.float-right
+      = link_to edit_icon,
+                get_edit_row_business_category_shf_application_path(shf_application,
+                                    business_category_id: business_category.id),
+                class: 'edit-subcategories-button',
+                remote: true

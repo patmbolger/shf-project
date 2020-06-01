@@ -50,6 +50,47 @@ class ShfApplication < ApplicationRecord
   CAN_EDIT_STATES = [:new, :waiting_for_applicant]
 
 
+  def business_subcategories(business_category)
+    return nil unless business_category.is_root?
+    return nil unless business_categories.include?(business_category)
+
+    subcategories = []
+
+    business_category.children.joins(:shf_applications).each do |subcategory|
+      if subcategory.shf_applications.map(&:id).include?(self.id)
+        subcategories << subcategory
+      end
+    end
+    subcategories
+  end
+
+  def set_business_subcategories(business_category, subcategories)
+    # subcategories can be 1) an active record relation, 2) an array of
+    # BusinessCategory records, or 3) a single BusinessCategory record.
+
+    return nil unless business_category.is_root?
+    return nil unless business_categories.include?(business_category)
+
+    if !subcategories.is_a?(Array)
+      if subcategories.respond_to?(:to_a)
+        subcategories = subcategories.to_a
+      else
+        subcategories = [subcategories]
+      end
+    end
+
+    # Delete existing subcategories
+    self.business_categories.where.not(ancestry: nil).each do |subcategory|
+      self.business_categories.delete(subcategory)
+    end
+
+
+    subcategories.each do |subcategory|
+      self.business_categories << subcategory
+    end
+  end
+
+
   def add_observers
     add_observer MembershipStatusUpdater.instance, :shf_application_updated
   end

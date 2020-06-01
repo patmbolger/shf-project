@@ -24,15 +24,17 @@
 $(function() {
     'use strict';
 
-    $.each($('.search_field'), function (index, ele) {
-      if ($(ele).data('select2') === undefined &&
-          $(ele).next().hasClass('select2-container')) {
-        $(ele).next().remove();
-      }
-      $(ele).select2({
-        language: $(ele).data('language')
-      });
-    });
+    initSelect2Fields('.search_field');
+
+    // $.each($('.search_field'), function (index, ele) {
+    //   if ($(ele).data('select2') === undefined &&
+    //       $(ele).next().hasClass('select2-container')) {
+    //     $(ele).next().remove();
+    //   }
+    //   $(ele).select2({
+    //     language: $(ele).data('language')
+    //   });
+    // });
     // Above logic due to problem with using back arrow in browser - see:
     // http://stackoverflow.com/questions/36497723/
     // select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
@@ -54,6 +56,36 @@ $(function() {
       })
     };
 } );
+
+function initSelect2Fields(selector) {
+  // selection string includes class ('.') or ID ('#') designator
+
+  $.each($(selector), function (index, ele) {
+    if ($(ele).data('select2') === undefined &&
+        $(ele).next().hasClass('select2-container')) {
+      $(ele).next().remove();
+    }
+    $(ele).select2({
+      language: $(ele).data('language')
+    });
+  });
+  // Above logic due to problem with using back arrow in browser - see:
+  // http://stackoverflow.com/questions/36497723/
+  // select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
+}
+
+$.each($('.search_field'), function (index, ele) {
+  if ($(ele).data('select2') === undefined &&
+      $(ele).next().hasClass('select2-container')) {
+    $(ele).next().remove();
+  }
+  $(ele).select2({
+    language: $(ele).data('language')
+  });
+});
+// Above logic due to problem with using back arrow in browser - see:
+// http://stackoverflow.com/questions/36497723/
+// select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
 
 /*!
  * Bootstrap 4 multi dropdown navbar ( https://bootstrapthemes.co/demo/resource/bootstrap-4-multi-dropdown-navbar/ )
