@@ -56,11 +56,14 @@ class ShfApplication < ApplicationRecord
 
     subcategories = []
 
-    business_category.children.joins(:shf_applications).each do |subcategory|
-      if subcategory.shf_applications.map(&:id).include?(self.id)
+    business_category_ids =  self.business_categories.map(&:id)
+
+    BusinessCategory.children_of(business_category.id).each do |subcategory|
+      if business_category_ids.include?(subcategory.id)
         subcategories << subcategory
       end
     end
+
     subcategories
   end
 
@@ -79,11 +82,10 @@ class ShfApplication < ApplicationRecord
       end
     end
 
-    # Delete existing subcategories
-    self.business_categories.where.not(ancestry: nil).each do |subcategory|
+    # Delete existing subcategories for this business category
+    self.business_categories.children_of(business_category.id).each do |subcategory|
       self.business_categories.delete(subcategory)
     end
-
 
     subcategories.each do |subcategory|
       self.business_categories << subcategory
