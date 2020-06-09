@@ -7,7 +7,9 @@
 .categories
   .row.section-title
     .col.mt-2
-      %h3 Business Categories:
+      %h3
+        = succeed ':' do
+          = t('activerecord.models.business_category.other')
 
   .row
     .col.mt-2
@@ -15,10 +17,10 @@
         %table.table.table-hover.table-sm
 
           %thead
-            %th Category
-            %th Subcategories
+            %th= t('activerecord.models.business_category.one')
+            %th= t('activerecord.attributes.business_category.subcategories')
             %th
-              %span.float-right Edit
+              %span.float-right= t('action')
 
           %tbody
             - shf_application.business_categories.roots.each do |business_category|

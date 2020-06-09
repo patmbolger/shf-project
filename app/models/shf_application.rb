@@ -58,7 +58,7 @@ class ShfApplication < ApplicationRecord
 
     business_category_ids =  self.business_categories.map(&:id)
 
-    BusinessCategory.children_of(business_category.id).each do |subcategory|
+    BusinessCategory.children_of(business_category.id).order(:name).each do |subcategory|
       if business_category_ids.include?(subcategory.id)
         subcategories << subcategory
       end

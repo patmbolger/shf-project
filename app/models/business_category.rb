@@ -7,11 +7,14 @@ class BusinessCategory < ApplicationRecord
   has_many :companies, through: :shf_applications
 
   def self.for_search
-    categories = roots.order(:name).to_a
-    categories.dup.each_with_index do |category, idx|
-      categories.insert(idx+1, category.children)
+    categories = []
+
+    roots.order(:name).each do |category|
+      categories << category
+      categories += category.children.order(:name)
     end
-    categories.flatten
+
+    categories
   end
 
   def search_name

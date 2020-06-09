@@ -46,8 +46,9 @@ $(function() {
     // Bind the click action to the Utility toggle (show/hide) function
     $('#toggle_search_form').click(Utility.toggle);
 
-    // Enable all Bootstrap tooltips
+    // Enable all Bootstrap tooltips and popovers
     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
 
     // CKeditor initialization
     var ready = function() {

@@ -15,8 +15,17 @@
 
   %td.edit
     %span.float-right
-      = link_to edit_icon,
-                get_edit_row_business_category_shf_application_path(shf_application,
-                                    business_category_id: business_category.id),
-                class: 'edit-subcategories-button',
-                remote: true
+      - if business_category.has_children?
+        = link_to edit_icon,
+                  get_edit_row_business_category_shf_application_path(shf_application,
+                                      business_category_id: business_category.id),
+                  class: 'edit-subcategories-button',
+                  remote: true
+      - else
+        - mail_to_admin = mail_to(ENV['SHF_ADMIN_EMAIL'], 'administrator')
+        = link_to(question_icon, 'javascript:;',
+                  data: { toggle: 'popover',
+                          trigger: 'focus',
+                          html: true,
+                          content: t('.category_no_subcategories_html',
+                                     mailto_admin: mail_to_admin) })

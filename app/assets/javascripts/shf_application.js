@@ -46,6 +46,7 @@ $(function() {
       var $editRow = $('#subcategories-edit-row-' + data.business_category_id);
 
       $editRow.replaceWith(data.display_row);
+
       return false;
     }
   });

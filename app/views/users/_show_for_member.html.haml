@@ -6,7 +6,9 @@
 .membership
   .row.section-title
     .col.mt-2
-      %h3.section-title= t("membership").capitalize
+      %h3.section-title
+        = succeed ':' do
+          = t("membership").capitalize
   .row
     .col
       = field_or_none(t('.membership_number'), user.membership_number,

@@ -17,7 +17,7 @@
       %table.table.border.border-dark
         %thead
           %tr
-            %th.center-text{ colspan: 4 } Add/Remove Business Subcategories
+            %th.center-text{ colspan: 4 }= t('.add_remove_subcategories')
 
         %tbody
           %tr
@@ -25,7 +25,7 @@
             %td.name= business_category.name
 
             %td
-              - opts = options_from_collection_for_select(business_category.children,
+              - opts = options_from_collection_for_select(business_category.children.order(:name),
                                                           :id, :name,
                                                           subcategories.map(&:id))
 
@@ -35,7 +35,7 @@
                            class: 'form-control subcategories_field',
                            data: { language: language } }
 
-            %td
+            %td.border-right.border-dark
               .float-right
                 = f.submit t('submit'), class: 'btn btn-success btn-sm'
                 %br
