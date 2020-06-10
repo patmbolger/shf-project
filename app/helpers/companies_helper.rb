@@ -4,8 +4,9 @@ module CompaniesHelper
     user.admin? || user.in_company_numbered?(company.company_number)
   end
 
-  def list_categories company, separator=' '
-    company.categories_names.join(separator)
+  def list_categories(company, separator=' ', include_subcategories=true)
+
+    company.categories_names(include_subcategories).join(separator)
   end
 
 

@@ -27,7 +27,7 @@
         %span.company-name
           = company.name
         %br
-        = list_categories(company, ', ')
+        = list_categories(company, ', ', false)
 
     - if render_to == :html && context == :internal
       %div

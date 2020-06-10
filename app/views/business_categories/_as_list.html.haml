@@ -1,7 +1,12 @@
 .post-category
   %ul.post-categories
     - categories.each do | category |
+      - name = ''
       - if current_user.admin?
-        %li= link_to category.name, business_category_path(category)
+        - name = link_to(category.name, business_category_path(category))
       - else
-        %li= category.name
+        - name = category.name
+
+      -# - name += subcategories_list_in_parens(category)
+
+      %li= name

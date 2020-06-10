@@ -153,6 +153,10 @@ a.btn.disabled, {
   }
 }
 
+table.company-members tr.member > td {
+  white-space: normal;
+}
+
 .company-story img {
 max-width:100%;
 height:auto!important;

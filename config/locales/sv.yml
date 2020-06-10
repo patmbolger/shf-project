@@ -57,6 +57,7 @@ sv:
   none_plur: &none_plur Inga
   none_n: &none_n Ingen
   name_missing: Namn Saknas
+  including: inklusive
 
   unknown: okänd
 
@@ -545,9 +546,10 @@ sv:
       category_no_subcategories_html: Den här kategorin har ingen
          underkategorier ännu. Du kan begära %{mailto_admin} att tilldela en
          en eller flera underkategorier.
+      subcategories_for: Underkategorier för %{category_name}
 
     business_category_edit_row:
-      add_remove_subcategories: Lägg till / ta bort underkategorier för företag
+      add_remove_subcategories: Lägg till / ta bort underkategorier
 
     index:
       title: Alla inkomna ansökningar

@@ -22,4 +22,5 @@ class BusinessCategory < ApplicationRecord
 
     parent.name + ' >> ' + name
   end
+
 end

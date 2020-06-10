@@ -164,11 +164,22 @@ class Company < ApplicationRecord
   end
 
 
-  def categories_names
+  def categories_names(include_subcategories)
     # Fetch category names only for accepted applications from members
-    categories.select(:name).distinct.order(:name).joins(shf_applications: :user)
+    cats = categories.roots
+              .distinct
+              .order(:name)
+              .joins(shf_applications: :user)
               .where("users.member = ?", true)
-              .pluck(:name)
+
+    names = []
+
+    cats.each do |category|
+      names << category.name
+      names += category.children.order(:name).pluck(:name) if include_subcategories
+    end
+
+    names
   end
 
 

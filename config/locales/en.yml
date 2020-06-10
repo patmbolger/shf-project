@@ -57,6 +57,7 @@ en:
   none_plur: *none
   none_n: *none
   name_missing: Name Missing
+  including: including
 
   unknown: unknown
 
@@ -541,9 +542,10 @@ en:
       category_no_subcategories_html: This business category does not have any
         subcategories yet.  You can request the %{mailto_admin} to assign one
         one or more subcategories.
+      subcategories_for: Subcategories for %{category_name}
 
     business_category_edit_row:
-      add_remove_subcategories: Add/Remove Business Subcategories
+      add_remove_subcategories: Add/Remove Subcategories
 
     index:
       title: All incoming applications
