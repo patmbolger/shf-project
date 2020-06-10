@@ -947,7 +947,6 @@ en:
       title: "Steps to SHF Membership:"
       welcome: "Welcome to Sveriges Hundföretagare!"
       welcome_want_to_have_benefits: "Do you want to be included in a context that confirms that your qualifications, dedication and dog knowledge are counted?"
-      members_just_need_to_pay: "This text is currently displayed both for you who want to become a member and for you who are a member but not yet paid membership fee. You who are already a member but not paid just need to press the pay button."
 
       apply_4_membership: *apply_for_membership
       my_application: &my_application My Application
@@ -1097,6 +1096,7 @@ en:
 
     show_progress:
       read_and_agree: As a member of the Swedish Dog Company, you undertake to follow certain guidelines, called membership commitments. Below is the Member Commitment broken down by heading. You need to tick each heading, and thus verify that you have read, understood, and intend to follow these guidelines.
+      i_commit_to: As a member of the Swedish Dog Company I commit to
       scroll_down_to_read_all: Scroll down to read all items and see the button to go to the next group.
       read_and_agree_start: ""
       read_and_agree_end: I have read and understood these guidelines.
@@ -1891,7 +1891,6 @@ en:
         design_guide: Design Guide
         master_checklists: Master Checklists
         dashboard: Dashboard
-        design_guide: Design Guide
 
         categories:
           submenu_title: Categories
