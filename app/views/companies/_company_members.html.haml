@@ -14,5 +14,4 @@
           %tbody
             %tr.member
               %td= application.user.full_name
-              -# %td= application.business_categories.pluck(:name).join(', ')
               %td= business_categories_str(application)

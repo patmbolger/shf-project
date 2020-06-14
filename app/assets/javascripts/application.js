@@ -26,19 +26,6 @@ $(function() {
 
     initSelect2Fields('.search_field');
 
-    // $.each($('.search_field'), function (index, ele) {
-    //   if ($(ele).data('select2') === undefined &&
-    //       $(ele).next().hasClass('select2-container')) {
-    //     $(ele).next().remove();
-    //   }
-    //   $(ele).select2({
-    //     language: $(ele).data('language')
-    //   });
-    // });
-    // Above logic due to problem with using back arrow in browser - see:
-    // http://stackoverflow.com/questions/36497723/
-    // select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
-
     // Bind 'show/hide' search form accordion label switch
     $('#company_search_form').click(Utility.toggle_accordion_label);
     $('#application_search_form_toggler').click(Utility.toggle_accordion_label);
@@ -56,46 +43,7 @@ $(function() {
         CKEDITOR.replace ($(ele).attr('id'));
       })
     };
-} );
 
-function initSelect2Fields(selector) {
-  // selection string includes class ('.') or ID ('#') designator
-
-  $.each($(selector), function (index, ele) {
-    if ($(ele).data('select2') === undefined &&
-        $(ele).next().hasClass('select2-container')) {
-      $(ele).next().remove();
-    }
-    $(ele).select2({
-      language: $(ele).data('language')
-    });
-  });
-  // Above logic due to problem with using back arrow in browser - see:
-  // http://stackoverflow.com/questions/36497723/
-  // select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
-}
-
-$.each($('.search_field'), function (index, ele) {
-  if ($(ele).data('select2') === undefined &&
-      $(ele).next().hasClass('select2-container')) {
-    $(ele).next().remove();
-  }
-  $(ele).select2({
-    language: $(ele).data('language')
-  });
-});
-// Above logic due to problem with using back arrow in browser - see:
-// http://stackoverflow.com/questions/36497723/
-// select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
-
-/*!
- * Bootstrap 4 multi dropdown navbar ( https://bootstrapthemes.co/demo/resource/bootstrap-4-multi-dropdown-navbar/ )
- * Copyright 2017.
- * Licensed under the GPL license
- */
-
-
-$( document ).ready( function () {
     $( '.dropdown-menu a.dropdown-toggle' ).on( 'click', function ( e ) {
         var $el = $( this );
         var $parent = $( this ).offsetParent( ".dropdown-menu" );
@@ -118,3 +66,20 @@ $( document ).ready( function () {
         return false;
     } );
 } );
+
+function initSelect2Fields(selector) {
+  // selection string includes class ('.') or ID ('#') designator
+
+  $.each($(selector), function (index, ele) {
+    if ($(ele).data('select2') === undefined &&
+        $(ele).next().hasClass('select2-container')) {
+      $(ele).next().remove();
+    }
+    $(ele).select2({
+      language: $(ele).data('language')
+    });
+  });
+  // Above logic due to problem with using back arrow in browser - see:
+  // http://stackoverflow.com/questions/36497723/
+  // select2-with-ajax-gets-initialized-several-times-with-rails-turbolinks-events
+}

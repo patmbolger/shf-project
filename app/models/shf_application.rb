@@ -16,7 +16,7 @@ class ShfApplication < ApplicationRecord
   belongs_to :user
 
   #  A Company for a membership application (an instantiated one)
-  #  is created (instantiated) when a embership application is created,
+  #  is created (instantiated) when a membership application is created,
   #  unless the company already exists, in which case that existing instance
   #  is associated with the new membership application.
 
@@ -71,10 +71,10 @@ class ShfApplication < ApplicationRecord
     # subcategories can be 1) an active record relation, 2) an array of
     # BusinessCategory records, or 3) a single BusinessCategory record.
 
-    return nil unless business_category.is_root?
-    return nil unless business_categories.include?(business_category)
+    return nil unless business_category.is_root? &&
+                      business_categories.include?(business_category)
 
-    if !subcategories.is_a?(Array)
+    unless subcategories.is_a?(Array)
       if subcategories.respond_to?(:to_a)
         subcategories = subcategories.to_a
       else
@@ -82,7 +82,7 @@ class ShfApplication < ApplicationRecord
       end
     end
 
-    # Delete existing subcategories for this business category
+    # Remove existing and reset new subcategories for this business category
     self.business_categories.children_of(business_category.id).each do |subcategory|
       self.business_categories.delete(subcategory)
     end

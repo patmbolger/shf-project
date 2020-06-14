@@ -4,8 +4,8 @@ module CompaniesHelper
     user.admin? || user.in_company_numbered?(company.company_number)
   end
 
-  def list_categories(company, separator=' ', include_subcategories=true)
 
+  def list_categories(company, separator=' ', include_subcategories=true)
     company.categories_names(include_subcategories).join(separator)
   end
 
@@ -44,7 +44,7 @@ module CompaniesHelper
     text << "<p class='name'>"
     text << (name_html.nil? ? link_to(company.name, company, target: '_blank') : name_html)
     text << "</p>"
-    text << "<p class='categories'>#{list_categories company, ', '}</p>"
+    text << "<p class='categories'>#{list_categories(company, ', ', false)}</p>"
     text << "<p class='entire-address'>#{address.entire_address}</p>"
     text << "</div>"
 
