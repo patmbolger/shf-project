@@ -544,7 +544,7 @@ sv:
 
     business_category_display_row:
       category_no_subcategories_html: Den här kategorin har ingen
-         underkategorier ännu. Du kan begära %{mailto_admin} att tilldela en
+         underkategorier ännu. Du kan begära %{mailto_admin} att tilldela
          en eller flera underkategorier.
       subcategories_for: Underkategorier för %{category_name}
 

@@ -188,6 +188,7 @@ Feature: Visitor sees all companies
     And I should see "Alvesta" in the row for "Company02"
     And I should see "Årsta" in the row for "Company02"
     And I should see "Kolbäck" in the row for "Company02"
+    And I wait for all ajax requests to complete
 
   @time_adjust
   Scenario: User sees all the companies
@@ -240,7 +241,7 @@ Feature: Visitor sees all companies
     And I should not see "Verksamhetslän"
     And I should not see "Kategori"
 
-  @selenium @time_adjust @skip_ci_test
+  @selenium @time_adjust @skip_ci_test @selenium_browser
   Scenario: Pagination: Set number of items per page
     Given the date is set to "2017-10-01"
     Given I am Logged out

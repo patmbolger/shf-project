@@ -76,7 +76,7 @@ And(/^the following applications exist:$/) do |table|
       expect(ma.errors.keys).to match_array [:file_delivery_method]
     end
 
-    ma.save(validate: (legacy_app ? false : true))
+    ma.save!(validate: (legacy_app ? false : true))
   end
 end
 

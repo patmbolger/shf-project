@@ -11,8 +11,16 @@ Feature: Admin edits a user account
     Given the following users exist
       | email                | password       | admin | member | first_name | last_name | membership_number |
       | admin@shf.se         | admin_password | true  | false  | emma       | admin     |                   |
-      | member@shf.com       | password       | false | true   | mary       | member    |  9                 |
+      | member@shf.com       | password       | false | true   | mary       | member    |  9                |
       | lars-member2@shf.com | password       | false | true   | Lars       | Member2   |                   |
+
+    Given the following business categories exist
+      | name         | description                     |
+      | dog grooming | grooming dogs from head to tail |
+
+    And the following applications exist:
+      | user_email        | company_number | categories   | state     |
+      | member@shf.com    | 5562252998     | dog grooming | accepted |
 
     Given I am logged in as "admin@shf.se"
 
