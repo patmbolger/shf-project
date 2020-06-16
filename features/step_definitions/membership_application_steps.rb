@@ -65,7 +65,7 @@ And(/^the following applications exist:$/) do |table|
         categories << BusinessCategory.find_by_name(category_name) unless
           ma.business_categories.where(name: category_name).exists?
       end
-      ma.business_categories = categories
+      ma.business_categories << categories
     end
 
 

@@ -57,7 +57,7 @@ FactoryBot.define do
 
       if evaluator.num_categories == 1
         shf_app.business_categories << build(:business_category, name: evaluator.category_name)
-      elsif evaluator.num_categories != 0
+      else
         evaluator.num_categories.times do |cat_num|
           shf_app.business_categories << build(:business_category, name: "#{evaluator.category_name} #{cat_num + 1}")
         end
