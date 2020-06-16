@@ -97,9 +97,14 @@ end
 
 
 When "I click the icon with CSS class {capture_string} for the row with {capture_string}" do | icon_class, row_content |
-  # icon_element = find(:xpath, "//tr[contains(.,'#{row_content}')]/td/a/i[contains(@class, '#{icon_class}')]")
-  icon_element = find(:xpath, "//tr[contains(.,'#{row_content}')]//a/i[contains(@class, '#{icon_class}')]")
+  icon_element = find(:xpath, "//tr[contains(.,'#{row_content}')]/td/a/i[contains(@class, '#{icon_class}')]")
   icon_element.find(:xpath, './parent::a').click  # get the parent a of the icon)
+end
+
+When "I click the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
+  index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
+
+  all("i.#{icon_class}")[index].click
 end
 
 
