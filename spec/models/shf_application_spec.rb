@@ -596,4 +596,37 @@ RSpec.describe ShfApplication, type: :model do
     end
   end
 
+  context 'Business Subcategories' do
+
+    let(:parent) { create(:business_category, name: 'parent') }
+
+    let(:child1) { parent.children.create(name: 'child 1') }
+    let(:child2) { parent.children.create(name: 'child 2') }
+    let(:child3) { parent.children.create(name: 'child 3') }
+    let(:child4) { parent.children.create(name: 'child 4') }
+    let(:child5) { parent.children.create(name: 'child 5') }
+
+    let(:app) do
+      app = build(:shf_application, num_categories: 0)
+      app.business_categories = [parent, child1, child2, child3]
+      app.save!
+      app
+    end
+
+    describe '#business_subcategories' do
+
+      it 'returns all subcategories for a category associated with the app' do
+        expect(app.business_subcategories(parent)).to eq [child1, child2, child3]
+      end
+    end
+
+    describe '#set_business_subcategories' do
+
+      it 'set subcategories for a category associated with the app' do
+        app.set_business_subcategories(parent, [child4, child5])
+        expect(app.business_subcategories(parent)).to eq [child4, child5]
+      end
+    end
+  end
+
 end
