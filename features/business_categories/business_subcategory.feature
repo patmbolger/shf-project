@@ -27,7 +27,7 @@ Feature: As an admin
       | activerecord.attributes.business_category.name | activerecord.attributes.business_category.description |
       | <subcategory_name>                             | <subcategory_description>                             |
 
-    When I click on t("submit")
+    When I click on t("save")
     Then I should see "<subcategory_name>"
 
     Scenarios:
@@ -48,7 +48,7 @@ Feature: As an admin
       | activerecord.attributes.business_category.name | activerecord.attributes.business_category.description |
       | <subcategory_name>                             | <subcategory_description>                             |
 
-    When I click on t("submit")
+    When I click on t("save")
     Then I should see <error>
 
     Scenarios:

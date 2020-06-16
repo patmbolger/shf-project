@@ -1,6 +1,8 @@
 class BusinessCategory < ApplicationRecord
   has_ancestry
 
+  PARENT_AND_CHILD_NAME_SEPARATOR = ' >> '
+
   validates_presence_of :name
 
   has_and_belongs_to_many :shf_applications
@@ -20,7 +22,7 @@ class BusinessCategory < ApplicationRecord
   def search_name
     return name if is_root?
 
-    parent.name + ' >> ' + name
+    parent.name + PARENT_AND_CHILD_NAME_SEPARATOR + name
   end
 
 end

@@ -584,6 +584,10 @@ RSpec.describe Company, type: :model, focus: true do
     let(:cat5) { create(:business_category, name: 'cat5') }
     let(:cat6) { create(:business_category, name: 'cat6') }
 
+    let(:cat1_subcat1) { cat1.children.create(name: 'cat1_subcat1') }
+    let(:cat1_subcat2) { cat1.children.create(name: 'cat1_subcat2') }
+    let(:cat1_subcat3) { cat1.children.create(name: 'cat1_subcat3') }
+
     let(:m1) do
       m           = create(:shf_application, :accepted, user: employee1)
       m.companies = [company_emp_cats]
@@ -652,25 +656,34 @@ RSpec.describe Company, type: :model, focus: true do
         m4.business_categories = [cat4]
         m5.business_categories = [cat5]
         m6.business_categories = [cat6]
+        cat1_subcat1
+        cat1_subcat2
+        cat1_subcat3
       end
 
       it 'returns all categories for members with accepted applications' do
-        expect(company_emp_cats.categories_names.count).to eq 3
-        expect(company_emp_cats.categories_names)
+        expect(company_emp_cats.categories_names(false).count).to eq 3
+        expect(company_emp_cats.categories_names(false))
             .to contain_exactly('cat1', 'cat2', 'cat3')
+      end
+
+      it 'returns categories and subcategories for members with accepted applications' do
+        expect(company_emp_cats.categories_names(true).count).to eq 6
+        expect(company_emp_cats.categories_names(true))
+            .to contain_exactly('cat1', 'cat1_subcat1', 'cat1_subcat2', 'cat1_subcat3', 'cat2', 'cat3')
       end
 
       it 'does not return categories for non-members with accepted applications' do
         employee1.update_attribute(:member, false)
-        expect(company_emp_cats.categories_names.count).to eq 2
-        expect(company_emp_cats.categories_names)
+        expect(company_emp_cats.categories_names(false).count).to eq 2
+        expect(company_emp_cats.categories_names(false))
             .to contain_exactly('cat2', 'cat3')
       end
 
       it 'does not return categories for members with non-accepted applications' do
         m2.update_attribute(:state, :under_review)
-        expect(company_emp_cats.categories_names.count).to eq 2
-        expect(company_emp_cats.categories_names)
+        expect(company_emp_cats.categories_names(false).count).to eq 2
+        expect(company_emp_cats.categories_names(false))
             .to contain_exactly('cat1', 'cat3')
       end
 
