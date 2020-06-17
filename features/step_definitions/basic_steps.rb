@@ -102,12 +102,17 @@ When "I click the icon with CSS class {capture_string} for the row with {capture
 end
 
 When "I click and accept the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
-  index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
-
   page.driver.accept_modal(:confirm, wait: 4) do
-    all("i.#{icon_class}")[index].click
+    step %{I click the #{ordinal} icon with CSS class "#{icon_class}"}
   end
 end
+
+When "I click the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
+  index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
+
+  all("i.#{icon_class}")[index].click
+end
+
 
 
 When "I click and accept the icon with CSS class {capture_string} for the row with {capture_string}" do | icon_class, row_content |
