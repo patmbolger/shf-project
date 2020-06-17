@@ -61,7 +61,7 @@ Feature: As an admin
   Scenario: Delete a subcategory
     Given I am on the "business categories" page
     Then I should see "light trim"
-    When I click and accept the icon with CSS class "delete-icon" for the row with "light trim"
+    When I click and accept the first icon with CSS class "fa-trash-alt"
     Then I should not see "light trim"
 
 

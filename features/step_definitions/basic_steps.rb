@@ -101,10 +101,12 @@ When "I click the icon with CSS class {capture_string} for the row with {capture
   icon_element.find(:xpath, './parent::a').click  # get the parent a of the icon)
 end
 
-When "I click the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
+When "I click and accept the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
   index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
 
-  all("i.#{icon_class}")[index].click
+  page.driver.accept_modal(:confirm, wait: 4) do
+    all("i.#{icon_class}")[index].click
+  end
 end
 
 
