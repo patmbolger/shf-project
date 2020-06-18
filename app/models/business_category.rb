@@ -8,7 +8,7 @@ class BusinessCategory < ApplicationRecord
   has_and_belongs_to_many :shf_applications
   has_many :companies, through: :shf_applications
 
-  def self.for_search
+  def self.category_and_subcategory_names
     categories = []
 
     roots.order(:name).each do |category|
@@ -19,7 +19,7 @@ class BusinessCategory < ApplicationRecord
     categories
   end
 
-  def search_name
+  def full_ancestry_name
     return name if is_root?
 
     parent.name + PARENT_AND_CHILD_NAME_SEPARATOR + name

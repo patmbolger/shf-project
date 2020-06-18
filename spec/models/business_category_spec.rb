@@ -39,25 +39,25 @@ RSpec.describe BusinessCategory, type: :model do
     it { is_expected.to validate_presence_of :name }
   end
 
-  describe '.for_search' do
+  describe '.category_and_subcategory_names' do
 
     it 'returns all categories with subcategories adjacent to parent category' do
       cat1
       cat2
       expected = [cat1] + cat1.children.order(:name) + [cat2] + cat2.children.order(:name)
-      expect(BusinessCategory.for_search).to eq expected
+      expect(BusinessCategory.category_and_subcategory_names).to eq expected
     end
   end
 
-  describe '#search_name' do
+  describe '#full_ancestry_name' do
 
     it 'returns category name as-is' do
-      expect(cat1.search_name).to eq cat1.name
+      expect(cat1.full_ancestry_name).to eq cat1.name
     end
 
     it 'returns subcategory name with preface including category name' do
       subcategory = cat1.children.first
-      expect(subcategory.search_name).to eq cat1.name +
+      expect(subcategory.full_ancestry_name).to eq cat1.name +
                                             BusinessCategory::PARENT_AND_CHILD_NAME_SEPARATOR +
                                             subcategory.name
     end
