@@ -50,48 +50,6 @@ class ShfApplication < ApplicationRecord
   CAN_EDIT_STATES = [:new, :waiting_for_applicant]
 
 
-  def business_subcategories(business_category)
-    return nil unless business_category.is_root?
-    return nil unless business_categories.include?(business_category)
-
-    subcategories = []
-
-    business_category_ids =  self.business_categories.map(&:id)
-
-    BusinessCategory.children_of(business_category.id).order(:name).each do |subcategory|
-      if business_category_ids.include?(subcategory.id)
-        subcategories << subcategory
-      end
-    end
-
-    subcategories
-  end
-
-  def set_business_subcategories(business_category, subcategories)
-    # subcategories can be 1) an active record relation, 2) an array of
-    # BusinessCategory records, or 3) a single BusinessCategory record.
-
-    return nil unless business_category.is_root? &&
-                      business_categories.include?(business_category)
-
-    unless subcategories.is_a?(Array)
-      if subcategories.respond_to?(:to_a)
-        subcategories = subcategories.to_a
-      else
-        subcategories = [subcategories]
-      end
-    end
-
-    # Remove existing and reset new subcategories for this business category
-    self.business_categories.children_of(business_category.id).each do |subcategory|
-      self.business_categories.delete(subcategory)
-    end
-
-    subcategories.each do |subcategory|
-      self.business_categories << subcategory
-    end
-  end
-
 
   def add_observers
     add_observer MembershipStatusUpdater.instance, :shf_application_updated
@@ -165,6 +123,36 @@ class ShfApplication < ApplicationRecord
     where( updated_at: start_date..end_date )
   end
 
+
+  def business_subcategories(business_category)
+    return nil unless business_category.is_root?
+    return nil unless business_categories.include?(business_category)
+
+    subcategories = []
+
+    business_category_ids =  business_categories.map(&:id)
+
+    BusinessCategory.children_of(business_category.id).order(:name).each do |subcategory|
+      subcategories << subcategory if business_category_ids.include?(subcategory.id)
+    end
+
+    subcategories
+  end
+
+  def set_business_subcategories(business_category, subcategories)
+
+    return unless business_category.is_root? &&
+                  business_categories.include?(business_category)
+
+    # Remove existing and reset new subcategories for this business category
+    self.business_categories.children_of(business_category.id).each do |subcategory|
+      self.business_categories.delete(subcategory)
+    end
+
+    subcategories.each do |subcategory|
+      self.business_categories << subcategory
+    end
+  end
 
 
   # these are only used by the submisssion form and are not saved to the db

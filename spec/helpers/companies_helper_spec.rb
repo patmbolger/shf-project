@@ -25,7 +25,7 @@ RSpec.describe CompaniesHelper, type: :helper do
 
       company = ma1.companies.first
 
-      expect(helper.list_categories(company)).to eq 'cat1 cat1_subcat1 cat1_subcat2 cat1_subcat3 cat3'
+      expect(helper.list_categories(company, ' ', true)).to eq 'cat1 cat1_subcat1 cat1_subcat2 cat1_subcat3 cat3'
       expect(helper.list_categories(company, ' ', false)).to eq 'cat1 cat3'
       expect(helper.list_categories(company)).not_to include 'Träning'
     end
