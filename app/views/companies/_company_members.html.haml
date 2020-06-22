@@ -10,7 +10,7 @@
             %th= t('companies.show.members')
             %th= t('activerecord.models.business_category.other')
 
-        - applications.each do |application|
+        - applications.includes(:user).each do |application|
           %tbody
             %tr.member
               %td= application.user.full_name
