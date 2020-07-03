@@ -166,7 +166,7 @@ RSpec.describe Company, type: :model, focus: true do
     let(:picture1) do
       pic                = Ckeditor::Picture.new
       pic.company_id     = company_3_addrs.id
-      pic.data_file_name = 'test'
+      pic.data_file_name = 'test1'
       pic.save!(validate: false)
       pic
     end
@@ -174,7 +174,7 @@ RSpec.describe Company, type: :model, focus: true do
     let(:picture2) do
       pic                = Ckeditor::Picture.new
       pic.company_id     = company_3_addrs.id
-      pic.data_file_name = 'test'
+      pic.data_file_name = 'test2'
       pic.save!(validate: false)
       pic
     end
@@ -200,8 +200,11 @@ RSpec.describe Company, type: :model, focus: true do
 
     it 'pictures' do
       Ckeditor::Picture.for_company_id = company_3_addrs.id
+      Ckeditor::Picture.images_category = nil
+
       picture1
       picture2
+
       expect(company_3_addrs.pictures.count).to eq 2
       expect { company_3_addrs.destroy }.to change(Ckeditor::Picture, :count).by(-2)
     end
