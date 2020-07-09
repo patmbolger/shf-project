@@ -42,7 +42,6 @@ en:
   search: &search Search
   close: Close
   lastupdated: &last_updated Last Updated
-  action: Action
 
   'yes': &yes 'Yes'
   'no': &no 'No'
@@ -58,6 +57,7 @@ en:
   none_n: *none
   name_missing: Name Missing
   including: including
+  administrator: administrator
 
   unknown: unknown
 

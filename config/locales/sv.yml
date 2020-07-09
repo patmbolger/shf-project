@@ -39,7 +39,6 @@ sv:
   search: &search Sök
   close: Stänga
   lastupdated: &last_updated Senast uppdaterad
-  action: Verkan
 
   next: &next Nästa
   previous: &previous Föregående
@@ -58,6 +57,7 @@ sv:
   none_n: &none_n Ingen
   name_missing: Namn Saknas
   including: inklusive
+  administrator: administratör
 
   unknown: okänd
 
@@ -266,7 +266,7 @@ sv:
         name: &business_category_name  Namn
         description: &description  Beskrivning
         subcategory: &subcategory Underkategori
-        subcategories: Kategorier
+        subcategories: Underkategorier
 
       shf_document:
         title: &title Titel
@@ -543,9 +543,9 @@ sv:
       method_chosen_when: (vald %{date})
 
     business_category_display_row:
-      category_no_subcategories_html: Den här kategorin har ingen
-         underkategorier ännu. Du kan begära %{mailto_admin} att tilldela
-         en eller flera underkategorier.
+      category_no_subcategories_html: Den här kategorin har inga
+              underkategorier ännu. Du kan be %{mailto_admin} att lägga till
+              en eller flera underkategorier.
       subcategories_for: Underkategorier för %{category_name}
 
     business_category_edit_row:

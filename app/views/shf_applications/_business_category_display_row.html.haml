@@ -22,7 +22,7 @@
                   class: 'edit-subcategories-button',
                   remote: true
       - else
-        - mail_to_admin = mail_to(ENV['SHF_REPLY_TO_EMAIL'], 'administrator',
+        - mail_to_admin = mail_to(ENV['SHF_MEMBERSHIP_EMAIL'], t('administrator'),
                                   subject: t('.subcategories_for',
                                              category_name: business_category.name))
         = link_to(question_icon, 'javascript:;',
