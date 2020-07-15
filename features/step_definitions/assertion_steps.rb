@@ -13,9 +13,9 @@ end
 
 Then "I should{negate} see {capture_string}" do |negate, content|
   begin
-    expect(page).send (negate ? :not_to : :to), have_content(/#{content}/i)
+    expect(page).send (negate ? :not_to : :to), have_content(/#{content}/i, minimum: 1)
   rescue RSpec::Expectations::ExpectationNotMetError
-    expect(page).send (negate ? :not_to : :to), have_content(content)
+    expect(page).send (negate ? :not_to : :to), have_content(content, minimum: 1)
   end
 end
 
