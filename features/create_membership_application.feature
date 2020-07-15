@@ -381,8 +381,8 @@ Feature: Create a new membership application
     # Create new company in modal
     And I click on t("companies.new.title")
     And I fill in the translated form with data:
-      | companies.show.company_number | companies.show.email |
-      | <c_number>                    | <c_email>            |
+      | companies.show.new_company_number | companies.show.email |
+      | <c_number>                        | <c_email>            |
 
     And I click on t("companies.create.create_submit")
 
