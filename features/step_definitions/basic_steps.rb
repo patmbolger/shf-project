@@ -12,23 +12,15 @@ When "I click on{optional_string} {capture_string}{optional_string}" do |ordinal
 
   index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
 
-  retries = 0
+  page.execute_script("$('.modal').removeClass('fade');")
 
-  begin
-    case type
-      when 'link'
-        all(:link, element)[index].click
-      when 'button'
-        all(:button, element)[index].click
-      else
-        click_link_or_button element
-    end
-  rescue Selenium::WebDriver::Error::UnknownError
-    retries += 1
-    raise unless retries == 1
-
-    page.execute_script("$('.modal').removeClass('fade');")
-    retry
+  case type
+    when 'link'
+      all(:link, element)[index].click
+    when 'button'
+      all(:button, element)[index].click
+    else
+      click_link_or_button element
   end
 end
 
