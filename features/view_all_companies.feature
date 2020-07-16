@@ -256,6 +256,7 @@ Feature: Visitor sees all companies
     And I should not see "Company26" in the list of companies
     Then I select "25" in select list "items_count"
     And I wait for all ajax requests to complete
+    And I should see "Company25" in the list of companies
     Then I should see "25" companies
     And "items_count" should have "25" selected
     And I should see "Company01" in the list of companies
@@ -263,7 +264,6 @@ Feature: Visitor sees all companies
     And I should see "Company11" in the list of companies
     And I should see "Company12" in the list of companies
     And I should see "Company24" in the list of companies
-    And I should see "Company25" in the list of companies
     And I should not see "Company26" in the list of companies
     And I should not see "Company27" in the list of companies
 
