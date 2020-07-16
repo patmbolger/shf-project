@@ -192,8 +192,6 @@ Feature: Create a new membership application
     And I fill in t("companies.show.email") with "info@craft.se"
 
     And I click on t("companies.create.create_submit")
-    #And I wait 4 seconds
-    #And I wait for all ajax requests to complete
 
     And I select files delivery radio button "upload_later"
 
@@ -241,8 +239,6 @@ Feature: Create a new membership application
     And I fill in t("companies.show.email") with "info@craft.se"
 
     And I click on t("companies.create.create_submit")
-    #And I wait 4 seconds
-    #And I wait for all ajax requests to complete
 
     And I should see t("shf_applications.new.file_delivery_selection")
 
@@ -288,8 +284,6 @@ Feature: Create a new membership application
     And I fill in t("companies.show.email") with "info@craft.se"
 
     And I click on t("companies.create.create_submit")
-    #And I wait 4 seconds
-    #And I wait for all ajax requests to complete
 
     And I should see t("shf_applications.new.file_delivery_selection")
 
@@ -314,8 +308,6 @@ Feature: Create a new membership application
     And I fill in t("companies.show.email") with "info@craft.se"
 
     And I click on t("companies.create.create_submit")
-    #And I wait 4 seconds
-    #And I wait for all ajax requests to complete
 
     And I select files delivery radio button "upload_later"
 
