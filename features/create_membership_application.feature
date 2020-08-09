@@ -1,30 +1,22 @@
-Feature: Create a new membership application
+Feature: Edit SHF Application
 
-  As a user
-  In order to get a membership with SHF (which makes my business more valuable )
-  I need to be able to submit a Membership Application
-  And as part of the process of creating an application,
-  I need to either specify an existing company number for my company, or,
-  If that is not available, I need to create a new company
+  As an applicant
+  In order to correct errors or provide more information
+  I need to be able to edit my SHF application
 
-  PT: https://www.pivotaltracker.com/story/show/133940725
-  &: https://www.pivotaltracker.com/story/show/135027425
+  PT: https://www.pivotaltracker.com/story/show/134078325
 
-  Secondary feature:
-  As an admin
-  So that we can minimize trouble signing up and sign up as many users as possible
-  I would like required aspects of the membership form to be highlighted when they are missed
-  PT: https://www.pivotaltracker.com/story/show/134192165
 
   Background:
     Given the Membership Ethical Guidelines Master Checklist exists
 
-    Given the following users exist
-      | email                  | admin | member | first_name | last_name |
-      | applicant_1@random.com |       |        | Kicki      | Andersson |
-      | applicant_2@random.com |       |        |            |           |
-      | member@random.com      |       | true   | Lars       | IsaMember |
-      | admin@shf.se           | yes   |        |            |           |
+    Given the following users exist:
+      | email             | member | admin |
+      | emma@random.com   | false  |       |
+      | hans@random.com   | false  |       |
+      | nils@random.com   | true   |       |
+      | bob@barkybobs.com | false  |       |
+      | admin@shf.se      | true   | true  |
 
     And the following business categories exist
       | name         |
@@ -37,433 +29,228 @@ Feature: Create a new membership application
       | overall grooming    | full service grooming           |
 
     And the application file upload options exist
-    And the Membership Ethical Guidelines Master Checklist exists
-
-    And the following companies exist:
-      | name                 | company_number | email                  | region     |
-      | No More Snarky Barky | 5560360793     | snarky@snarkybarky.com | Stockholm  |
-      | Good Dog Spot        | 2120000142     | spot@gooddog.com       | Stockholm  |
 
     And the following applications exist:
-      | user_email        | company_number | state    | categories |
-      | member@random.com | 5560360793     | accepted | Groomer    |
-
-    And I am logged in as "applicant_1@random.com"
+      | user_email        | company_number         | state                 | categories |
+      | emma@random.com   | 5560360793             | waiting_for_applicant | Groomer    |
+      | hans@random.com   | 2120000142, 5560360793 | new                   | Groomer    |
+      | nils@random.com   | 2120000142             | accepted              | Groomer    |
+      | bob@barkybobs.com | 5560360793             | rejected              | Groomer    |
 
   @selenium
-  Scenario: Successful app, no files uploaded, user sees success message and files delivery reminder
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793                           | 031-1234567                       | info@craft.se                      |
-    And I select "Groomer" Category
+  Scenario: Business categories are displayed, user sees success
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
 
     And I select files delivery radio button "upload_now"
-
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-    When I am on the "edit my application" page
-    Then "applicant_1@random.com" should receive an email
-    And I open the email
-    And I should see t("mailers.shf_application_mailer.acknowledge_received.subject") in the email subject
-    And I am logged in as "admin@shf.se"
-    Then "admin@shf.se" should receive an email
-    And I open the email
-    And I should see t("mailers.admin_mailer.new_application_received.subject") in the email subject
-
-  @selenium
-  Scenario: Successful app, with files uploaded, user sees success message
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793                           | 031-1234567                       | info@craft.se                      |
-
-    And I select "Groomer" Category
-
     And I choose a file named "diploma.pdf" to upload
 
-    And I select files delivery radio button "upload_now"
+    And I should not see "overall grooming" Category
+    And I click on t("shf_applications.edit.submit_button_label")
 
-    And I click on t("shf_applications.new.submit_button_label")
+    Then I should be on the "show my application" page for "emma@random.com"
 
-    Then I should be on the "user account" page for "applicant_1@random.com"
-
-    And I should see t("shf_applications.create.success", email_address: info@craft.se)
-
-    When I am on the "edit my application" page
-    Then "applicant_1@random.com" should receive an email
-    And I open the email
-    And I should see t("mailers.shf_application_mailer.acknowledge_received.subject") in the email subject
-    And I am logged in as "admin@shf.se"
-    Then "admin@shf.se" should receive an email
-    And I open the email
-    And I should see t("mailers.admin_mailer.new_application_received.subject") in the email subject
+    And I should see t("shf_applications.update.success")
+    And I should not see t("shf_applications.update.success_with_app_files_missing")
 
   @selenium
-  Scenario: Successful app, files to be sent via email, user sees success message and reminder to deliver files
+  Scenario: Applicant makes mistake when editing their own application (no files uploaded) [SAD PATH]
+    Given I am logged in as "emma@random.com"
     Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793                           | 031-1234567                       | info@craft.se                      |
+    And I click on t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+    And I fill in t("shf_applications.show.contact_email") with ""
+    And I unselect "Groomer" Category
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should see t("shf_applications.update.error")
+    And I should see error t("shf_applications.show.contact_email") t("errors.messages.blank")
+    Then I should see error t("activerecord.attributes.shf_application.business_categories") t("errors.messages.blank")
+    And I should see button t("shf_applications.edit.submit_button_label")
+    And I should not see t("shf_applications.uploads.please_upload_again")
 
-    And I select "Groomer" Category
+  @selenium
+  Scenario: Applicant makes mistake when uploading a file and editing their own application [SAD PATH]
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+    And I choose a file named "diploma.pdf" to upload
+    And I fill in t("shf_applications.show.contact_email") with ""
+    And I unselect "Groomer" Category
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should see t("shf_applications.update.error")
+    And I should see t("shf_applications.uploads.please_upload_again")
+
+  @selenium
+  Scenario: Add 2nd company, no files uploaded, user sees success and deliver-files prompt
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+    Then I fill in t("shf_applications.show.company_number") with "5560360793, 212000-0142"
+
+    And I select files delivery radio button "upload_now"
+
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should be on the "show my application" page for "emma@random.com"
+
+    And I should see t("shf_applications.update.success_with_app_files_missing")
+    And I should see t("shf_applications.update.upload_file_or_select_method")
+
+    And I should see "5560360793, 2120000142"
+
+  @selenium
+  Scenario: Files uploaded, user sees success and does not see deliver-files prompt
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+
+    And I select files delivery radio button "upload_now"
+    And I choose a file named "diploma.pdf" to upload
+
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should be on the "show my application" page for "emma@random.com"
+
+    And I should see t("shf_applications.update.success")
+    And I should not see t("shf_applications.update.success_with_app_files_missing")
+
+  @selenium
+  Scenario: User deletes uploaded files
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+
+    And I select files delivery radio button "upload_now"
+    And I choose files named "diploma.pdf, image.jpg" to upload
+
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should be on the "show my application" page for "emma@random.com"
+
+    And I should see t("shf_applications.update.success")
+    And I should not see t("shf_applications.update.success_with_app_files_missing")
+
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+
+    And I delete the second uploaded file
+    And I should not see "image.jpg"
+
+    And I should be on "Edit My Application" page
+
+    And I should see "diploma.pdf"
+
+    And I delete the first uploaded file
+    And I should not see "diploma.pdf"
+
+    And I should see t("shf_applications.uploads.no_files")
+
+
+  @selenium @skip_ci_test
+  Scenario: Create 2nd company, file delivery via email, user sees success and deliver-files reminder
+    Given I am logged in as "emma@random.com"
+    Given I am on the "edit application" page
+    Then I should be on "Edit My Application" page
+
+    # Create new company in modal
+    And I click on t("companies.new.title")
+    And I fill in "company-number-in-modal" with "2286411992"
+    And I fill in t("companies.show.email") with "info@craft.se"
+    And I click on t("companies.create.create_submit")
+    # FIXME do we still need to wait this long? does waiting for AJAX to complete work reliably here instead?
+    And I wait 4 seconds
+    And I wait for all ajax requests to complete
+
+    And I should see t("shf_applications.new.file_delivery_selection")
 
     And I select files delivery radio button "email"
 
-    And I click on t("shf_applications.new.submit_button_label")
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should be on the "show my application" page for "emma@random.com"
 
-    Then I should be on the "user account" page for "applicant_1@random.com"
+    And I should see t("shf_applications.update.success_with_app_files_missing")
+    And I should see t("shf_applications.update.remember_to_deliver_files")
 
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-    And I should see t("shf_applications.create.remember_to_deliver_files")
-
-    When I am on the "edit my application" page
-    Then "applicant_1@random.com" should receive an email
-    And I open the email
-    And I should see t("mailers.shf_application_mailer.acknowledge_received.subject") in the email subject
-    And I am logged in as "admin@shf.se"
-    Then "admin@shf.se" should receive an email
-    And I open the email
-    And I should see t("mailers.admin_mailer.new_application_received.subject") in the email subject
-
-  @selenium
-  Scenario: Successful App, two companies, no file upload, message: success, but need to deliver files
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793, 212000-0142              | 031-1234567                       | info@craft.se                      |
-    And I select "Groomer" Category
-
-    And I select files delivery radio button "upload_now"
-
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
-
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-
-    And I should see t("shf_applications.create.upload_file_or_select_method")
-
-    When I am on the "show my application" page for "applicant_1@random.com"
-    And I should see "5560360793, 2120000142"
-    Then "applicant_1@random.com" should receive an email
-    And I open the email
-    And I should see t("mailers.shf_application_mailer.acknowledge_received.subject") in the email subject
-    And I am logged in as "admin@shf.se"
-    Then "admin@shf.se" should receive an email
-    And I open the email
-    And I should see t("mailers.admin_mailer.new_application_received.subject") in the email subject
-
-  @selenium
-  Scenario: User creates App with two companies, corrects an error in company number
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 556036-07, 2120000142                | 031-1234567                       | info@craft.se                      |
-    And I select "Groomer" Category
-
-    And I select files delivery radio button "files_uploaded"
-
-    And I click on t("shf_applications.new.submit_button_label")
-    And I should see t("activerecord.errors.models.shf_application.attributes.companies.not_found", value: '55603607')
-    Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2120000142"
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
-
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-
-    When I am on the "show my application" page for "applicant_1@random.com"
-    And I should see "5560360793, 2120000142"
-
-  @selenium @skip_ci_test
-  Scenario: User creates App with two companies, creates one company, corrects error in company number
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 556036-07                            | 031-1234567                       | info@craft.se                      |
-    And I select "Groomer" Category
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-
-    And I fill in "company-number-in-modal" with "2286411992"
-    And I fill in t("companies.show.email") with "info@craft.se"
-
-    And I click on t("companies.create.create_submit")
-    # FIXME do we still need to wait this long? does waiting for AJAX to complete work reliably here instead?
-    And I wait 4 seconds
-    And I wait for all ajax requests to complete
-
-    And I select files delivery radio button "upload_later"
-
-    And I click on t("shf_applications.new.submit_button_label")
-    And I should see t("activerecord.errors.models.shf_application.attributes.companies.not_found", value: '55603607')
-    Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2286411992"
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
-
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-
-    When I am on the "show my application" page for "applicant_1@random.com"
     And I should see "5560360793, 2286411992"
 
   @selenium
-  Scenario: A user can submit a new Membership Application with multiple categories
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
+  Scenario: User edit app with two companies, corrects an error in company number
+    Given I am logged in as "hans@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+    And the t("shf_applications.show.company_number") field should be set to "5560360793, 2120000142"
+
     And I fill in the translated form with data:
       | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793                           | 031-1234567                       | info@craft.se                      |
-    And I select "Trainer" Category
-    And I select "Psychologist" Category
+      | 556036-07, 2120000142                | 031-1234567                       | info@craft.se                      |
 
-    And I select files delivery radio button "files_uploaded"
+    And I click on t("shf_applications.edit.submit_button_label")
+    And I should see t("activerecord.errors.models.shf_application.attributes.companies.not_found", value: '55603607')
+    Then I fill in t("shf_applications.show.company_number") with "556036-0793, 2120000142"
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should be on the "show my application" page for "hans@random.com"
 
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
+    And I should see t("shf_applications.update.success_with_app_files_missing")
 
-    And I should see t("shf_applications.create.success_with_app_files_missing")
+    And I should see "5560360793, 2120000142"
 
+  Scenario: Applicant can not edit applications not created by them
+    Given I am logged in as "emma@random.com"
+    And I am on the "edit application" page for "hans@random.com"
+    Then I should see a message telling me I am not allowed to see that page
 
-  @selenium
-  Scenario: A user can submit a new Membership Application without sub categories
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 5560360793                           | 031-1234567                       | info@craft.se
+  Scenario: Applicant can not edit accepted application
+    Given I am logged in as "nils@random.com"
+    And I am on the "edit application" page for "nils@random.com"
+    Then I should see a message telling me I am not allowed to see that page
 
-    And I should not see "overall grooming" Category
-    And I select "Groomer" Category
+  Scenario: Applicant can view accepted application
+    Given I am logged in as "nils@random.com"
+    And I am on the "show my application" page for "nils@random.com"
+    Then I should not see a message telling me I am not allowed to see that page
+    And I should see t("shf_applications.accepted")
 
-    And I select files delivery radio button "files_uploaded"
+  Scenario: Applicant can not edit rejected application
+    Given I am logged in as "bob@barkybobs.com"
+    And I am on the "edit application" page for "bob@barkybobs.com"
+    Then I should see a message telling me I am not allowed to see that page
 
-    And I click on t("shf_applications.new.submit_button_label")
-    Then I should be on the "user account" page for "applicant_1@random.com"
+  Scenario: Applicant can view rejected application
+    Given I am logged in as "bob@barkybobs.com"
+    And I am on the "show my application" page for "bob@barkybobs.com"
+    Then I should not see a message telling me I am not allowed to see that page
+    And I should see t("shf_applications.rejected")
 
-    And I should see t("shf_applications.create.success_with_app_files_missing")
+  Scenario: Member wants to view their own application
+    Given I am logged in as "nils@random.com"
+    And I am on the "landing" page
+    And I click on t("menus.nav.members.my_application")
+    Then I should be on "Show My Application" page
 
-  @selenium @skip_ci_test
-  Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 031-1234567                       | info@craft.se                      |
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-
-    And I fill in "company-number-in-modal" with "2286411992"
-    And I fill in t("companies.show.email") with "info@craft.se"
-
-    And I click on t("companies.create.create_submit")
-    # FIXME do we still need to wait this long? does waiting for AJAX to complete work reliably here instead?
-    And I wait 4 seconds
-    And I wait for all ajax requests to complete
-
-    And I should see t("shf_applications.new.file_delivery_selection")
-
-    And I select files delivery radio button "files_uploaded"
-
-    And I click on t("shf_applications.new.submit_button_label")
-
-    Then I should see error t("activerecord.attributes.shf_application.business_categories") t("errors.messages.blank")
-
-    Then I select "Groomer" Category
-    And I click on t("shf_applications.new.submit_button_label")
-
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-
-
-  Scenario: Applicant cannot see membership number when submitting
-    Given I am on the "landing" page
-    And I click on t("menus.nav.users.apply_for_membership")
-    Then I should not see t("shf_applications.show.membership_number")
-
-
-  Scenario: Applicant can see which fields are required
-    Given I am on the "landing" page
-    And I click on t("menus.nav.users.apply_for_membership")
-    And the field t("shf_applications.new.company_number") should have a required field indicator
-    And the field t("shf_applications.new.contact_email") should have a required field indicator
-    And the field t("shf_applications.new.phone_number") should not have a required field indicator
-    And I should see t("is_required_field")
-
-  @selenium @skip_ci_test
-  Scenario: Two users can submit a new Membership Application (with empty membershipnumbers)
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 031-1234567                       | applicant_1@random.com             |
-    And I select "Groomer" Category
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-
-    And I fill in "company-number-in-modal" with "5562252998"
-    And I fill in t("companies.show.email") with "info@craft.se"
-
-    And I click on t("companies.create.create_submit")
-    # FIXME do we still need to wait this long? does waiting for AJAX to complete work reliably here instead?
-    And I wait 4 seconds
-    And I wait for all ajax requests to complete
-
-    And I should see t("shf_applications.new.file_delivery_selection")
-
-    And I select files delivery radio button "upload_later"
-
-    And I click on t("shf_applications.new.submit_button_label")
-
-    And I should see t("shf_applications.create.success_with_app_files_missing")
-
-    Given I am logged in as "applicant_2@random.com"
-    Given I am on the "user instructions" page
-    And I click on first t("menus.nav.users.apply_for_membership") link
-    And I fill in the translated form with data:
-      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
-      | 2120000142                           | 031-1234567                       | applicant_2@random.com             |
-    And I select "Groomer" Category
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-
-    And I fill in "company-number-in-modal" with "6112107039"
-    And I fill in t("companies.show.email") with "info@craft.se"
-
-    And I click on t("companies.create.create_submit")
-    # FIXME do we still need to wait this long? does waiting for AJAX to complete work reliably here instead?
-    And I wait 4 seconds
-    And I wait for all ajax requests to complete
-
-    And I select files delivery radio button "upload_later"
-
-    And I click on t("shf_applications.new.submit_button_label")
-
+  Scenario: Admin should be able to edit membership number
+    Given I am logged in as "admin@shf.se"
+    And I am on the "edit application" page for "nils@random.com"
+    Then I should see t("shf_applications.show.membership_number")
 
   @selenium
-  Scenario Outline: Apply for membership - when things go wrong with application data [SAD PATH]
-    Given I am on the "new application" page
-    And I fill in the translated form with data:
-      | shf_applications.new.contact_email | shf_applications.new.phone_number |
-      | <c_email>                          | <phone>                           |
-
-    And I select files delivery radio button "files_uploaded"
-
-    When I click on t("shf_applications.new.submit_button_label")
-
-    Then I should see error <model_attribute> <error>
-    And I should receive no emails
-    And "admin@shf.se" should receive no emails
-    And I should not see t("shf_applications.uploads.please_upload_again")
-
-    Scenarios:
-      | c_email       | phone      | model_attribute                                                   | error                            |
-      |               | 0706898525 | t("activerecord.attributes.shf_application.contact_email")        | t("errors.messages.blank")       |
-      |               | 0706898525 | t("activerecord.attributes.shf_application.business_categories")  | t("errors.messages.blank")       |
-      | kicki@imminu  | 0706898525 | t("activerecord.attributes.shf_application.contact_email")        | t("errors.messages.invalid")     |
-      # | kickiimmi.nu  | 0706898525 | t("activerecord.attributes.shf_application.contact_email")        | t("errors.messages.invalid")     |
+  Scenario: Admin can't edit membership number for a rejected application
+    Given I am logged in as "admin@shf.se"
+    And I am on the "edit application" page for "bob@barkybobs.com"
+    And I should not see t("shf_applications.edit.submit_button_label")
 
   @selenium
-  Scenario Outline: Apply for membership with uploads, errors should show please upload again message [SAD PATH]
-    Given I am on the "new application" page
-    And I fill in the translated form with data:
-      | shf_applications.new.contact_email | shf_applications.new.phone_number |
-      | <c_email>                          | <phone>                           |
-
-    And I choose a file named "diploma.pdf" to upload
-
-    And I select files delivery radio button "files_uploaded"
-
-    When I click on t("shf_applications.new.submit_button_label")
-    Then I should see t("shf_applications.uploads.please_upload_again")
-
-    Scenarios:
-      | c_email       | phone      |
-      |               | 0706898525 |
-      |               | 0706898525 |
-      | kicki@imminu  | 0706898525 |
-      # | kickiimmi.nu  | 0706898525 |
-
-
-
-
-  @selenium @skip_ci_test
-  Scenario Outline: Apply for membership - when things go wrong with company create [SAD PATH]
-    Given I am on the "new application" page
-    And I fill in the translated form with data:
-      | shf_applications.new.contact_email | shf_applications.new.phone_number |
-      | <c_email>                          | <phone>                           |
-
-    And I select files delivery radio button "files_uploaded"
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-    And I fill in the translated form with data:
-      | companies.show.company_number | companies.show.email |
-      | <c_number>                    | <c_email>            |
-
-    And I click on t("companies.create.create_submit")
-
-    Then I should see error <model_attribute> <error>
-    And I should receive no emails
-    And "admin@shf.se" should receive no emails
-
-    Scenarios:
-      | c_number   | c_email       | phone      | model_attribute                                     | error                        |
-      |            | kicki@immi.nu | 0706898525 | t("activerecord.attributes.company.company_number") | t("errors.messages.blank")   |
-      | 5562252998 |               | 0706898525 | t("activerecord.attributes.company.email")          | t("errors.messages.invalid") |
-
-
-  Scenario: Apply for membership: company number wrong length (no uploads) [SAD PATH]
-    Given I am on the "new application" page
-
-    # Create new company in modal
-    And I click on t("companies.new.title")
-
-    And I fill in "company-number-in-modal" with "00"
-    And I fill in t("companies.show.email") with "kicki@immi.nu"
-
-    And I click on t("companies.create.create_submit")
-    Then I should not see t("shf_applications.uploads.please_upload_again")
-
-  @selenium
-  Scenario Outline: Cannot change locale if there are errors in the new application
-    Given I am on the "new application" page
-
-    And I fill in the translated form with data:
-      | shf_applications.new.contact_email | shf_applications.new.phone_number |
-      | <c_email>                          | <phone>                           |
-
-    And I select files delivery radio button "files_uploaded"
-
-    And I click on t("shf_applications.new.submit_button_label")
-
-    Then I should see error <model_attribute> <error>
+  Scenario: Cannot change locale if there are errors in the application
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+    And I fill in t("shf_applications.show.contact_email") with ""
+    And I click on t("shf_applications.edit.submit_button_label")
+    Then I should see t("shf_applications.update.error")
     And I should not see t("show_in_swedish") image
     And I should not see t("show_in_english") image
     And I should see t("cannot_change_language") image
-
-    Scenarios:
-      | c_email       | phone      | model_attribute                                             | error                            |
-      | kicki@imminu  | 0706898525 | t("activerecord.attributes.shf_application.contact_email")  | t("errors.messages.invalid")     |
-
-
-  Scenario: A member with existing application cannot submit a new application
-    Given I am logged out
-    And I am logged in as "member@random.com"
-    And I am on the "new application" page
-    Then I should see a message telling me I am not allowed to see that page
-
-
-  Scenario: An admin cannot submit a new application because we don't know which User it is for
-    Given I am logged in as "admin@shf.se"
-    And I am on the "new application" page
-    Then I should see a message telling me I am not allowed to see that page
