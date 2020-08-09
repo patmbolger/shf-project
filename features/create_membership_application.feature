@@ -32,6 +32,10 @@ Feature: Create a new membership application
       | Psychologist |
       | Trainer      |
 
+    And the following sub category exist
+      | subcategory_name    | subcategory_description         |
+      | overall grooming    | full service grooming           |
+
     And the application file upload options exist
     And the Membership Ethical Guidelines Master Checklist exists
 
@@ -226,6 +230,24 @@ Feature: Create a new membership application
 
     And I should see t("shf_applications.create.success_with_app_files_missing")
 
+
+  @selenium
+  Scenario: A user can submit a new Membership Application without sub categories
+    Given I am on the "user instructions" page
+    And I click on first t("menus.nav.users.apply_for_membership") link
+    And I fill in the translated form with data:
+      | shf_applications.show.company_number | shf_applications.new.phone_number | shf_applications.new.contact_email |
+      | 5560360793                           | 031-1234567                       | info@craft.se
+
+    And I should not see "overall grooming" Category
+    And I select "Groomer" Category
+
+    And I select files delivery radio button "files_uploaded"
+
+    And I click on t("shf_applications.new.submit_button_label")
+    Then I should be on the "user account" page for "applicant_1@random.com"
+
+    And I should see t("shf_applications.create.success_with_app_files_missing")
 
   @selenium @skip_ci_test
   Scenario: A user cannot submit a new Membership Application with no category [SAD PATH]

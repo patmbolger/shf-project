@@ -24,6 +24,10 @@ Feature: Edit SHF Application
       | Psychologist |
       | Trainer      |
 
+    And the following sub category exist
+      | subcategory_name    | subcategory_description         |
+      | overall grooming    | full service grooming           |
+
     And the application file upload options exist
 
     And the following applications exist:
@@ -32,6 +36,24 @@ Feature: Edit SHF Application
       | hans@random.com   | 2120000142, 5560360793 | new                   | Groomer    |
       | nils@random.com   | 2120000142             | accepted              | Groomer    |
       | bob@barkybobs.com | 5560360793             | rejected              | Groomer    |
+
+  @selenium
+  Scenario: Business categories are displayed, user sees success
+    Given I am logged in as "emma@random.com"
+    And I am on the "user instructions" page
+    And I click on first t("menus.nav.users.my_application") link
+    Then I should be on "Edit My Application" page
+
+    And I select files delivery radio button "upload_now"
+    And I choose a file named "diploma.pdf" to upload
+
+    And I should not see "overall grooming" Category
+    And I click on t("shf_applications.edit.submit_button_label")
+
+    Then I should be on the "show my application" page for "emma@random.com"
+
+    And I should see t("shf_applications.update.success")
+    And I should not see t("shf_applications.update.success_with_app_files_missing")
 
   @selenium
   Scenario: Applicant makes mistake when editing their own application (no files uploaded) [SAD PATH]
