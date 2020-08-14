@@ -191,6 +191,7 @@ Feature: Create a new membership application
     And I fill in "company-number-in-modal" with "2286411992"
     And I fill in t("companies.show.email") with "info@craft.se"
 
+    Then I want to create a new company
     And I click on t("companies.create.create_submit")
 
     And I select files delivery radio button "upload_later"
@@ -238,6 +239,7 @@ Feature: Create a new membership application
     And I fill in "company-number-in-modal" with "2286411992"
     And I fill in t("companies.show.email") with "info@craft.se"
 
+    Then I want to create a new company
     And I click on t("companies.create.create_submit")
 
     And I should see t("shf_applications.new.file_delivery_selection")
@@ -283,6 +285,7 @@ Feature: Create a new membership application
     And I fill in "company-number-in-modal" with "5562252998"
     And I fill in t("companies.show.email") with "info@craft.se"
 
+    Then I want to create a new company
     And I click on t("companies.create.create_submit")
 
     And I should see t("shf_applications.new.file_delivery_selection")
@@ -307,6 +310,7 @@ Feature: Create a new membership application
     And I fill in "company-number-in-modal" with "6112107039"
     And I fill in t("companies.show.email") with "info@craft.se"
 
+    Then I want to create a new company
     And I click on t("companies.create.create_submit")
 
     And I select files delivery radio button "upload_later"
@@ -371,10 +375,11 @@ Feature: Create a new membership application
     And I select files delivery radio button "files_uploaded"
 
     # Create new company in modal
+    Then I want to create a new company
     And I click on t("companies.new.title")
     And I fill in the translated form with data:
-      | shf_applications.new.new_company_number | companies.show.email |
-      | <c_number>                              | <c_email>            |
+      | companies.company_create_modal.company_number | companies.show.email |
+      | <c_number>                                    | <c_email>            |
 
     And I click on t("companies.create.create_submit")
 
