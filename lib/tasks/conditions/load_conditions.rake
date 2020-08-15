@@ -6,20 +6,21 @@ namespace :shf do
     std_reminder_after_schedule = [2, 9, 14, 30, 60]
     std_reminder_before_schedule = [60, 30, 14, 2]
 
+    # See the ConditionResponder class for defintions of the different possible
+    # timing methods and configurations.
+
 
     # NUMBER OF DAYS TO KEEP BACKUPS ON THE PRODUCTION SERVER:
     # -------------------------------------------------------
     # 8 days is the default because: if there is a problem (e.g. coping to AWS)
     #  and we don't spot it for a week
     #  (perhaps we didn't have a weekly meeting on a Thursday), the backup files still exist on the production server.
-    DEFAULT_DAYS_TO_KEEP = 8
+    DEFAULT_DAYS_TO_KEEP = 4
 
     # Code also exists on GitHub and in a the version control system (git). [In fact, those
     #   are the authoritative/canonical source. ] So we don't need to keep very many days of backups.
     DAYS_TO_KEEP_CODE = 3
 
-    # TODO: how many days should we keep the public files on the production server?  what if copying to AWS has a problem?
-    #   = DEFAULT_DAYS_TO_KEEP  (e.g. 8 days so we have time to notice and fix if something goes wrong)
     DAYS_TO_KEEP_PUBLIC_FILES = DEFAULT_DAYS_TO_KEEP
 
 
@@ -33,6 +34,11 @@ namespace :shf do
     # Add a Hash for each Condition to be created
     #
     conditions_to_create = [
+
+        # Send this alert once a week on Tuesday ( = weekday #2 as defined in the Date class)
+        { class_name: 'MembersNeedPacketsAlert',
+            timing:     :day_of_week,
+            config:     { days_of_week: [2]} },
 
         # Once Repeating Task timing is implemented, the timing should be changed
         # to repeat every 14 days.
@@ -64,11 +70,9 @@ namespace :shf do
           timing:     :after,
           config:     { days: std_reminder_after_schedule } },
 
-
         { class_name: 'ShfAppNoUploadedFilesAlert',
           timing:     :after,
           config:     { days: [60, 30, 14, 9, 2] } },
-
 
 
         # days_to_keep - specifies number of (daily) backups to retain on production server
