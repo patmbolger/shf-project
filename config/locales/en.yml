@@ -341,7 +341,8 @@ en:
             company_number:
               taken: This company (organization number) already exists in the system.
             dinkurs_company_id:
-              invalid: is not recognized as a company key by Dinkurs
+              invalid_key: is not recognized as a company key by Dinkurs
+              invalid_format: Dinkurs information is invalid (format is bad or unknown).
               invalid_chars: contains invalid characters (characters such as Å, Ä, Ö are not allowed)
             company_has_active_memberships: "The company has active (accepted) membership applications."
 
@@ -805,6 +806,9 @@ en:
 
     company:
       submit_button_label: Update Status
+
+    company_create_modal:
+      company_number: New company number
 
     company_name: Company name
     telephone_number: Phone number
@@ -1689,6 +1693,7 @@ en:
         message_text:
           message_intro: "These members need membership packets sent to them:"
           membership start date: membership start
+          categories: *business_categories
         error_sending:  "ERROR! There was a problem sending the 'Members need packets' alert email"
 
 
@@ -1902,7 +1907,7 @@ en:
       users:
         my_application: *my_application
         apply_for_membership: Apply for Membership
-        your_account: My account
+        your_account: Your account
 
       members:
         shf_companies: SHF Companies

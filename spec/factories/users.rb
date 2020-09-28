@@ -17,6 +17,12 @@ FactoryBot.define do
     created_at { DateTime.now.utc }
     updated_at { DateTime.now.utc }
 
+    factory :user_with_ethical_guidelines_checklist do
+      after(:create) do |user, _evaluator|
+        create(:membership_ethical_guidelines, user: user)
+      end
+    end
+
     factory :admin do
       admin { true }
     end
@@ -24,7 +30,7 @@ FactoryBot.define do
 
     factory :user_without_first_and_lastname do
 
-      after(:create) do |user|
+      after(:build) do |user|
         user.first_name = nil
         user.last_name = nil
         user.save(validate: false)
@@ -40,26 +46,40 @@ FactoryBot.define do
 
     factory :user_with_membership_app do
 
-      after(:create) do |user, evaluator|
-        create_list(:shf_application, 1, user: user, contact_email: evaluator.email) # FIXME this should not be a list. Fix tests that use this
+      transient do
+        company_number { nil }
+      end
+
+      after(:build) do |user, evaluator|
+        # FIXME this should not be a list. Fix tests that use this
+        create_list(:shf_application, 1,
+                    user: user,
+                    contact_email: evaluator.email,
+                    company_number: evaluator.company_number)
       end
     end
 
     factory :member_with_membership_app do
 
+      # FIXME this attribute no long means anything.
       member { true }
 
       transient do
         company_number { 5562728336 }
       end
 
-      after(:create) do |user, evaluator|
-        create_list(:shf_application, 1, :accepted, user: user,
+      after(:build) do |member, evaluator|
+        create_list(:shf_application, 1, :accepted, user: member,
                     company_number: evaluator.company_number,
                     contact_email: evaluator.email) # FIXME this should not be a list. Fix tests that use this
       end
 
+      after(:create) do | member, _evaluator|
+        create(:membership_ethical_guidelines, user: member)
+        UserChecklistManager.membership_guidelines_list_for(member).set_complete_including_children
+      end
     end
+
 
 
     # create a payment for the member with the given expiration date
@@ -82,6 +102,9 @@ FactoryBot.define do
         create(:membership_fee_payment, user: member,
                start_date: evaluator.expiration_date - 364,
                expire_date: evaluator.expiration_date)
+
+        create(:membership_ethical_guidelines, user: member)
+        UserChecklistManager.membership_guidelines_list_for(member).set_complete_including_children
       end
     end
 

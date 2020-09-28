@@ -22,6 +22,12 @@ When "I click on{optional_string} {capture_string}{optional_string}" do |ordinal
   end
 end
 
+When "I want to create a new company" do
+  if Capybara.current_driver == (:selenium || :selenium_browser)
+    page.execute_script("$('.modal').removeClass('fade');")
+  end
+end
+
 When "I click on and accept{optional_string} {capture_string}{optional_string}" do |ordinal, element, type|
   page.driver.accept_modal(:confirm, wait: 4) do
     confirm_step = "I click on" + (ordinal ? "#{ordinal}" : '') +
@@ -74,11 +80,13 @@ end
 When(/^I fill in the( translated)? form with data:$/) do |translated, table|
   data = table.hashes.first
   data.each do |label, value|
-    if translated
-      fill_in i18n_content("#{label}"), with: value
-    else
-      fill_in label, with: value
-    end
+    # If the machine is fast, the timing of entering text might be off:
+    #   the field might not be ready to accept text, or
+    #   the placement of the cursor might be off.
+    #  Clicking in the field may help with the timing.
+    location_label = translated ? i18n_content("#{label}") : label
+    find(:fillable_field, location_label).click
+    fill_in location_label, with: value
   end
 end
 
@@ -105,20 +113,24 @@ end
 
 
 When "I click the icon with CSS class {capture_string} for the row with {capture_string}" do | icon_class, row_content |
-  icon_element = find(:xpath, "//tr[contains(.,'#{row_content}')]/td/a/i[contains(@class, '#{icon_class}')]")
+  icon_element = find(:xpath, "//tr[contains(.,'#{row_content}')]/td//a//i[contains(@class, '#{icon_class}')]")
   icon_element.find(:xpath, './parent::a').click  # get the parent a of the icon)
 end
 
+# TODO: should this step ever be used?
 When "I click and accept the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
   page.driver.accept_modal(:confirm, wait: 4) do
     step %{I click the #{ordinal} icon with CSS class "#{icon_class}"}
   end
 end
 
-When "I click the{optional_string} icon with CSS class {capture_string}" do |ordinal, icon_class|
+When "I click the {ordinal} icon with CSS class {capture_string}" do |ordinal, icon_class|
   index = ordinal ? [0, 1, 2, 3, 4].send(ordinal.lstrip) : 0
 
-  all("i.#{icon_class}")[index].click
+  icons = all("i.#{icon_class}")
+  # (all(...)) will not return an array if there is only one icon with that class
+  icons = [icons] unless icons.is_a? Array
+  icons[index].first.click  # click on the first result
 end
 
 

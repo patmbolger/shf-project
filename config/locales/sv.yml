@@ -340,7 +340,8 @@ sv:
             company_number:
               taken: Detta företag (org nr) finns redan i systemet.
             dinkurs_company_id:
-              invalid: erkänns inte som en företagsnyckel av Dinkurs
+              invalid_key: erkänns inte som en företagsnyckel av Dinkurs
+              invalid_format: Dinkurs informationen är ogiltig (formatet är dåligt eller okänt).
               invalid_chars: innehåller ogiltiga tecken (tecken som Å, Ä, Ö är inte tillåtna)
             company_has_active_memberships: "Företaget har aktiva (godkända) medlemskap."
 
@@ -809,6 +810,9 @@ sv:
 
     company:
       submit_button_label: Uppdatera status
+
+    company_create_modal:
+      company_number: Nytt företagsnummer
 
     company_name: Företagsnamn
     telephone_number: Telefonnummer
@@ -1692,6 +1696,7 @@ sv:
         message_text:
           message_intro: "Dessa medlemmar behöver välkomnas samt få medlemspaket:"
           membership start date: medlem sedan
+          categories: *business_categories
         error_sending: "FEL! Det blev ett fel när 'Members need packets' mailet skulle skickas"
 
 
@@ -1904,7 +1909,7 @@ sv:
       users:
         my_application: *my_application
         apply_for_membership: Ansök om medlemsskap
-        your_account: Mitt konto
+        your_account: Ditt konto
 
       members:
         shf_companies: SHF-företag

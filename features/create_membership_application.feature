@@ -1,5 +1,10 @@
 Feature: Create a new membership application
 
+  2020-09-10:  Note that 2 scenarios have been removed from this feature file
+    and put into 'problem-scenarios-create_membership_application.feature'.
+    They have been causing intermittent failures during CI Semaphore tests.
+    See the note in that file for more info.
+
   As a user
   In order to get a membership with SHF (which makes my business more valuable )
   I need to be able to submit a Membership Application
