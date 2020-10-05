@@ -39,6 +39,14 @@ module AdminOnly
 
     after_save :update_site_meta_image_info
 
+    after_update :clear_proof_of_membership_image_caches,
+                 if: Proc.new { saved_change_to_shf_logo_file_name? ||
+                                saved_change_to_chair_signature_file_name? }
+
+    def clear_proof_of_membership_image_caches
+      User.clear_all_proof_of_membership_jpg_caches
+    end
+
     has_attached_file :chair_signature,
                       url: :url_for_images,
                       default_url: 'chair_signature.png',

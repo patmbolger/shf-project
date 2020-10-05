@@ -98,6 +98,12 @@ class User < ApplicationRecord
 
   # ----------------------------------
 
+  after_update :clear_proof_of_membership_jpg_cache,
+               if: Proc.new { saved_change_to_member_photo_file_name? ||
+                              saved_change_to_first_name? ||
+                              saved_change_to_last_name? ||
+                              saved_change_to_membership_number? }
+
   def cache_key(type)
     "user_#{id}_cache_#{type}"
   end
@@ -108,6 +114,16 @@ class User < ApplicationRecord
 
   def proof_of_membership_jpg=(image)
     Rails.cache.write(cache_key('pom'), image)
+  end
+
+  def clear_proof_of_membership_jpg_cache
+    Rails.cache.delete(cache_key('pom'))
+  end
+
+  def self.clear_all_proof_of_membership_jpg_caches
+    User.all.each do |user|
+      user.clear_proof_of_membership_jpg_cache
+    end
   end
 
   def updating_without_name_changes
