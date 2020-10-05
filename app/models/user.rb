@@ -8,6 +8,7 @@
 #
 class User < ApplicationRecord
   include PaymentUtility
+  include ImagesUtility
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -97,6 +98,17 @@ class User < ApplicationRecord
 
   # ----------------------------------
 
+  def cache_key(type)
+    "user_#{id}_cache_#{type}"
+  end
+
+  def proof_of_membership_jpg
+    Rails.cache.read(cache_key('pom'))
+  end
+
+  def proof_of_membership_jpg=(image)
+    Rails.cache.write(cache_key('pom'), image)
+  end
 
   def updating_without_name_changes
     # Not a new record and not saving changes to either first or last name
@@ -293,9 +305,13 @@ class User < ApplicationRecord
 
 
   def get_short_proof_of_membership_url(url)
+    # Add '.jpg' to the rails route URL so that the server will receive a
+    #   request looking for a JPG response. If the client is sending the request
+    #   from a "img" element then the image will shown inline.
+
     found = self.short_proof_of_membership_url
     return found if found
-    short_url = ShortenUrl.short(url)
+    short_url = ShortenUrl.short(url += '.jpg')
     if short_url
       self.update_attribute(:short_proof_of_membership_url, short_url)
       short_url

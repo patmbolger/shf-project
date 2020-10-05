@@ -1009,8 +1009,8 @@ en:
                                pixels and the height is
                                <span id='%{height_id}'></span> pixels."
       use_this_image_link_html: "<span style='font-weight: bold'>
-                                  Use this link in an external website:
-                                  </span>"
+                                  Use this link in an external website
+                                  (will return a JPG image):</span>"
 
     proof_of_membership:
       proof_title: *proof_of_membership
