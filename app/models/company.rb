@@ -70,6 +70,13 @@ class Company < ApplicationRecord
   end
 
 
+  after_update :clear_h_brand_jpg_cache,
+               if: Proc.new { saved_change_to_member_photo_file_name? ||
+                              saved_change_to_first_name? ||
+                              saved_change_to_last_name? ||
+                              saved_change_to_membership_number? }
+
+
   # Note: If the rules/definition for a 'complete' company change, this scope
   # must be changed in addition to the code in RequirementsForCoInfoComplete
   #
