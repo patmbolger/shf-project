@@ -39,12 +39,25 @@ module AdminOnly
 
     after_save :update_site_meta_image_info
 
-    after_update :clear_proof_of_membership_image_caches,
-                 if: Proc.new { saved_change_to_shf_logo_file_name? ||
-                                saved_change_to_chair_signature_file_name? }
+    after_update :clear_image_caches
+
+    def clear_image_caches
+      if saved_change_to_shf_logo_file_name?
+        clear_proof_of_membership_image_caches
+        clear_h_brand_image_caches
+      elsif saved_change_to_chair_signature_file_name?
+        clear_proof_of_membership_image_caches
+      elsif saved_change_to_sweden_dog_trainers_file_name?
+        clear_h_brand_image_caches
+      end
+    end
 
     def clear_proof_of_membership_image_caches
       User.clear_all_proof_of_membership_jpg_caches
+    end
+
+    def clear_h_brand_image_caches
+      Company.clear_all_h_brand_jpg_caches
     end
 
     has_attached_file :chair_signature,

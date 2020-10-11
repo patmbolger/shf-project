@@ -117,7 +117,8 @@ class CompaniesController < ApplicationController
       download_image('company_h_brand', image)
 
     else
-      image_html = image_html('company_h_brand', @app_configuration, @company)
+      image_html = image_html('company_h_brand', @app_configuration, @company,
+                              context: params[:context]&.to_sym)
       show_image(image_html)
     end
   end

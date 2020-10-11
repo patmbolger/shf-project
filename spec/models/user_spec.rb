@@ -831,10 +831,6 @@ RSpec.describe User, type: :model do
         expect(member.has_approved_app_for_company?(given_co)).to be_falsey
       end
 
-      it 'false if company not in most recent approved app' do
-        skip 'this test will be needed if/when a user has more than 1 application'
-      end
-
       it 'true if company in most recent approved app' do
         member = create(:user, email: 'user-app-approved-has-given-co@example.com')
         app1 = create(:shf_application,
@@ -1775,21 +1771,20 @@ RSpec.describe User, type: :model do
   describe '#get_short_proof_of_membership_url' do
     context 'there is already a shortened url in the table' do
       it 'returns shortened url' do
-        url = 'http://localhost:3000/anvandare/0/company_h_brand?company_id=1'
-        expect(with_short_proof_of_membership_url.get_short_proof_of_membership_url(url)).to eq('http://www.tinyurl.com/proofofmembership')
+        expect(with_short_proof_of_membership_url.get_short_proof_of_membership_url('any_url')).to eq('http://www.tinyurl.com/proofofmembership')
       end
     end
 
     context 'there is no shortened url in the table and ShortenUrl.short is called' do
       it 'saves the result if the result is not nil and returns shortened url' do
-        url = 'http://localhost:3000/anvandare/0/company_h_brand?company_id=1'
-        allow(ShortenUrl).to receive(:short).with(url).and_return('http://tinyurl.com/proofofmembership2')
-        expect(user.get_short_proof_of_membership_url(url)).to eq(ShortenUrl.short(url))
-        expect(user.short_proof_of_membership_url).to eq(ShortenUrl.short(url))
+        url = 'http://localhost:3000/anvandare/1/proof_of_membership'
+        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return('http://tinyurl.com/short_url')
+        expect(user.get_short_proof_of_membership_url(url)).to eq(ShortenUrl.short(url + '.jpg'))
+        expect(user.short_proof_of_membership_url).to eq(ShortenUrl.short(url + '.jpg'))
       end
       it 'does not save anything if the result is nil and returns unshortened url' do
-        url = 'http://localhost:3000/anvandare/0/company_h_brand?company_id=1'
-        allow(ShortenUrl).to receive(:short).with(url).and_return(nil)
+        url = 'http://localhost:3000/anvandare/1/proof_of_membership'
+        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return(nil)
         expect(user.get_short_proof_of_membership_url(url)).to eq(url)
         expect(user.short_proof_of_membership_url).to eq(nil)
       end

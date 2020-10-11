@@ -1016,14 +1016,14 @@ RSpec.describe Company, type: :model, focus: true do
     end
     context 'there is no shortened url in the table and ShortenUrl.short is called' do
       it 'saves the result if the result is not nil and returns shortened url' do
-        url = 'http://localhost:3000/anvandare/0/company_h_brand?company_id=1'
-        allow(ShortenUrl).to receive(:short).with(url).and_return('http://tinyurl.com/hbrand2')
-        expect(complete_co1.get_short_h_brand_url(url)).to eq(ShortenUrl.short(url))
-        expect(complete_co1.short_h_brand_url).to eq(ShortenUrl.short(url))
+        url = 'http://localhost:3000/anvandare/1/company_h_brand'
+        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return('http://tinyurl.com/short_url')
+        expect(complete_co1.get_short_h_brand_url(url)).to eq(ShortenUrl.short(url + '.jpg'))
+        expect(complete_co1.short_h_brand_url).to eq(ShortenUrl.short(url + '.jpg'))
       end
       it 'does not save anything if the result is nil and returns unshortened url' do
-        url = 'http://localhost:3000/anvandare/0/company_h_brand?company_id=1'
-        allow(ShortenUrl).to receive(:short).with(url).and_return(nil)
+        url = 'http://localhost:3000/anvandare/1/company_h_brand'
+        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return(nil)
         expect(complete_co1.get_short_h_brand_url(url)).to eq(url)
         expect(complete_co1.short_h_brand_url).to eq(nil)
       end
