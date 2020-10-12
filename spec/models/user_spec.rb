@@ -564,6 +564,81 @@ RSpec.describe User, type: :model do
   end # Scopes
 
 
+  context 'proof-of-membership JPG cache management' do
+    let(:user2) { create(:user) }
+
+    before(:each) { Rails.cache.clear(user.cache_key('pom')) }
+
+    it { expect(user.cache_key('pom')).to eq "user_#{user.id}_cache_pom" }
+
+    describe '#proof_of_membership_jpg' do
+      it 'returns nil if no cached image' do
+        expect(user.proof_of_membership_jpg).to be_nil
+      end
+
+      it 'returns cached image if present' do
+        Rails.cache.write(user.cache_key('pom'), file_fixture('image.png'))
+        expect(user.proof_of_membership_jpg).to_not be_nil
+        expect(user.proof_of_membership_jpg).to eq file_fixture('image.png')
+      end
+    end
+
+    describe '#proof_of_membership_jpg=' do
+      it 'caches image' do
+        expect(user.proof_of_membership_jpg).to be_nil
+        user.proof_of_membership_jpg = file_fixture('image.png')
+        expect(user.proof_of_membership_jpg).to_not be_nil
+        expect(user.proof_of_membership_jpg).to eq file_fixture('image.png')
+      end
+    end
+
+    describe '#clear_proof_of_membership_jpg_cache' do
+      it 'clears cache' do
+        user.proof_of_membership_jpg = file_fixture('image.png')
+        expect(user.proof_of_membership_jpg).to_not be_nil
+        user.clear_proof_of_membership_jpg_cache
+        expect(user.proof_of_membership_jpg).to be_nil
+      end
+    end
+
+    describe '.clear_all_proof_of_membership_jpg_caches' do
+      it 'clears image cache for all users' do
+        user.proof_of_membership_jpg = file_fixture('image.png')
+        user2.proof_of_membership_jpg = file_fixture('image.png')
+        expect(user.proof_of_membership_jpg).to_not be_nil
+        expect(user2.proof_of_membership_jpg).to_not be_nil
+        User.clear_all_proof_of_membership_jpg_caches
+        expect(user.proof_of_membership_jpg).to be_nil
+        expect(user2.proof_of_membership_jpg).to be_nil
+      end
+    end
+
+    describe 'after_update :clear_proof_of_membership_jpg_cache' do
+      it 'is called if member_photo_file_name changes' do
+        expect(user).to receive(:clear_proof_of_membership_jpg_cache).once
+        user.update_attributes(member_photo_file_name: 'new_file_name.jpg')
+      end
+      it 'is called if first_name changes' do
+        expect(user).to receive(:clear_proof_of_membership_jpg_cache).once
+        user.update_attributes(first_name: 'fred')
+      end
+      it 'is called if last_name changes' do
+        expect(user).to receive(:clear_proof_of_membership_jpg_cache).once
+        user.update_attributes(last_name: 'flintstone')
+      end
+      it 'is called if membership_number changes' do
+        expect(user).to receive(:clear_proof_of_membership_jpg_cache).once
+        user.update_attributes(membership_number: 1000)
+      end
+      it 'is not called if other attribute changes' do
+        expect(user).not_to receive(:clear_proof_of_membership_jpg_cache)
+        user.update_attributes(email: 'new@mail.com',
+                                  date_membership_packet_sent: Date.current)
+      end
+    end
+  end
+
+
   describe '#has_shf_application?' do
 
     describe 'user: no application' do

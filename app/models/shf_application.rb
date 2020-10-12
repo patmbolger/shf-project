@@ -116,7 +116,7 @@ class ShfApplication < ApplicationRecord
 
   after_update  :clear_image_caches
 
-  def clear_image_caches
+  def clear_image_caches    
     user.clear_proof_of_membership_jpg_cache
 
     companies.each do |company|
