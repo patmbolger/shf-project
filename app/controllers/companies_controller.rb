@@ -1,6 +1,7 @@
 require 'company_locator'
 
 class CompaniesController < ApplicationController
+  include SetAppConfiguration
   include PaginationUtility
   include ImagesUtility
 

@@ -321,13 +321,9 @@ class User < ApplicationRecord
 
 
   def get_short_proof_of_membership_url(url)
-    # Add '.jpg' to the rails route URL so that the server will receive a
-    #   request expecting a JPG response. If the client is sending the request
-    #   from a "img" tag then the image will be shown inline.
-
     found = self.short_proof_of_membership_url
     return found if found
-    short_url = ShortenUrl.short(url + '.jpg')
+    short_url = ShortenUrl.short(url)
     if short_url
       self.update_attribute(:short_proof_of_membership_url, short_url)
       short_url

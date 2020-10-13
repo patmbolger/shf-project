@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   include RobotsMetaTagShowActionOnly
+  include SetAppConfiguration
   include PaginationUtility
   include ImagesUtility
 

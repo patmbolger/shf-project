@@ -111,7 +111,9 @@ module AdminOnly
 
     end
 
-    after_update :update_site_meta_image_info, :clear_image_caches
+    after_save :update_site_meta_image_info
+
+    after_update :clear_image_caches
 
     def clear_image_caches
       if saved_change_to_shf_logo_file_name?

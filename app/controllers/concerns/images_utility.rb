@@ -1,8 +1,5 @@
 module ImagesUtility
 
-  include SetAppConfiguration  # Need the Application Configuration for proof-of-membership
-
-
   private
 
   def download_image(type, image)

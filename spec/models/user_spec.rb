@@ -1853,13 +1853,13 @@ RSpec.describe User, type: :model do
     context 'there is no shortened url in the table and ShortenUrl.short is called' do
       it 'saves the result if the result is not nil and returns shortened url' do
         url = 'http://localhost:3000/anvandare/1/proof_of_membership'
-        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return('http://tinyurl.com/short_url')
-        expect(user.get_short_proof_of_membership_url(url)).to eq(ShortenUrl.short(url + '.jpg'))
-        expect(user.short_proof_of_membership_url).to eq(ShortenUrl.short(url + '.jpg'))
+        allow(ShortenUrl).to receive(:short).with(url).and_return('http://tinyurl.com/short_url')
+        expect(user.get_short_proof_of_membership_url(url)).to eq(ShortenUrl.short(url))
+        expect(user.short_proof_of_membership_url).to eq(ShortenUrl.short(url))
       end
       it 'does not save anything if the result is nil and returns unshortened url' do
         url = 'http://localhost:3000/anvandare/1/proof_of_membership'
-        allow(ShortenUrl).to receive(:short).with(url + '.jpg').and_return(nil)
+        allow(ShortenUrl).to receive(:short).with(url).and_return(nil)
         expect(user.get_short_proof_of_membership_url(url)).to eq(url)
         expect(user.short_proof_of_membership_url).to eq(nil)
       end
