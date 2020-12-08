@@ -5,9 +5,8 @@ module ImagesUtility
 
   private
 
-  def download_image(type, width, image_html)
-    kit = build_kit(image_html, "#{type.tr('_', '-')}.css", width)
-    send_data(kit.to_jpg, type: 'image/jpg', filename: "#{type}.jpeg")
+  def download_image(type, image)
+    send_data(image, type: 'image/jpg', filename: "#{type}.jpg", disposition: 'inline')
   end
 
   def show_image(image_html)
