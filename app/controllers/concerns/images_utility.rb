@@ -1,8 +1,5 @@
 module ImagesUtility
 
-  include SetAppConfiguration  # Need the Application Configuration for proof-of-membership
-
-
   private
 
   def download_image(type, image)
@@ -13,13 +10,23 @@ module ImagesUtility
     render html: image_html.html_safe
   end
 
-  def image_html(image_type, app_config, object)
+  def create_image(type, width, app_config, object)
+    image_html = image_html(type, app_config, object, render_to: :jpg)
+    kit = build_kit(image_html, "#{type.tr('_', '-')}.css", width)
+    kit.to_jpg
+  end
+
+  def image_html(image_type, app_config, object,
+                 render_to: nil, context: nil)
+
     object_sym = object.class.to_s.downcase.to_sym
+
     render_to_string(partial: image_type,
+                     formats: :html,
                      locals: { app_config: app_config,
-                               render_to: params[:render_to]&.to_sym,
-                               context: params[:context]&.to_sym,
-                               object_sym => object})
+                               render_to: render_to,
+                               context: context,
+                               object_sym => object })
   end
 
   def build_kit(image_html, image_css, width)
