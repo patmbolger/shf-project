@@ -51,7 +51,7 @@
 
       %p.proof-footer= t('.footer')
 
-    - if render_to == :html && context == :internal
+    - if render_to == :html && context == 'internal'
       %div
         %br
         = t('users.show_member_images_row_cols.image_dimensions_html', width_id: 'pom-width',
