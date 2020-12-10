@@ -2,9 +2,12 @@ module ImagesUtility
 
   private
 
-  def download_image(type, width, image_html, disposition)
-    kit = build_kit(image_html, "#{type.tr('_', '-')}.css", width)
-    send_data(kit.to_jpg, type: 'image/jpg', filename: "#{type}.jpg", disposition: disposition)
+  def send_as(context)
+    context == 'internal' ? 'attachment' : 'inline'
+  end
+
+  def download_image(type, jpg_image, send_as)
+    send_data(jpg_image, type: 'image/jpg', filename: "#{type}.jpg", disposition: send_as)
   end
 
   def show_image(image_html)
@@ -17,7 +20,7 @@ module ImagesUtility
     kit.to_jpg
   end
 
-  def image_html(image_type, app_config, object, render_to)
+  def image_html(image_type, app_config, object, render_to, context=nil)
     object_sym = object.class.to_s.downcase.to_sym
 
     render_to_string(partial: image_type,

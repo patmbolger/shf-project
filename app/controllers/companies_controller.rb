@@ -106,17 +106,15 @@ class CompaniesController < ApplicationController
       render_to = :html
     end
 
-    image_html = @company.h_brand_jpg
+    jpg_image = @company.h_brand_jpg
 
-    unless image_html
-      image_html = create_image_jpg('company_h_brand', 300, @app_configuration, @company)
-      @company.h_brand_jpg = image_html
+    unless jpg_image
+      jpg_image = create_image_jpg('company_h_brand', 300, @app_configuration, @company)
+      @company.h_brand_jpg = jpg_image
     end
 
     if render_to == :jpg
-      disposition = (params[:context] == 'internal' ? 'attachment' : 'inline')
-
-      download_image('company_h_brand', 300, image_html, disposition)
+      download_image('company_h_brand', jpg_image, send_as(params[:context]))
     else
       image_html = image_html('company_h_brand', @app_configuration,
                               @company, render_to, params[:context])
