@@ -23,14 +23,14 @@ RSpec.describe CompaniesController, type: :controller do
       get :company_h_brand, params: { id: company.id, format: 'jpg' }
 
       expect(response.content_type).to eq 'image/jpg'
-      expect(response.headers['Content-Disposition']).to match /inline/
+      expect(response.headers['Content-Disposition']).to match (/inline/)
     end
 
     it "returns JPG for download, for params[:format] == 'jpg', params[:context] == 'internal' request" do
       get :company_h_brand, params: { id: company.id, format: 'jpg', context: 'internal' }
 
       expect(response.content_type).to eq 'image/jpg'
-      expect(response.headers['Content-Disposition']).to match /attachment/
+      expect(response.headers['Content-Disposition']).to match (/attachment/)
     end
 
     it 'returns HTML otherwise' do

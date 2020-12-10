@@ -128,14 +128,14 @@ RSpec.describe UsersController, type: :controller do
       get :proof_of_membership, params: { id: member.id, format: 'jpg' }
 
       expect(response.content_type).to eq 'image/jpg'
-      expect(response.headers['Content-Disposition']).to match /inline/
+      expect(response.headers['Content-Disposition']).to match (/inline/)
     end
 
     it "returns JPG for download, for params[:format] == 'jpg', params[:context] == 'internal' request" do
       get :proof_of_membership, params: { id: member.id, format: 'jpg', context: 'internal' }
 
       expect(response.content_type).to eq 'image/jpg'
-      expect(response.headers['Content-Disposition']).to match /attachment/
+      expect(response.headers['Content-Disposition']).to match (/attachment/)
     end
 
     it 'returns HTML otherwise' do
