@@ -100,24 +100,20 @@ class CompaniesController < ApplicationController
   end
 
   def company_h_brand
-    if params[:render_to] == 'jpg' || request.format == 'jpg'
-      render_to = :jpg
-    else
-      render_to = :html
-    end
+    render_as = request.format.to_sym
 
-    jpg_image = @company.h_brand_jpg
+    if render_as == :jpg
+      jpg_image = @company.h_brand_jpg
 
-    unless jpg_image
-      jpg_image = create_image_jpg('company_h_brand', 300, @app_configuration, @company)
-      @company.h_brand_jpg = jpg_image
-    end
+      unless jpg_image
+        jpg_image = create_image_jpg('company_h_brand', 300, @app_configuration, @company)
+        @company.h_brand_jpg = jpg_image
+      end
 
-    if render_to == :jpg
       download_image('company_h_brand', jpg_image, send_as(params[:context]))
     else
       image_html = image_html('company_h_brand', @app_configuration,
-                              @company, render_to, params[:context])
+                              @company, render_as, params[:context])
       show_image(image_html)
     end
   end

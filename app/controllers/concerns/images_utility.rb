@@ -15,18 +15,19 @@ module ImagesUtility
   end
 
   def create_image_jpg(type, width, app_config, object)
-    image_html = image_html(type, app_config, object, render_to: :jpg)
+    image_html = image_html(type, app_config, object,
+                            render_as: :jpg, context: 'internal')
     kit = build_kit(image_html, "#{type.tr('_', '-')}.css", width)
     kit.to_jpg
   end
 
-  def image_html(image_type, app_config, object, render_to, context=nil)
+  def image_html(image_type, app_config, object, render_as, context=nil)
     object_sym = object.class.to_s.downcase.to_sym
 
     render_to_string(partial: image_type,
                      formats: [:html],
                      locals: { app_config: app_config,
-                               render_to: render_to,
+                               render_as: render_as,
                                context: context,
                                object_sym => object})
   end
