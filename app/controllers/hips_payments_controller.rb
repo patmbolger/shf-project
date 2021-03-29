@@ -1,11 +1,9 @@
-class PaymentsController < ApplicationController
+class HipsPaymentsController < ApplicationController
 
   include RobotsMetaTagShowActionOnly
 
   class NotAuthorizedError < Pundit::NotAuthorizedError
   end
-
-  SUCCESSFUL_klarna_order_EVENT = 'order.successful'
 
   protect_from_forgery except: :webhook
 
@@ -37,22 +35,20 @@ class PaymentsController < ApplicationController
                               expire_date: expire_date)
 
     # Build data structures for HIPS order
-    urls = klarna_order_urls(entity_id, @payment.id, company_id, payment_type)
+    urls = hips_order_urls(entity_id, @payment.id, company_id, payment_type)
     payment_data = { id: @payment.id, type: payment_type, currency: 'SEK',
                      paid_item: paid_item }
 
-    # Invoke Klarns API - returns an order to be used for checkout
-    klarna_order = KlarnaService.create_order(user_id,
-                                            session.id,
-                                            payment_data,
-                                            urls)
-
-    debugger
+    # Invoke HIPS API - returns an order to be used for checkout
+    hips_order = HipsService.create_order(user_id,
+                                          session.id,
+                                          payment_data,
+                                          urls)
 
     # Save payment and render HIPS checkout form
-    @hips_id = klarna_order['id']
+    @hips_id = hips_order['id']
     @payment.hips_id = @hips_id
-    @payment.status = Payment.order_to_payment_status(klarna_order['status'])
+    @payment.status = Payment.order_to_payment_status(hips_order['status'])
     @payment.save!
 
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid  => exc
@@ -78,7 +74,7 @@ class PaymentsController < ApplicationController
 
     payload = JSON.parse(request.body.read)
 
-    return head(:ok) unless payload['event'] == SUCCESSFUL_klarna_order_EVENT
+    return head(:ok) unless payload['event'] == SUCCESSFUL_HIPS_ORDER_EVENT
 
     resource = HipsService.validate_webhook_origin(payload['jwt'])
 
@@ -130,10 +126,8 @@ class PaymentsController < ApplicationController
     end
   end
 
-  def klarna_order_urls(user_id, payment_id, company_id, payment_type)
+  def hips_order_urls(user_id, payment_id, company_id, payment_type)
     urls = {}
-    urls[:checkout] = payments_url(user_id: user_id)
-
     urls[:success] = payment_success_url(user_id: user_id,
                                          company_id: company_id,
                                          id: payment_id,
