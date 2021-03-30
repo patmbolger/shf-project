@@ -5,7 +5,7 @@ class KlarnaService
 
   SUCCESS_CODES = [200, 201, 202].freeze
 
-  def self.create_order(user_id, session_id, payment_data, urls)
+  def self.create_order(user_id, payment_data, urls)
 
     raise 'Invalid payment type' unless
       payment_data[:type] == Payment::PAYMENT_TYPE_MEMBER ||
@@ -20,12 +20,9 @@ class KlarnaService
     response = HTTParty.post('https://api.playground.klarna.com/checkout/v3/orders',
                              basic_auth: auth,
                   headers: { 'Content-Type' => 'application/json' },
-                  body: order_json(user_id, session_id, payment_data,
-                                   item_price, urls))
+                  body: order_json(user_id, payment_data, item_price, urls))
 
     parsed_response = response.parsed_response
-
-    debugger
 
     return parsed_response if SUCCESS_CODES.include?(response.code)
 
@@ -65,36 +62,47 @@ class KlarnaService
     token[0]['data']['resource']
   end
 
-  private_class_method def self.order_json(user_id, session_id,
-                                           payment_data, item_price, urls)
+  private_class_method def self.order_json(user_id, payment_data, item_price, urls)
 
-    { name: 'SHF',
-      status: Payment::ORDER_PAYMENT_STATUS[nil],
-      locale: 'sv-se',
-      customer: {
-        type: 'person',
+    if I18n.locale == :en
+      locale = 'us-en'
+      country = 'US'
+      currency = 'SEK'
+    else
+      locale = 'sv-se'
+      country = 'SE'
+      currency = 'SEK'
+    end
+
+    { status: Payment::ORDER_PAYMENT_STATUS[nil],
+      locale: locale,
+      options: {
+        color_button: '#003a78',
+        color_button_text: '#ffffff',
+        color_header: '#232525'
       },
       attachment: {
-        body: "customer_account_info: { unique_account_identifier: #{user_id} }",
+        body: { customer_account_info: [ unique_account_identifier: "#{user_id}" ] }.to_json,
         content_type: "application/vnd.klarna.internal.emd-v2+json"
       },
-      purchase_country: 'SE',
-      purchase_currency: 'SEK',
+      purchase_country: country,
+      purchase_currency: currency,
       order_amount: item_price,
       order_tax_amount: 0,
-      order_lines: {
-        type: 'digital',
-        name: payment_data[:paid_item],
-        quantity: 1,
-        unit_price: item_price,
-        tax_rate: 0,
-        total_amount: item_price,
-        total_tax_amount: 0,
-      },
+      order_lines: [
+        {
+          type: 'digital',
+          name: payment_data[:paid_item],
+          quantity: 1,
+          unit_price: item_price,
+          tax_rate: 0,
+          total_amount: item_price,
+          total_tax_amount: 0,
+        } ],
       merchant_urls: {
         terms: 'https://hitta.sverigeshundforetagare.se/dokument/innehall/hmarket',
         checkout: urls[:checkout],
-        confirmation: urls[:payment_success],
+        confirmation: urls[:success],
         push: urls[:webhook]
       }
     }.to_json

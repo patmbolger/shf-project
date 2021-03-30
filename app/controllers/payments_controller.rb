@@ -43,17 +43,18 @@ class PaymentsController < ApplicationController
 
     # Invoke Klarns API - returns an order to be used for checkout
     klarna_order = KlarnaService.create_order(user_id,
-                                            session.id,
-                                            payment_data,
-                                            urls)
+                                              payment_data,
+                                              urls)
 
     debugger
 
     # Save payment and render HIPS checkout form
-    @hips_id = klarna_order['id']
-    @payment.hips_id = @hips_id
-    @payment.status = Payment.order_to_payment_status(klarna_order['status'])
-    @payment.save!
+    @klarna_id = klarna_order['order_id']
+    @html_snippet = klarna_order['html_snippet']
+
+    # @payment.klarna_id = @klarna_id
+    # @payment.status = Payment.order_to_payment_status(klarna_order['status'])
+    # @payment.save!
 
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid  => exc
     @payment.destroy if @payment.persisted?
