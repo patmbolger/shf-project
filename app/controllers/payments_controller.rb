@@ -41,12 +41,10 @@ class PaymentsController < ApplicationController
     payment_data = { id: @payment.id, type: payment_type, currency: 'SEK',
                      paid_item: paid_item }
 
-    # Invoke Klarns API - returns an order to be used for checkout
+    # Invoke Klarna API - returns an order to be used for checkout
     klarna_order = KlarnaService.create_order(user_id,
                                               payment_data,
                                               urls)
-
-    debugger
 
     # Save payment and render HIPS checkout form
     @klarna_id = klarna_order['order_id']
@@ -70,12 +68,27 @@ class PaymentsController < ApplicationController
   end
 
   def webhook
+
     # This webhook will be called multiple times (7) during the order create and
     # payment process. We are only interested in the "order.successful" event,
     # which indicates successful payment.
     # Later, we can switch to "hooks/webhook_url_on_success" - which will
     # be triggered *only* by the "order.successful" event.
     # (That webhook is not available at this time (October 18, 2017)).
+
+    # get klarna ID from params
+    # get order from Klarna https://developers.klarna.com/api/#order-management-api-get-order
+    # get order status
+    # save updated Payment record (create it if it doesn't exist??)
+    # acknowledge the order back to Klarna (will stop push notifications)
+
+    # you need to capture the order in order to finalize the payment.
+    # The order can be found at Klarna’s Merchant Portal or you can integrate
+    # with our Order Management platform using the APIs provided.
+    # https://developers.klarna.com/api/#order-management-api-create-capture
+
+    # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
+
 
     payload = JSON.parse(request.body.read)
 
@@ -99,10 +112,17 @@ class PaymentsController < ApplicationController
   end
 
   def success
+
+    # Ackowledge the order to Klarna
+    # https://developers.klarna.com/api/#order-management-api-acknowledge-order
+
     payment = Payment.find(params[:id])
     payment.successfully_completed
     helpers.flash_message(:notice, t('.success'))
-    redirect_on_payment_success_or_error(payment)
+
+    klarna_order = KlarnaService.get_order(params[:order_id])
+    @html_snippet = klarna_order['html_snippet']
+    # redirect_on_payment_success_or_error(payment)
   end
 
   def error
@@ -138,14 +158,13 @@ class PaymentsController < ApplicationController
     urls[:success] = payment_success_url(user_id: user_id,
                                          company_id: company_id,
                                          id: payment_id,
-                                         payment_type: payment_type)
+                                         payment_type: payment_type,
+                                         disable_language_change: true,
+                                         order_id: '{checkout.order.id}')
 
-    urls[:error]   = payment_error_url(user_id: user_id,
-                                       company_id: company_id,
-                                       id: payment_id,
-                                       payment_type: payment_type)
-
-    urls[:webhook] = (SHF_WEBHOOK_HOST || root_url) + payment_webhook_path.sub('/en', '')
+    urls[:webhook] = (SHF_WEBHOOK_HOST || root_url) +
+                      payment_webhook_path(payment_id: payment_id,
+                                           order_id: '{checkout.order.id}').sub('/en', '')
     urls
   end
 end

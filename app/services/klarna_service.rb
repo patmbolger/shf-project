@@ -14,8 +14,7 @@ class KlarnaService
     item_price = payment_data[:type] == Payment::PAYMENT_TYPE_MEMBER ?
       SHF_MEMBER_FEE : SHF_BRANDING_FEE
 
-    auth = { username: 'PK37529_9397d245f192',
-             password: 'oQDZtwYlJIqVRi1R' }
+    auth = { username: 'PK37529_9397d245f192', password: 'oQDZtwYlJIqVRi1R' }
 
     response = HTTParty.post('https://api.playground.klarna.com/checkout/v3/orders',
                              basic_auth: auth,
@@ -36,12 +35,15 @@ class KlarnaService
     end
   end
 
-  def self.get_order(hips_id)
+  def self.get_order(klarna_id)
 
-    url = HIPS_ORDERS_URL + "#{hips_id}"
+    url = KLARNA_ORDERS_URL + "#{klarna_id}"
+
+    auth = { username: 'PK37529_9397d245f192', password: 'oQDZtwYlJIqVRi1R' }
+
     response = HTTParty.get(url,
-                  headers: { 'Authorization' => "Token token=#{HIPS_PRIVATE_KEY}",
-                             'Content-Type' => 'application/json' })
+                  basic_auth: auth,
+                  headers: { 'Content-Type' => 'application/json' })
 
     return response.parsed_response if SUCCESS_CODES.include?(response.code)
 
