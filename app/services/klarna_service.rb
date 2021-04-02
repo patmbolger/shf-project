@@ -14,9 +14,7 @@ class KlarnaService
     item_price = payment_data[:type] == Payment::PAYMENT_TYPE_MEMBER ?
       SHF_MEMBER_FEE : SHF_BRANDING_FEE
 
-    auth = { username: 'PK37529_9397d245f192', password: 'oQDZtwYlJIqVRi1R' }
-
-    response = HTTParty.post('https://api.playground.klarna.com/checkout/v3/orders',
+    response = HTTParty.post(KLARNA_CHECKOUT_URL,
                              basic_auth: auth,
                              headers: { 'Content-Type' => 'application/json' },
                              body: order_json(payment_data, item_price, urls))
@@ -37,9 +35,7 @@ class KlarnaService
 
   def self.get_order(klarna_id)
 
-    url = KLARNA_ORDERS_URL + "#{klarna_id}"
-
-    auth = { username: 'PK37529_9397d245f192', password: 'oQDZtwYlJIqVRi1R' }
+    url = KLARNA_ORDER_MGMT_URL + "#{klarna_id}"
 
     response = HTTParty.get(url,
                   basic_auth: auth,
@@ -54,14 +50,8 @@ class KlarnaService
     end
   end
 
-  def self.validate_webhook_origin(jwt)
-    token = JWT.decode(jwt, HIPS_RSA_KEY, true, algorithm: JWT_ALGORITHM)
-
-    raise 'JWT issuer not HIPS' unless token[0]['iss'] == JWT_ISSUER
-
-    raise 'JWT wrong algorithm' unless token[1]['alg'] == JWT_ALGORITHM
-
-    token[0]['data']['resource']
+  def self.auth
+    { username: KLARNA_MERCHANT_ID, password: KLARNA_SHARED_SECRET }
   end
 
   private_class_method def self.order_json(user_id, payment_data, item_price, urls)
@@ -74,15 +64,13 @@ class KlarnaService
       country = 'SE'
     end
 
-    { status: Payment::ORDER_PAYMENT_STATUS[nil],
-      locale: locale,
+    { locale: locale,
       options: {
         color_button: '#003a78',
         color_button_text: '#ffffff',
         color_header: '#232525'
       },
       attachment: {
-        body: { customer_account_info: [ unique_account_identifier: "#{user_id}" ] }.to_json,
         content_type: "application/vnd.klarna.internal.emd-v2+json"
       },
       purchase_country: country,

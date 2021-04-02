@@ -103,16 +103,16 @@ class PaymentsController < ApplicationController
 
   def success
 
-    # Ackowledge the order to Klarna
-    # https://developers.klarna.com/api/#order-management-api-acknowledge-order
+    # Acknowledge the order to Klarna
+    KlarnaService.acknowledge_order(params[:klarna_id])
 
     payment = Payment.find(params[:id])
     payment.successfully_completed
     helpers.flash_message(:notice, t('.success'))
 
+    # Fetch the order and render the "confirmation" view
     klarna_order = KlarnaService.get_order(params[:order_id])
     @html_snippet = klarna_order['html_snippet']
-    # redirect_on_payment_success_or_error(payment)
   end
 
   def error

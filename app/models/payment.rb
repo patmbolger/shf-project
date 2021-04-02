@@ -34,11 +34,13 @@ class Payment < ApplicationRecord
   # order status 'successful'.  On the SHF side, that translates to a
   # completed payment ('paid') for the user fee (e.g. a membership fee).
   ORDER_PAYMENT_STATUS = {
-    nil          => 'skapad',  # created
-    'pending'    => 'avvaktan',
-    'successful' => 'betald',   # paid
-    'expired'    => 'utgånget',
-    'awaiting_payments' => 'Väntar på betalning' # awaiting payment
+    nil          => 'skapad',                    # created
+    'pending'    => 'avvaktan',                  # HIPS
+    'checkout_incomplete' => 'ofullständig',     # Klarna, incomplete
+    'checkout_complete' => 'betald',             # Klarna, paid
+    'successful' => 'betald',                    # HIPS, paid
+    'expired'    => 'utgånget',                  # HIPS
+    'awaiting_payments' => 'Väntar på betalning' # HIPS, awaiting payment
   }.freeze
 
   CREATED = ORDER_PAYMENT_STATUS[nil]
