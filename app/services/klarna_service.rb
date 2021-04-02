@@ -5,7 +5,7 @@ class KlarnaService
 
   SUCCESS_CODES = [200, 201, 202].freeze
 
-  def self.create_order(user_id, payment_data, urls)
+  def self.create_order(payment_data)
 
     raise 'Invalid payment type' unless
       payment_data[:type] == Payment::PAYMENT_TYPE_MEMBER ||
@@ -18,8 +18,8 @@ class KlarnaService
 
     response = HTTParty.post('https://api.playground.klarna.com/checkout/v3/orders',
                              basic_auth: auth,
-                  headers: { 'Content-Type' => 'application/json' },
-                  body: order_json(user_id, payment_data, item_price, urls))
+                             headers: { 'Content-Type' => 'application/json' },
+                             body: order_json(payment_data, item_price, urls))
 
     parsed_response = response.parsed_response
 
@@ -66,14 +66,12 @@ class KlarnaService
 
   private_class_method def self.order_json(user_id, payment_data, item_price, urls)
 
-    if I18n.locale == :en
+    if I18n.locale == :en && Rails.env.development?
       locale = 'us-en'
       country = 'US'
-      currency = 'SEK'
     else
       locale = 'sv-se'
       country = 'SE'
-      currency = 'SEK'
     end
 
     { status: Payment::ORDER_PAYMENT_STATUS[nil],
@@ -88,7 +86,7 @@ class KlarnaService
         content_type: "application/vnd.klarna.internal.emd-v2+json"
       },
       purchase_country: country,
-      purchase_currency: currency,
+      purchase_currency: payment_data[:currency],
       order_amount: item_price,
       order_tax_amount: 0,
       order_lines: [
