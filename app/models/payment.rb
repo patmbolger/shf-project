@@ -13,10 +13,13 @@ class Payment < ApplicationRecord
   belongs_to :company, optional: true # used for branding_fee
 
   validates_presence_of :user, :payment_type, :status, :start_date, :expire_date
-  validates_presence_of :hips_id, on: :update
+  validates_presence_of :klarna_id, on: :update
 
   PAYMENT_TYPE_MEMBER   = 'member_fee'
   PAYMENT_TYPE_BRANDING = 'branding_fee'
+
+  PAYMENT_PROCESSOR_KLARNA = 'Klarna'
+  PAYMENT_PROCESSOR_HIPS = 'HIPS'
 
   NOTES_DEFAULT_PAYOR = 'User'
   NOTES_UNKNOWN_EMAIL = '<email unknown>'
@@ -34,7 +37,7 @@ class Payment < ApplicationRecord
   # order status 'successful'.  On the SHF side, that translates to a
   # completed payment ('paid') for the user fee (e.g. a membership fee).
   ORDER_PAYMENT_STATUS = {
-    nil          => 'skapad',                    # created
+    nil          => 'skapad',                    # created (not processor-specific)
     'pending'    => 'avvaktan',                  # HIPS
     'checkout_incomplete' => 'ofullständig',     # Klarna, incomplete
     'checkout_complete' => 'betald',             # Klarna, paid

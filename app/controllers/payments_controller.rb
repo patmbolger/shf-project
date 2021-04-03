@@ -25,34 +25,36 @@ class PaymentsController < ApplicationController
       item_price = SHF_BRANDING_FEE
     end
 
-    payment = Payment.create!(payment_type: payment_type,
-                              user_id: user_id,
-                              company_id: company_id,
-                              status: Payment.order_to_payment_status(nil),
-                              start_date: start_date,
-                              expire_date: expire_date)
+    @payment = Payment.create!(payment_type: payment_type,
+                               user_id: user_id,
+                               company_id: company_id,
+                               status: Payment.order_to_payment_status(nil),
+                               payment_processor: Payment::PAYMENT_PROCESSOR_KLARNA,
+                               start_date: start_date,
+                               expire_date: expire_date)
 
-    payment_data = { id: payment.id,
+    payment_data = { id: @payment.id,
+                     user_id: user_id,
                      type: payment_type,
                      currency: 'SEK',
                      item_price: item_price,
                      paid_item: paid_item,
-                     urls:  klarna_order_urls(payment.id, user_id,
+                     urls:  klarna_order_urls(@payment.id, user_id,
                                               company_id, payment_type) }
 
     # Invoke Klarna API - returns an order to be used for checkout
     klarna_order = KlarnaService.create_order(payment_data)
 
     # Save payment and render checkout form
-    klarn_id = klarna_order['order_id']
-    payment.klarna_id = klarn_id
-    payment.status = Payment.order_to_payment_status(klarna_order['status'])
-    payment.save!
+    klarna_id = klarna_order['order_id']
+    @payment.klarna_id = klarna_id
+    @payment.status = Payment.order_to_payment_status(klarna_order['status'])
+    @payment.save!
 
     @html_snippet = klarna_order['html_snippet']
 
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid  => exc
-    payment.destroy if payment&.persisted?
+    @payment.destroy if @payment&.persisted?
 
     log_klarna_activity('create order', 'error', nil, klarna_id, exc)
 
@@ -103,15 +105,24 @@ class PaymentsController < ApplicationController
 
   def success
 
+    # Fetch the order
+    klarna_order = KlarnaService.get_order(params[:klarna_id])
+
     # Acknowledge the order to Klarna
     KlarnaService.acknowledge_order(params[:klarna_id])
 
+    # Update payment
     payment = Payment.find(params[:id])
+    payment.update_attribute(:status,
+                             Payment.order_to_payment_status(klarna_order['status']))
     payment.successfully_completed
     helpers.flash_message(:notice, t('.success'))
 
-    # Fetch the order and render the "confirmation" view
-    klarna_order = KlarnaService.get_order(params[:order_id])
+    # Capture the order in Klarna (indicates the order has been filled and
+    # payment can be transferred to SHF)
+    KlarnaService.capture_order(params[:klarna_id], klarna_order['order_amount'])
+
+    # Render the "confirmation" view
     @html_snippet = klarna_order['html_snippet']
   end
 
