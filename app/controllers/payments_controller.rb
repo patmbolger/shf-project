@@ -67,51 +67,51 @@ class PaymentsController < ApplicationController
   end
 
   def webhook
-
-    # get klarna ID from params
-    # get order from Klarna https://developers.klarna.com/api/#order-management-api-get-order
-    # get order status
-    # save updated Payment record (create it if it doesn't exist??)
-    # acknowledge the order back to Klarna (will stop push notifications)
-
-    # "you need to capture the order in order to finalize the payment.
-    # The order can be found at Klarna’s Merchant Portal or you can integrate
-    # with our Order Management platform using the APIs provided."
-    # https://developers.klarna.com/api/#order-management-api-create-capture
-
+    # This is the klarna "push" action.  It is the "fallback" action in case
+    # the "confirmation" action (see "success" method here) does not occur.
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
 
+    # Fetch the order (Order Management API) and check if "captured_amount" is
+    # zero. If not, do nothing.  Othwerwise, perform same actions as for "success" action.
 
-    payload = JSON.parse(request.body.read)
+    klarna_order = KlarnaService.get_order(params[:klarna_id])
 
-    return head(:ok) unless payload['event'] == SUCCESSFUL_klarna_order_EVENT
+    return if klarna_order['captured_amount'] != 0
 
-    resource = HipsService.validate_webhook_origin(payload['jwt'])
+    handle_order_confirmation
 
-    payment_id = resource['merchant_reference']['order_id']
-    klarna_id    = resource['id']
+    log_klarna_activity('Webhook', 'info', params[:id], params[:klarna_id])
 
-    payment = Payment.find(payment_id)
-    payment.update(status: Payment.order_to_payment_status(resource['status']))
-
-    log_klarna_activity('Webhook', 'info', payment_id, klarna_id)
-
-  rescue RuntimeError, JWT::IncorrectAlgorithm => exc
-    log_klarna_activity('Webhook', 'error', payment_id, klarna_id, exc)
-
+  rescue RuntimeError => exc
+    log_klarna_activity('Webhook', 'error', params[:id], params[:klarna_id], exc)
   ensure
     head :ok
   end
 
   def success
+    # This is the klarna "confirmation" action.
+    # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase
 
-    # Fetch the order
-    klarna_order = KlarnaService.get_order(params[:klarna_id])
+    klarna_order = handle_order_confirmation
 
-    # Acknowledge the order to Klarna
+    log_klarna_activity('Order Confirmation', 'info', params[:id], params[:klarna_id])
+
+    # Render the "confirmation" view
+    @html_snippet = klarna_order['html_snippet']
+
+  rescue RuntimeError => exc
+    log_klarna_activity('Order Confirmation', 'error', params[:id], params[:klarna_id], exc)
+  end
+
+
+  private
+
+  def handle_order_confirmation
+
+    klarna_order = KlarnaService.get_checkout_order(params[:klarna_id])
+
     KlarnaService.acknowledge_order(params[:klarna_id])
 
-    # Update payment
     payment = Payment.find(params[:id])
     payment.update_attribute(:status,
                              Payment.order_to_payment_status(klarna_order['status']))
@@ -119,28 +119,10 @@ class PaymentsController < ApplicationController
     helpers.flash_message(:notice, t('.success'))
 
     # Capture the order in Klarna (indicates the order has been filled and
-    # payment can be transferred to SHF)
+    # payment settlement can occur)
     KlarnaService.capture_order(params[:klarna_id], klarna_order['order_amount'])
 
-    # Render the "confirmation" view
-    @html_snippet = klarna_order['html_snippet']
-  end
-
-  def error
-    helpers.flash_message(:alert, t('.error'))
-    payment = Payment.find(params[:id])
-    redirect_on_payment_success_or_error(payment)
-  end
-
-  private
-
-  def redirect_on_payment_success_or_error(payment)
-
-    if payment.payment_type == Payment::PAYMENT_TYPE_MEMBER
-      redirect_to user_path(params[:user_id])
-    else
-      redirect_to company_path(payment.company_id)
-    end
+    klarna_order
   end
 
   def log_klarna_activity(activity, severity, payment_id, klarna_id, exc=nil)
@@ -163,7 +145,8 @@ class PaymentsController < ApplicationController
                                          klarna_id: '{checkout.order.id}')
 
     urls[:webhook] = (SHF_WEBHOOK_HOST || root_url) +
-                      payment_webhook_path(klarna_id: '{checkout.order.id}').sub('/en', '')
+                      payment_webhook_path(id: payment_id,
+                                           klarna_id: '{checkout.order.id}').sub('/en', '')
     urls
   end
 end

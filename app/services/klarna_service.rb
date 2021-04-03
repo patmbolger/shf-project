@@ -24,13 +24,20 @@ class KlarnaService
 
     # Wrap cause exception within HTTP error exception so both appear in log
     begin
-      raise "Error: #{error['type']}, #{error['message']}"
+      if error
+        raise "Error: #{error['type']}, #{error['message']}"
+      elsif parsed_response['error_code']
+        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+      else
+        raise 'Unknown error'
+      end
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
   end
 
-  def self.get_order(klarna_id)
+  def self.get_checkout_order(klarna_id)
+    # Fetch order using the Checkout API
 
     url = KLARNA_CHECKOUT_URL + "#{klarna_id}"
 
@@ -38,10 +45,48 @@ class KlarnaService
                             basic_auth: auth,
                             headers: { 'Content-Type' => 'application/json' })
 
-    return response.parsed_response if SUCCESS_CODES.include?(response.code)
+    parsed_response = response.parsed_response
+
+    return parsed_response if SUCCESS_CODES.include?(response.code)
+
+    error = parsed_response['error']
 
     begin
-      raise "Error: #{error['type']}, #{error['message']}"
+      if error
+        raise "Error: #{error['type']}, #{error['message']}"
+      elsif parsed_response['error_code']
+        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+      else
+        raise 'Unknown error'
+      end
+    rescue RuntimeError
+      raise "HTTP Status: #{response.code}, #{response.message}"
+    end
+  end
+
+  def self.get_order(klarna_id)
+    # Fetch order using the Order Management API
+
+    url = KLARNA_ORDER_MGMT_URL + "#{klarna_id}"
+
+    response = HTTParty.get(url,
+                            basic_auth: auth,
+                            headers: { 'Content-Type' => 'application/json' })
+
+    parsed_response = response.parsed_response
+
+    return parsed_response if SUCCESS_CODES.include?(response.code)
+
+    error = parsed_response['error']
+
+    begin
+      if error
+        raise "Error: #{error['type']}, #{error['message']}"
+      elsif parsed_response['error_code']
+        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+      else
+        raise 'Unknown error'
+      end
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -57,8 +102,16 @@ class KlarnaService
 
     return if SUCCESS_CODES.include?(response.code)
 
+    error = response.parsed_response['error']
+
     begin
-      raise "Error: #{error['type']}, #{error['message']}"
+      if error
+        raise "Error: #{error['type']}, #{error['message']}"
+      elsif parsed_response['error_code']
+        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+      else
+        raise 'Unknown error'
+      end
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -75,15 +128,24 @@ class KlarnaService
 
     return if SUCCESS_CODES.include?(response.code)
 
+    parsed_response = response.parsed_response
+    error = response.parsed_response['error']
+
     begin
-      raise "Error: #{error['type']}, #{error['message']}"
+      if error
+        raise "Error: #{error['type']}, #{error['message']}"
+      elsif parsed_response['error_code']
+        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+      else
+        raise 'Unknown error'
+      end
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
   end
 
   def self.auth
-    { username: KLARNA_MERCHANT_ID, password: KLARNA_SHARED_SECRET }
+    { username: KLARNA_API_AUTH_USERNAME, password: KLARNA_API_AUTH_PASSWORD }
   end
 
   private_class_method def self.order_json(payment_data)
@@ -111,6 +173,7 @@ class KlarnaService
       order_amount: payment_data[:item_price],
       order_tax_amount: 0,
       merchant_reference1: payment_data[:user_id],
+      merchant_reference2: payment_data[:id],
       order_lines: [
         {
           type: 'digital',
