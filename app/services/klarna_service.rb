@@ -20,17 +20,9 @@ class KlarnaService
 
     return parsed_response if SUCCESS_CODES.include?(response.code)
 
-    error = parsed_response['error']
-
     # Wrap cause exception within HTTP error exception so both appear in log
     begin
-      if error
-        raise "Error: #{error['type']}, #{error['message']}"
-      elsif parsed_response['error_code']
-        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-      else
-        raise 'Unknown error'
-      end
+      process_api_error(parsed_response, response.code)
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -52,13 +44,7 @@ class KlarnaService
     error = parsed_response['error']
 
     begin
-      if error
-        raise "Error: #{error['type']}, #{error['message']}"
-      elsif parsed_response['error_code']
-        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-      else
-        raise 'Unknown error'
-      end
+      process_api_error(parsed_response, response.code)
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -80,13 +66,7 @@ class KlarnaService
     error = parsed_response['error']
 
     begin
-      if error
-        raise "Error: #{error['type']}, #{error['message']}"
-      elsif parsed_response['error_code']
-        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-      else
-        raise 'Unknown error'
-      end
+      process_api_error(parsed_response, response.code)
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -105,13 +85,7 @@ class KlarnaService
     error = response.parsed_response['error']
 
     begin
-      if error
-        raise "Error: #{error['type']}, #{error['message']}"
-      elsif parsed_response['error_code']
-        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-      else
-        raise 'Unknown error'
-      end
+      process_api_error(parsed_response, response.code)
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -132,13 +106,7 @@ class KlarnaService
     error = response.parsed_response['error']
 
     begin
-      if error
-        raise "Error: #{error['type']}, #{error['message']}"
-      elsif parsed_response['error_code']
-        raise "Error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-      else
-        raise 'Unknown error'
-      end
+      process_api_error(parsed_response, response.code)
     rescue RuntimeError
       raise "HTTP Status: #{response.code}, #{response.message}"
     end
@@ -146,6 +114,18 @@ class KlarnaService
 
   def self.auth
     { username: KLARNA_API_AUTH_USERNAME, password: KLARNA_API_AUTH_PASSWORD }
+  end
+
+  def self.process_api_error(parsed_response, response_code)
+    if error = parsed_response['error']
+      raise "KlarnaService error: #{error['type']}, #{error['message']}"
+    elsif parsed_response['error_code']
+      raise "KlarnaService error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
+    elsif response_code == 401
+      raise "KlarnaService error: authorization failure"
+    else
+      raise 'Unknown error'
+    end
   end
 
   private_class_method def self.order_json(payment_data)

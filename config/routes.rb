@@ -199,10 +199,7 @@ Rails.application.routes.draw do
        as: :payments
 
   get 'anvandare/:user_id/betalning/:id', to: 'payments#success',
-      as: :payment_success  # user redirect from HIPS
-
-  get 'anvandare/:user_id/betalning/:id/error', to: 'payments#error',
-      as: :payment_error  # user redirect from HIPS
+      as: :payment_success
 
   post 'anvandare/betalning/webhook', to: 'payments#webhook',
        as: :payment_webhook

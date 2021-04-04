@@ -8,6 +8,7 @@ class PaymentsController < ApplicationController
   protect_from_forgery except: :webhook
 
   def create
+
     # The user wants to pay a fee (e.g. membership fee or branding fee)
     payment_type = params[:type]
     user_id      = params[:user_id]
@@ -51,7 +52,11 @@ class PaymentsController < ApplicationController
     @payment.status = Payment.order_to_payment_status(klarna_order['status'])
     @payment.save!
 
+    log_klarna_activity('Create Order', 'info', @payment.id, klarna_id)
+
     @html_snippet = klarna_order['html_snippet']
+
+    raise 'This is a test exception'
 
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid  => exc
     @payment.destroy if @payment&.persisted?
@@ -63,7 +68,36 @@ class PaymentsController < ApplicationController
     helpers.flash_message(:alert, t('.something_wrong',
                                     admin_email: ENV['SHF_REPLY_TO_EMAIL']))
 
+    notify_slack_of_exception(exc, __method__)
+
+    SHFNotifySlack.failure_notification("#{self.class.name}\##{__method__}",
+                                        text: exc.message)
+
     redirect_back fallback_location: root_path
+  end
+
+  def success
+    # This is the klarna "confirmation" action.
+    # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase
+
+    klarna_id = params[:klarna_id]
+    payment_id = params[:id]
+
+    klarna_order = handle_order_confirmation
+
+    account_page_link = helpers.link_to(t('menus.nav.users.your_account').downcase,
+                                        user_path(params[:user_id]))
+
+    helpers.flash_message(:notice, t('.success_html',
+                                     account_page_link: account_page_link))
+
+    log_klarna_activity('Order Confirmation', 'info', payment_id, klarna_id)
+
+    @html_snippet = klarna_order['html_snippet']
+
+  rescue RuntimeError => exc
+    log_klarna_activity('Order Confirmation', 'error', payment_id, klarna_id, exc)
+    notify_slack_of_exception(exc, __method__)
   end
 
   def webhook
@@ -72,43 +106,35 @@ class PaymentsController < ApplicationController
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
 
     # Fetch the order (Order Management API) and check if "captured_amount" is
-    # zero. If not, do nothing.  Othwerwise, perform same actions as for "success" action.
+    # zero:
+    #    If so, do nothing (order has been acknowledged and order amount captured).
+    #    Otherwise, perform same actions as for "success" action.
 
-    klarna_order = KlarnaService.get_order(params[:klarna_id])
+    klarna_id = params[:klarna_id]
+    payment_id = params[:id]
+
+    klarna_order = KlarnaService.get_order(klarna_id)
 
     return if klarna_order['captured_amount'] != 0
 
     handle_order_confirmation
 
-    log_klarna_activity('Webhook', 'info', params[:id], params[:klarna_id])
+    log_klarna_activity('Webhook', 'info', payment_id, klarna_id)
 
   rescue RuntimeError => exc
-    log_klarna_activity('Webhook', 'error', params[:id], params[:klarna_id], exc)
+    log_klarna_activity('Webhook', 'error', payment_id, klarna_id, exc)
+    notify_slack_of_exception(exc, __method__)
   ensure
     head :ok
   end
-
-  def success
-    # This is the klarna "confirmation" action.
-    # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase
-
-    klarna_order = handle_order_confirmation
-
-    log_klarna_activity('Order Confirmation', 'info', params[:id], params[:klarna_id])
-
-    # Render the "confirmation" view
-    @html_snippet = klarna_order['html_snippet']
-
-  rescue RuntimeError => exc
-    log_klarna_activity('Order Confirmation', 'error', params[:id], params[:klarna_id], exc)
-  end
-
 
   private
 
   def handle_order_confirmation
 
-    klarna_order = KlarnaService.get_checkout_order(params[:klarna_id])
+    klarna_id = params[:klarna_id]
+
+    klarna_order = KlarnaService.get_checkout_order(klarna_id)
 
     KlarnaService.acknowledge_order(params[:klarna_id])
 
@@ -116,11 +142,10 @@ class PaymentsController < ApplicationController
     payment.update_attribute(:status,
                              Payment.order_to_payment_status(klarna_order['status']))
     payment.successfully_completed
-    helpers.flash_message(:notice, t('.success'))
 
     # Capture the order in Klarna (indicates the order has been filled and
     # payment settlement can occur)
-    KlarnaService.capture_order(params[:klarna_id], klarna_order['order_amount'])
+    KlarnaService.capture_order(klarna_id, klarna_order['order_amount'])
 
     klarna_order
   end
@@ -148,5 +173,10 @@ class PaymentsController < ApplicationController
                       payment_webhook_path(id: payment_id,
                                            klarna_id: '{checkout.order.id}').sub('/en', '')
     urls
+  end
+
+  def notify_slack_of_exception(exc, method_sym)
+    SHFNotifySlack.failure_notification("#{self.class.name}\##{method_sym}",
+                                        text: exc.message)
   end
 end
