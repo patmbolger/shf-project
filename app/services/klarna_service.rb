@@ -131,7 +131,8 @@ class KlarnaService
       options: {
         color_button: '#003a78',
         color_button_text: '#ffffff',
-        color_header: '#232525'
+        color_header: '#232525',
+        allowed_customer_types: [ 'person', 'organization' ]
       },
       attachment: {
         body: { customer_account_info: [ { unique_account_identifier: payment_data[:user_id] } ] }.to_json,
