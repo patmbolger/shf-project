@@ -56,22 +56,16 @@ class PaymentsController < ApplicationController
 
     @html_snippet = klarna_order['html_snippet']
 
-    raise 'This is a test exception'
-
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid  => exc
     @payment.destroy if @payment&.persisted?
 
     log_klarna_activity('create order', 'error', nil, klarna_id, exc)
-
     log_klarna_activity('create order', 'error', nil, klarna_id, exc.cause)
 
     helpers.flash_message(:alert, t('.something_wrong',
                                     admin_email: ENV['SHF_REPLY_TO_EMAIL']))
 
     notify_slack_of_exception(exc, __method__)
-
-    SHFNotifySlack.failure_notification("#{self.class.name}\##{__method__}",
-                                        text: exc.message)
 
     redirect_back fallback_location: root_path
   end
@@ -83,7 +77,7 @@ class PaymentsController < ApplicationController
     klarna_id = params[:klarna_id]
     payment_id = params[:id]
 
-    klarna_order = handle_order_confirmation
+    klarna_order = handle_order_confirmation(klarna_id, payment_id)
 
     account_page_link = helpers.link_to(t('menus.nav.users.your_account').downcase,
                                         user_path(params[:user_id]))
@@ -95,9 +89,14 @@ class PaymentsController < ApplicationController
 
     @html_snippet = klarna_order['html_snippet']
 
-  rescue RuntimeError => exc
+  rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid => exc
     log_klarna_activity('Order Confirmation', 'error', payment_id, klarna_id, exc)
     notify_slack_of_exception(exc, __method__)
+
+    helpers.flash_message(:alert, t('payments.create.something_wrong',
+                                    admin_email: ENV['SHF_REPLY_TO_EMAIL']))
+
+    redirect_back fallback_location: root_path
   end
 
   def webhook
@@ -117,11 +116,11 @@ class PaymentsController < ApplicationController
 
     return if klarna_order['captured_amount'] != 0
 
-    handle_order_confirmation
+    handle_order_confirmation(klarna_id, payment_id)
 
     log_klarna_activity('Webhook', 'info', payment_id, klarna_id)
 
-  rescue RuntimeError => exc
+  rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid => exc
     log_klarna_activity('Webhook', 'error', payment_id, klarna_id, exc)
     notify_slack_of_exception(exc, __method__)
   ensure
@@ -130,15 +129,13 @@ class PaymentsController < ApplicationController
 
   private
 
-  def handle_order_confirmation
-
-    klarna_id = params[:klarna_id]
+  def handle_order_confirmation(klarna_id, payment_id)
 
     klarna_order = KlarnaService.get_checkout_order(klarna_id)
 
-    KlarnaService.acknowledge_order(params[:klarna_id])
+    KlarnaService.acknowledge_order(klarna_id)
 
-    payment = Payment.find(params[:id])
+    payment = Payment.find(payment_id)
     payment.update_attribute(:status,
                              Payment.order_to_payment_status(klarna_order['status']))
     payment.successfully_completed
@@ -176,7 +173,11 @@ class PaymentsController < ApplicationController
   end
 
   def notify_slack_of_exception(exc, method_sym)
-    SHFNotifySlack.failure_notification("#{self.class.name}\##{method_sym}",
-                                        text: exc.message)
+    class_and_method = "#{self.class.name}\##{method_sym}"
+
+    [exc, exc.cause].each do |this_exc|
+      break unless this_exc
+      SHFNotifySlack.failure_notification(class_and_method, text: this_exc.message)
+    end
   end
 end
