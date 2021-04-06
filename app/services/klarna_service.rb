@@ -106,9 +106,9 @@ class KlarnaService
 
     parsed_response = response.parsed_response
 
-    if error = parsed_response&['error']
+    if error = parsed_response&.fetch('error', nil)
       raise "KlarnaService error: #{error['type']}, #{error['message']}"
-    elsif parsed_response&['error_code']
+    elsif parsed_response&.fetch('error_code', nil)
       raise "KlarnaService error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
     elsif response.code.in? [401, 404]
       raise "KlarnaService code: #{response.code} #{response.msg}"
