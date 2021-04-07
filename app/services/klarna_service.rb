@@ -119,7 +119,7 @@ class KlarnaService
 
   private_class_method def self.order_json(payment_data)
 
-    if I18n.locale == :en && Rails.env.development?
+    if I18n.locale == :en && (Rails.env.development? || ENV['SHF_HEROKU_STAGING'])
       locale = 'us-en'
       country = 'US'
     else
