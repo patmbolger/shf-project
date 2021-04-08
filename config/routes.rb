@@ -198,8 +198,8 @@ Rails.application.routes.draw do
   post 'anvandare/:user_id/betalning/:type', to: 'payments#create',
        as: :payments
 
-  get 'anvandare/:user_id/betalning/:id', to: 'payments#success',
-      as: :payment_success
+  get 'anvandare/:user_id/betalning/:id', to: 'payments#confirmation',
+      as: :payment_confirmation
 
   post 'anvandare/betalning/webhook', to: 'payments#webhook',
        as: :payment_webhook

@@ -1162,7 +1162,7 @@ en:
       title: *page_title
       something_wrong: 'Something went wrong - contact the system administrator at %{admin_email}'
 
-    success:
+    confirmation:
       success_html: Payment successfully processed - thank you!
                     (Return to your %{account_page_link})
 

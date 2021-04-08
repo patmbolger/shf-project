@@ -157,7 +157,7 @@ class KlarnaService
       merchant_urls: {
         terms: 'https://hitta.sverigeshundforetagare.se/dokument/innehall/hmarket',
         checkout: payment_data[:urls][:checkout],
-        confirmation: payment_data[:urls][:success],
+        confirmation: payment_data[:urls][:confirmation],
         push: payment_data[:urls][:webhook]
       }
     }.to_json

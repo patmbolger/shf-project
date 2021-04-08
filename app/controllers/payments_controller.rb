@@ -60,7 +60,6 @@ class PaymentsController < ApplicationController
     @payment.destroy if @payment&.persisted?
 
     log_klarna_activity('create order', 'error', nil, klarna_id, exc)
-    log_klarna_activity('create order', 'error', nil, klarna_id, exc.cause)
 
     helpers.flash_message(:alert, t('.something_wrong',
                                     admin_email: ENV['SHF_REPLY_TO_EMAIL']))
@@ -70,11 +69,12 @@ class PaymentsController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
-  def success
-    # This is the klarna "confirmation" action.
+  def confirmation
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase
 
     klarna_id = params[:klarna_id]
+    raise 'No Klarna order ID' unless klarna_id
+
     payment_id = params[:id]
 
     klarna_order = handle_order_confirmation(klarna_id, payment_id)
@@ -91,6 +91,7 @@ class PaymentsController < ApplicationController
 
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid => exc
     log_klarna_activity('Order Confirmation', 'error', payment_id, klarna_id, exc)
+
     notify_slack_of_exception(exc, __method__)
 
     helpers.flash_message(:alert, t('payments.create.something_wrong',
@@ -148,11 +149,15 @@ class PaymentsController < ApplicationController
   end
 
   def log_klarna_activity(activity, severity, payment_id, klarna_id, exc=nil)
-    ActivityLogger.open(KLARNA_LOG, 'KLARNA_API', activity, false) do |log|
+    ActivityLogger.open(KLARNA_LOG, 'Payments', activity, false) do |log|
       log.record(severity, "Payment ID: #{payment_id}") if payment_id
       log.record(severity, "Klarna ID: #{klarna_id}") if klarna_id
-      log.record(severity, "Exception class: #{exc.class}") if exc
-      log.record(severity, "Exception message: #{exc.message}") if exc
+
+      [exc, exc&.cause].each do |this_exc|
+        next unless this_exc
+        log.record(severity, "Exception class: #{exc.class}") if exc
+        log.record(severity, "Exception message: #{exc.message}") if exc
+      end
     end
   end
 
@@ -161,10 +166,10 @@ class PaymentsController < ApplicationController
     urls[:checkout] = payments_url(user_id: user_id, company_id: company_id,
                                    type: payment_type)
 
-    urls[:success] = payment_success_url(id: payment_id,
-                                         user_id: user_id,
-                                         disable_language_change: true,
-                                         klarna_id: '{checkout.order.id}')
+    urls[:confirmation] = payment_confirmation_url(id: payment_id,
+                                                   user_id: user_id,
+                                                   disable_language_change: true,
+                                                   klarna_id: '{checkout.order.id}')
 
     urls[:webhook] = (SHF_WEBHOOK_HOST || root_url) +
                       payment_webhook_path(id: payment_id,
