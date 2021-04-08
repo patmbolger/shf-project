@@ -155,8 +155,8 @@ class PaymentsController < ApplicationController
 
       [exc, exc&.cause].each do |this_exc|
         next unless this_exc
-        log.record(severity, "Exception class: #{exc.class}") if exc
-        log.record(severity, "Exception message: #{exc.message}") if exc
+        log.record(severity, "Exception class: #{this_exc.class}") if exc
+        log.record(severity, "Exception message: #{this_exc.message}") if exc
       end
     end
   end
