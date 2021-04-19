@@ -8,11 +8,27 @@ RSpec.describe PaymentsController, type: :controller do
   let(:payment) { create(:payment, user: user1, company: company) }
   let(:application) { create(:shf_application, user: user1, companies: [company]) }
 
-  let(:webhook_payload) do
-    resource = { 'id' => 'hips_id', 'status' => 'successful',
-                 'merchant_reference' => { 'order_id' => payment.id } }
-    { 'event' => 'order.successful', 'jwt' => resource }
+  let(:klarna_order) do
+    { 'order_id' => 'klarna_order_id',
+      'order_amount' => 30000,
+      'captured_amount' => 30000,
+      'locale' => 'sv-se'
+      }
   end
+
+  let(:unpaid_order) do
+    { 'order_id' => 'klarna_order_id',
+      'order_amount' => 30000,
+      'captured_amount' => 0,
+      'locale' => 'sv-se'
+      }
+  end
+
+  # let(:webhook_payload) do
+  #   resource = { 'id' => 'hips_id', 'status' => 'successful',
+  #                'merchant_reference' => { 'order_id' => payment.id } }
+  #   { 'event' => 'order.successful', 'jwt' => resource }
+  # end
 
   describe 'routing' do
     it 'routes POST /anvandare/:user_id/betalning/:type to payment#create' do
@@ -35,9 +51,14 @@ RSpec.describe PaymentsController, type: :controller do
     it 'handles exception if payment cannot be saved' do
       sign_in user1
 
-      allow(HipsService).to receive(:create_order).and_return({}) # force exception
+      allow(KlarnaService).to receive(:create_order).and_return({}) # force exception
 
       # Cannot test 'rescue' action directly so need to confirm side effects
+
+      expect(SHFNotifySlack).to receive(:failure_notification)
+                                    .with('PaymentsController#create',
+                                          text: 'Ett fel uppstod: Klarna måste anges')
+
       expect{ request }.to_not change(Payment, :count)
 
       flash_msg = I18n.t('payments.create.something_wrong',
@@ -59,13 +80,47 @@ RSpec.describe PaymentsController, type: :controller do
 
   describe 'POST #webhook' do
 
-    before(:each) do
-      allow(JSON).to receive(:parse).and_return(webhook_payload)
-      allow(HipsService).to receive(:validate_webhook_origin)
-        .and_return(webhook_payload['jwt'])
+    let(:request) do
+      post :webhook, params: { id: payment.id, klarna_id: 'klarna_order_id' }
+    end
+
+    # before(:each) do
+    #   allow(JSON).to receive(:parse).and_return(webhook_payload)
+    #   allow(HipsService).to receive(:validate_webhook_origin)
+    #     .and_return(webhook_payload['jwt'])
+    # end
+
+    it 'does nothing if order already captured (paid)' do
+      expect(KlarnaService).to receive(:get_order).and_return(klarna_order)
+      expect(subject).not_to receive(:handle_order_confirmation)
+      request
+    end
+
+    it 'processes order if not yet paid' do
+      expect(KlarnaService).to receive(:get_order).and_return(unpaid_order)
+      expect(subject).to receive(:handle_order_confirmation)
+      request
+    end
+
+    it 'processes order: get order, ack order, capture order, update payment status' do
+      expect(KlarnaService).to receive(:get_order).and_return(unpaid_order)
+      expect(subject).to receive(:handle_order_confirmation)
+                         .and_call_original.with('klarna_order_id', payment.id.to_s)
+      expect(KlarnaService).to receive(:get_checkout_order).and_return(unpaid_order)
+      expect(KlarnaService).to receive(:acknowledge_order)
+      expect(Payment).to receive(:order_to_payment_status)
+                     .and_return(Payment::ORDER_PAYMENT_STATUS['checkout_complete'])
+      expect(KlarnaService).to receive(:capture_order)
+
+      payment.update_attribute(:status, Payment::PENDING)
+
+      expect{ request }.to change{ payment.reload.status }.from(Payment::PENDING)
+                                                   .to(Payment::SUCCESSFUL)
     end
 
     it 'sets payment status to paid' do
+
+      expect(KlarnaService).to receive(:get_order).and_return(klarna_order)
       expect(payment.status).to eq 'skapad'
       post :webhook
       expect(payment.reload.status).to eq 'betald'
