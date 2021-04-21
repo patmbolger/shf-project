@@ -72,10 +72,9 @@ class PaymentsController < ApplicationController
   def confirmation
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase
 
+    payment_id = params[:id]
     klarna_id = params[:klarna_id]
     raise 'No Klarna order ID' unless klarna_id
-
-    payment_id = params[:id]
 
     klarna_order = handle_order_confirmation(klarna_id, payment_id)
 
@@ -105,10 +104,9 @@ class PaymentsController < ApplicationController
     # the "confirmation" action (see "success" method here) does not occur.
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
 
-    # Fetch the order (Order Management API) and check if "captured_amount" is
-    # zero:
-    #    If so, do nothing (order has been acknowledged and order amount captured).
-    #    Otherwise, perform same actions as for "success" action.
+    # Fetch the order (Order Management API) and check if "captured_amount" is zero:
+    #   If so, do nothing (order has been acknowledged and order amount captured).
+    #   Otherwise, perform same actions as for "success" action.
 
     klarna_id = params[:klarna_id]
     payment_id = params[:id]
