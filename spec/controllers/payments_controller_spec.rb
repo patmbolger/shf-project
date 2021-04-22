@@ -25,7 +25,7 @@ RSpec.describe PaymentsController, type: :controller do
   end
 
   describe 'routing' do
-    it 'routes POST /anvandare/:user_id/betalning/:type to payment#create' do
+    it 'routes POST /anvandare/:user_id/betalning/:type to payments#create' do
       expect(post: '/anvandare/1/betalning/member_fee')
         .to route_to(controller: 'payments', action: 'create',
                      user_id: '1', type: Payment::PAYMENT_TYPE_MEMBER)
@@ -35,6 +35,24 @@ RSpec.describe PaymentsController, type: :controller do
                      user_id: '1', company_id: '1',
                      type: Payment::PAYMENT_TYPE_BRANDING)
     end
+
+    it 'routes GET /anvandare/:user_id/betalning/:id?klarna_id=klarna_order_id to payments#confirmation' do
+      expect(get: '/anvandare/1/betalning/1?klarna_id=klarna_order_id')
+        .to route_to(controller: 'payments', action: 'confirmation',
+                     user_id: '1', id: '1', klarna_id: 'klarna_order_id')
+    end
+
+    it 'routes POST /anvandare/betalning/klarna_push?id=1&klarna_id=klarna_order_id to payments#klarna_push' do
+      expect(post: '/anvandare/betalning/klarna_push?id=1&klarna_id=klarna_order_id')
+        .to route_to(controller: 'payments', action: 'klarna_push',
+                     id: '1', klarna_id: 'klarna_order_id')
+    end
+
+    it 'routes POST /anvandare/betalning/webhook to payments#webhook' do
+      # Legacy HIPS payment status update - remove later
+      expect(post: '/anvandare/betalning/webhook')
+        .to route_to(controller: 'payments', action: 'webhook')
+    end
   end
 
   describe 'POST #create' do
@@ -42,7 +60,13 @@ RSpec.describe PaymentsController, type: :controller do
       post :create, params: { user_id: user1.id, type: Payment::PAYMENT_TYPE_MEMBER }
     end
 
-    it 'does normal processing' do
+    it 'creates payment' do
+      sign_in user1
+
+      allow(KlarnaService).to receive(:create_order).and_return(uncaptured_order)
+      expect(subject).to receive(:log_klarna_activity)
+
+      expect{ request }.to change(Payment, :count).by(1)
     end
 
     it 'handles exception if payment cannot be saved' do
@@ -101,7 +125,7 @@ RSpec.describe PaymentsController, type: :controller do
       expect(flash[:alert]).to eq [flash_msg]
     end
 
-    it 'processes order: updates payment status, sends ack and order capture to klarna' do
+    it 'processes order: update payment status, send ack and order capture to klarna' do
       expect(subject).to receive(:handle_order_confirmation)
                          .and_call_original
                          .with(klarna_order['order_id'], payment.id.to_s)
@@ -116,15 +140,15 @@ RSpec.describe PaymentsController, type: :controller do
       payment.update_attribute(:status, Payment::PENDING)
 
       expect{ request }.to change{ payment.reload.status }.from(Payment::PENDING)
-                                                   .to(Payment::SUCCESSFUL)
+                                                          .to(Payment::SUCCESSFUL)
     end
 
   end
 
-  describe 'POST #webhook' do
+  describe 'POST #klarna_push' do
 
     let(:request) do
-      post :webhook, params: { id: payment.id, klarna_id: klarna_order['order_id'] }
+      post :klarna_push, params: { id: payment.id, klarna_id: klarna_order['order_id'] }
     end
 
     it 'does nothing if order already captured (paid)' do
@@ -133,7 +157,7 @@ RSpec.describe PaymentsController, type: :controller do
       request
     end
 
-    it 'processes order: updates payment status, send ack and order capture to klarna' do
+    it 'processes order: update payment status, send ack and order capture to klarna' do
       expect(KlarnaService).to receive(:get_order).and_return(uncaptured_order)
 
       expect(subject).to receive(:handle_order_confirmation)

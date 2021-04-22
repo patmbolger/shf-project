@@ -99,7 +99,7 @@ class PaymentsController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
-  def webhook
+  def klarna_push
     # This is the klarna "push" action.  It is the "fallback" action in case
     # the "confirmation" action (see "success" method here) does not occur.
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
@@ -122,6 +122,42 @@ class PaymentsController < ApplicationController
   rescue RuntimeError, HTTParty::Error, ActiveRecord::RecordInvalid => exc
     log_klarna_activity('Webhook', 'error', payment_id, klarna_id, exc)
     notify_slack_of_exception(exc, __method__)
+  ensure
+    head :ok
+  end
+
+  ########################## Legacy HIPS Action ##########################
+  #
+  # Remove this after conversion to Klarna and there is no chance that a
+  # status update for a "pending" HIPS order will come in.
+  #
+  ########################################################################
+
+  def webhook
+    # This webhook will be called multiple times (7) during the order create and
+    # payment process. We are only interested in the "order.successful" event,
+    # which indicates successful payment.
+    # Later, we can switch to "hooks/webhook_url_on_success" - which will
+    # be triggered *only* by the "order.successful" event.
+    # (That webhook is not available at this time (October 18, 2017)).
+
+    payload = JSON.parse(request.body.read)
+
+    return head(:ok) unless payload['event'] == SUCCESSFUL_HIPS_ORDER_EVENT
+
+    resource = HipsService.validate_webhook_origin(payload['jwt'])
+
+    payment_id = resource['merchant_reference']['order_id']
+    hips_id    = resource['id']
+
+    payment = Payment.find(payment_id)
+    payment.update(status: Payment.order_to_payment_status(resource['status']))
+
+    log_hips_activity('Webhook', 'info', payment_id, hips_id)
+
+  rescue RuntimeError, JWT::IncorrectAlgorithm => exc
+    log_hips_activity('Webhook', 'error', payment_id, hips_id, exc)
+
   ensure
     head :ok
   end
@@ -169,8 +205,8 @@ class PaymentsController < ApplicationController
                                                    disable_language_change: true,
                                                    klarna_id: '{checkout.order.id}')
 
-    urls[:webhook] = (SHF_WEBHOOK_HOST || root_url) +
-                      payment_webhook_path(id: payment_id,
+    urls[:push] = (SHF_WEBHOOK_HOST || root_url) +
+                  payment_klarna_push_path(id: payment_id,
                                            klarna_id: '{checkout.order.id}').sub('/en', '')
     urls
   end
