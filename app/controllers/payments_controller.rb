@@ -101,12 +101,12 @@ class PaymentsController < ApplicationController
 
   def klarna_push
     # This is the klarna "push" action.  It is the "fallback" action in case
-    # the "confirmation" action (see "success" method here) does not occur.
+    # the "confirmation" action (see "confirmation" method here) does not occur.
     # https://developers.klarna.com/documentation/klarna-checkout/in-depth/confirm-purchase/
 
     # Fetch the order (Order Management API) and check if "captured_amount" is zero:
     #   If so, do nothing (order has been acknowledged and order amount captured).
-    #   Otherwise, perform same actions as for "success" action.
+    #   Otherwise, perform same actions as for "confirmation" action.
 
     klarna_id = params[:klarna_id]
     payment_id = params[:id]
@@ -128,8 +128,8 @@ class PaymentsController < ApplicationController
 
   ########################## Legacy HIPS Action ##########################
   #
-  # Remove this after conversion to Klarna and there is no chance that a
-  # status update for a "pending" HIPS order will come in.
+  # Remove this (webhook) after conversion to Klarna and there is no chance
+  # that a status update for a "pending" HIPS order will come in.
   #
   ########################################################################
 

@@ -26,16 +26,19 @@ class Payment < ApplicationRecord
   NOTES_SEPARATOR = '; '  unless defined?(NOTES_SEPARATOR)
 
 
-  # This hash maps a HIPS order status to an SHF payment status.
+  # This hash maps a Klarna payment order status to an SHF payment status.
   # The payment values are stored in the DB and exposed to the user.
   # (The user is paying a fee to SHF (payment).  In order to process that
-  #  payment, we create a HIPS order and pass that to HIPS, which then
+  #  payment, we create a Klarna order and pass that to Klarna, which then
   #  processes that order (that is, has the user pay for the order).
   #  Note that here, "payment" refers to the SHF Payment, and "order" to
-  #  the HIPS order).
-  # Note that successful order payment (on the HIPS side) is represented by
-  # order status 'successful'.  On the SHF side, that translates to a
+  #  the Klarna order).
+  # Note that successful order payment (on the Klarna side) is represented by
+  # order status 'checkout_complete'.  On the SHF side, that translates to a
   # completed payment ('paid') for the user fee (e.g. a membership fee).
+  #
+  # NOTE: In May 2021, we switched the payment processor from HIPS to Klarna.
+
   ORDER_PAYMENT_STATUS = {
     nil          => 'skapad',                    # created (not processor-specific)
     'pending'    => 'avvaktan',                  # HIPS
@@ -47,10 +50,13 @@ class Payment < ApplicationRecord
   }.freeze
 
   CREATED = ORDER_PAYMENT_STATUS[nil]
-  PENDING = ORDER_PAYMENT_STATUS['pending']
-  SUCCESSFUL = ORDER_PAYMENT_STATUS['successful']
-  EXPIRED = ORDER_PAYMENT_STATUS['expired']
-  AWAITING_PAYMENTS = ORDER_PAYMENT_STATUS['awaiting_payments']
+  PENDING = ORDER_PAYMENT_STATUS['checkout_incomplete']
+  SUCCESSFUL = ORDER_PAYMENT_STATUS['checkout_complete']
+
+  # PENDING = ORDER_PAYMENT_STATUS['pending']
+  # SUCCESSFUL = ORDER_PAYMENT_STATUS['successful']
+  # EXPIRED = ORDER_PAYMENT_STATUS['expired']
+  # AWAITING_PAYMENTS = ORDER_PAYMENT_STATUS['awaiting_payments']
 
 
   NO_HIPS_ID = 'none'
@@ -110,11 +116,10 @@ class Payment < ApplicationRecord
         or(before(year_start, field: :start_date).after(year_end, field: :expire_date)).distinct
   end
 
-  # The transaction was successful.  The transaction might depend on an external system (e.g. HIPS).
+  # The transaction was successful.  The transaction might depend on an external system (e.g. Klarna).
   # This method is called so we can do whatever it is we need to do
   # (e.g. set the status, notify observers, etc.).
   def successfully_completed
-    self.update(status: SUCCESSFUL)
     changed
     notify_observers(self)
   end

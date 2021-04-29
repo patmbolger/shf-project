@@ -2,6 +2,14 @@ require 'rails_helper'
 
 RSpec.describe PaymentsController, type: :controller do
 
+  let(:mock_log) { instance_double("ActivityLogger") }
+  before(:each) do
+    allow(ActivityLogger).to receive(:new).and_return(mock_log)
+    allow(mock_log).to receive(:info)
+    allow(mock_log).to receive(:record)
+    allow(mock_log).to receive(:close)
+  end
+
   let(:user1) { create(:user) }
   let(:user2) { create(:user) }
   let(:company) { create(:company) }
