@@ -35,7 +35,6 @@ class KlarnaService
                             basic_auth: auth,
                             headers: { 'Content-Type' => 'application/json' })
 
-
     return response.parsed_response if SUCCESS_CODES.include?(response.code)
 
     begin
@@ -106,14 +105,16 @@ class KlarnaService
 
     parsed_response = response.parsed_response
 
-    if error = parsed_response&.fetch('error', nil)
-      raise "KlarnaService error: #{error['type']}, #{error['message']}"
-    elsif parsed_response&.fetch('error_code', nil)
-      raise "KlarnaService error: #{parsed_response['error_code']}, #{parsed_response['error_messages']}"
-    elsif response.code.in? [401, 404]
+    if response.code.in? [401, 404]
       raise "KlarnaService code: #{response.code} #{response.msg}"
     else
-      raise 'Unknown error'
+      parsed_response = response.parsed_response
+
+      if error = parsed_response&.fetch('error', nil)
+        raise "KlarnaService error: #{error['type']}, #{error['message']}"
+      else
+        raise 'Unknown error'
+      end
     end
   end
 
