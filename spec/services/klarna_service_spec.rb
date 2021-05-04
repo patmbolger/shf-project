@@ -32,7 +32,11 @@ describe KlarnaService do
   end
 
   let(:fetched_order) do
-    described_class.get_order(valid_order['id'])
+    described_class.get_order(valid_order['order_id'])
+  end
+
+  let(:invalid_order_id) do
+    described_class.get_order('not_a_valid_ID')
   end
 
   describe '.create_order', vcr: { record: :once } do
@@ -61,7 +65,6 @@ describe KlarnaService do
     # Klarna "Checkout" API
 
     it 'returns parsed response if successful' do
-      valid_order
       klarna_order = KlarnaService.get_checkout_order(valid_order['order_id'])
 
       expect(klarna_order['order_id']).to eq valid_order['order_id']
@@ -80,39 +83,36 @@ describe KlarnaService do
   end
 
 
-
-
-  describe '.get_order', :vcr do
+  describe '.get_order', vcr: { record: :once } do
     # Klarna "Order Management" API
 
-    it 'returns parsed response if successful' do
+    # The following fails because the get-order API will only return the order
+    # *after* the user has successfully completed the purchase, aka checkout process.
+    # TODO: determine how to set the checkout completion on the Klarna side.
+    xit 'returns parsed response if successful' do
       expect(fetched_order).to be_instance_of(Hash)
-      expect(fetched_order['id']).to eq valid_order['id']
-      expect(fetched_order['merchant_reference']['order_id']).to eq '1'
+      expect(fetched_order['order_id']).to eq valid_order['order_id']
     end
 
-    it 'raises exception if unsuccessful' do
-      invalid_key
+    it 'raises exception if authorization fails' do
+      invalid_password
       expect { fetched_order }.to raise_exception(RuntimeError,
                                                   'HTTP Status: 401, Unauthorized')
     end
-  end
 
-  describe '.validate_webhook_origin' do
-    it 'returns resource data for valid json_web_token' do
-      expect(valid_jwt_payload).to be_instance_of(Hash)
-    end
-
-    it 'raises exception if not expected issuer' do
-      allow(JWT).to receive(:decode).and_return(token_bad_issuer)
-      expect { described_class.validate_webhook_origin('123') }
-        .to raise_exception(RuntimeError, 'JWT issuer not HIPS')
-    end
-
-    it 'raises exception if not expected algorithm' do
-      allow(JWT).to receive(:decode).and_return(token_bad_algo)
-      expect { described_class.validate_webhook_origin('123') }
-        .to raise_exception(RuntimeError, 'JWT wrong algorithm')
+    it 'raises exception if invalid order ID' do
+      expect { invalid_order_id }.to raise_exception(RuntimeError,
+                                                     'HTTP Status: 400, Bad Request')
     end
   end
+
+  describe '.acknowledge order' do
+  end
+
+  describe '.capture order' do
+  end
+
+  describe '.process_api_error' do
+  end
+
 end
