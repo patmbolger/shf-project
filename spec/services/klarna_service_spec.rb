@@ -2,9 +2,9 @@ require 'rails_helper'
 
 describe KlarnaService do
   let(:urls) do
-    { checkout: "https://36a1fe86a965.ngrok.io/anvandare/1/betalning/#{Payment::PAYMENT_TYPE_MEMBER}",
-      confirmation: "https://36a1fe86a965.ngrok.io/anvandare/1/betalning/'{checkout.order.id}'",
-      push: "https://36a1fe86a965.ngrok.io/anvandare/betalning/klarna_push?id=1&klarna_id='{checkout.order.id}'"
+    { checkout: "https://d182a091021b.ngrok.io/anvandare/1/betalning/#{Payment::PAYMENT_TYPE_MEMBER}",
+      confirmation: "https://d182a091021b.ngrok.io/anvandare/1/betalning/'{checkout.order.id}'",
+      push: "https://d182a091021b.ngrok.io/anvandare/betalning/klarna_push?id=1&klarna_id='{checkout.order.id}'"
     }
   end
 
@@ -86,7 +86,7 @@ describe KlarnaService do
   describe '.get_order', vcr: { record: :once } do
     # Klarna "Order Management" API
 
-    # The following fails because the get-order API will only return the order
+    # The following fails because the Order Management API will only return the order
     # *after* the user has successfully completed the purchase, aka checkout process.
     # TODO: determine how to set the checkout completion on the Klarna side.
     xit 'returns parsed response if successful' do
@@ -94,15 +94,15 @@ describe KlarnaService do
       expect(fetched_order['order_id']).to eq valid_order['order_id']
     end
 
+    it 'raises exception if invalid order ID' do
+      expect { invalid_order_id }.to raise_exception(RuntimeError,
+                                                     'HTTP Status: 400, Bad Request')
+    end
+
     it 'raises exception if authorization fails' do
       invalid_password
       expect { fetched_order }.to raise_exception(RuntimeError,
                                                   'HTTP Status: 401, Unauthorized')
-    end
-
-    it 'raises exception if invalid order ID' do
-      expect { invalid_order_id }.to raise_exception(RuntimeError,
-                                                     'HTTP Status: 400, Bad Request')
     end
   end
 

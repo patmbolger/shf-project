@@ -23,7 +23,7 @@ http_interactions:
       message: Bad Request
     headers:
       Date:
-      - Tue, 04 May 2021 14:52:07 GMT
+      - Sun, 09 May 2021 20:00:03 GMT
       Content-Type:
       - application/json
       Content-Length:
@@ -45,7 +45,7 @@ http_interactions:
       X-Frame-Options:
       - DENY
       Klarna-Correlation-Id:
-      - 7385b32b-4028-4797-89b4-04a5c1430f19
+      - 31b2f331-e3fc-4058-bc78-2e7698a71e83
       X-Envoy-Upstream-Service-Time:
       - '1'
       Strict-Transport-Security:
@@ -53,6 +53,6 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"error_code":"INVALID_ORDER_ID","error_messages":["Order ID must be
-        a valid UUID."],"correlation_id":"7385b32b-4028-4797-89b4-04a5c1430f19"}'
-  recorded_at: Tue, 04 May 2021 14:52:06 GMT
+        a valid UUID."],"correlation_id":"31b2f331-e3fc-4058-bc78-2e7698a71e83"}'
+  recorded_at: Sun, 09 May 2021 20:00:03 GMT
 recorded_with: VCR 6.0.0
