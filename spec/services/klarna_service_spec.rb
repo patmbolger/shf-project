@@ -1,6 +1,9 @@
 require 'rails_helper'
+require 'shared_examples/klarna_order_management'
 
 describe KlarnaService do
+  # If you need to recreate the VCR cassettes for service calls, start ngrok
+  # and update the URLs below with the new ngrok URL.
   let(:urls) do
     { checkout: "https://d182a091021b.ngrok.io/anvandare/1/betalning/#{Payment::PAYMENT_TYPE_MEMBER}",
       confirmation: "https://d182a091021b.ngrok.io/anvandare/1/betalning/'{checkout.order.id}'",
@@ -18,33 +21,19 @@ describe KlarnaService do
       urls:  urls }
   end
 
-  let(:invalid_payment_type) do
-    payment_data = { type: 'invalid' }
-    described_class.create_order(payment_data)
-  end
+  let(:invalid_payment_type) { { type: 'invalid' } }
 
   let(:valid_order) do
-    described_class.create_order(valid_payment_data)
+    KlarnaService.create_order(valid_payment_data)
   end
 
   let(:invalid_password) do
-    KLARNA_API_AUTH_PASSWORD = 'wrong_password'
-  end
-
-  let(:fetched_order) do
-    described_class.get_order(valid_order['order_id'])
-  end
-
-  let(:invalid_order_id) do
-    described_class.get_order('not_a_valid_ID')
+    expect(KlarnaService).to receive(:auth)
+            .and_return({ username: KLARNA_API_AUTH_USERNAME, password: 'invalid' })
   end
 
   describe '.create_order', vcr: { record: :once } do
     # Klarna "Checkout" API
-
-    it 'raises exception if invalid payment_type' do
-      expect { invalid_payment_type }.to raise_exception RuntimeError
-    end
 
     it 'returns parsed response if successful' do
       expect(valid_order).to be_instance_of(Hash)
@@ -52,6 +41,11 @@ describe KlarnaService do
       expect(valid_order['merchant_reference2']).to eq '1' # SHF Payment ID
       expect(valid_order['status']).to eq 'checkout_incomplete'
       expect(valid_order['order_amount']).to eq SHF_MEMBER_FEE
+    end
+
+    it 'raises exception if invalid payment_type' do
+      expect { KlarnaService.create_order(invalid_payment_type) }
+                .to raise_exception(RuntimeError, 'Invalid payment type')
     end
 
     it 'raises exception if authorization fails' do
@@ -73,46 +67,33 @@ describe KlarnaService do
       expect(klarna_order['order_amount']).to eq SHF_MEMBER_FEE
     end
 
-    it 'raises exception if authorization fails' do
-      valid_order
-      invalid_password
+    it 'raises exception if invalid order ID' do
+      expect { KlarnaService.get_checkout_order('not_a_valid_ID') }
+                .to raise_exception(RuntimeError, 'HTTP Status: 404, Not Found')
+    end
 
+    it 'raises exception if authorization fails' do
+      invalid_password
       expect { KlarnaService.get_checkout_order(valid_order['order_id']) }
                 .to raise_exception(RuntimeError, 'HTTP Status: 401, Unauthorized')
     end
   end
 
+  # Klarna "Order Management" API:
+
+  # The Order Management API will only return the order *after* the user has
+  # successfully completed the purchase, aka checkout process.
+  # For this reason, tests below do not include invoking the Klarna API.
 
   describe '.get_order', vcr: { record: :once } do
-    # Klarna "Order Management" API
-
-    # The following fails because the Order Management API will only return the order
-    # *after* the user has successfully completed the purchase, aka checkout process.
-    # TODO: determine how to set the checkout completion on the Klarna side.
-    xit 'returns parsed response if successful' do
-      expect(fetched_order).to be_instance_of(Hash)
-      expect(fetched_order['order_id']).to eq valid_order['order_id']
-    end
-
-    it 'raises exception if invalid order ID' do
-      expect { invalid_order_id }.to raise_exception(RuntimeError,
-                                                     'HTTP Status: 400, Bad Request')
-    end
-
-    it 'raises exception if authorization fails' do
-      invalid_password
-      expect { fetched_order }.to raise_exception(RuntimeError,
-                                                  'HTTP Status: 401, Unauthorized')
-    end
+    include_examples 'Invalid Request Data', :get_order
   end
 
-  describe '.acknowledge order' do
+  describe '.acknowledge_order', vcr: { record: :once } do
+    include_examples 'Invalid Request Data', :acknowledge_order
   end
 
-  describe '.capture order' do
+  describe '.capture_order', vcr: { record: :once } do
+    include_examples 'Invalid Request Data', :capture_order, SHF_MEMBER_FEE
   end
-
-  describe '.process_api_error' do
-  end
-
 end
