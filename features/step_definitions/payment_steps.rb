@@ -41,22 +41,23 @@ And(/^I complete the branding payment for "([^"]*)"$/) do |company_name|
 
   RSpec::Mocks.with_temporary_scope do
     allow(KlarnaService).to receive(:get_checkout_order)
-      .and_return({ 'order_amount' => 30000 })
+      .and_return({ 'order_amount' => 30000, 'status' => 'checkout_complete' })
     allow(KlarnaService).to receive(:acknowledge_order)
     allow(KlarnaService).to receive(:capture_order)
     allow_any_instance_of(PaymentsController).to receive(:log_klarna_activity)
+
+    company = Company.find_by_name(company_name)
+
+    start_date, expire_date = Company.next_branding_payment_dates(company.id)
+
+    payment = FactoryBot.create(:payment, user: @user, company: company,
+                                payment_type: 'branding_fee',
+                                status: Payment.order_to_payment_status('checkout_incomplete'),
+                                start_date: start_date, expire_date: expire_date)
+
+    visit payment_confirmation_path(user_id: @user.id, id: payment.id,
+                                    klarna_id: 'klarna_id')
   end
-
-  company = Company.find_by_name(company_name)
-
-  start_date, expire_date = Company.next_branding_payment_dates(company.id)
-
-  payment = FactoryBot.create(:payment, user: @user, company: company,
-                              payment_type: 'branding_fee',
-                              status: Payment.order_to_payment_status('checkout_complete'),
-                              start_date: start_date, expire_date: expire_date)
-
-  visit payment_confirmation_path(user_id: @user.id, id: payment.id)
 end
 
 And(/^I abandon the payment by going back to the previous page$/) do
