@@ -32,8 +32,9 @@ describe KlarnaService do
             .and_return({ username: KLARNA_API_AUTH_USERNAME, password: 'invalid' })
   end
 
+  ########################### Klarna "Checkout" API ###########################
+
   describe '.create_order', vcr: { record: :once } do
-    # Klarna "Checkout" API
 
     it 'returns parsed response if successful' do
       expect(valid_order).to be_instance_of(Hash)
@@ -56,7 +57,6 @@ describe KlarnaService do
   end
 
   describe '.get_checkout_order', vcr: { record: :once } do
-    # Klarna "Checkout" API
 
     it 'returns parsed response if successful' do
       klarna_order = KlarnaService.get_checkout_order(valid_order['order_id'])
@@ -79,7 +79,8 @@ describe KlarnaService do
     end
   end
 
-  # Klarna "Order Management" API:
+
+  ####################### Klarna "Order Management" API #######################
 
   # The Order Management API will only return the order *after* the user has
   # successfully completed the purchase, aka checkout process.
