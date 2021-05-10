@@ -36,8 +36,16 @@ And(/^I complete the membership payment$/) do
 end
 
 And(/^I complete the branding payment for "([^"]*)"$/) do |company_name|
-  # Emulate webhook payment-update and direct to "success" action
+  # Emulate Klarna payment-confirmation and direct to "confirmation" action
   # (see note in step above)
+
+  RSpec::Mocks.with_temporary_scope do
+    allow(KlarnaService).to receive(:get_checkout_order)
+      .and_return({ 'order_amount' => 30000 })
+    allow(KlarnaService).to receive(:acknowledge_order)
+    allow(KlarnaService).to receive(:capture_order)
+    allow_any_instance_of(PaymentsController).to receive(:log_klarna_activity)
+  end
 
   company = Company.find_by_name(company_name)
 
@@ -45,10 +53,10 @@ And(/^I complete the branding payment for "([^"]*)"$/) do |company_name|
 
   payment = FactoryBot.create(:payment, user: @user, company: company,
                               payment_type: 'branding_fee',
-                              status: Payment.order_to_payment_status('successful'),
+                              status: Payment.order_to_payment_status('checkout_complete'),
                               start_date: start_date, expire_date: expire_date)
 
-  visit payment_success_path(user_id: @user.id, id: payment.id)
+  visit payment_confirmation_path(user_id: @user.id, id: payment.id)
 end
 
 And(/^I abandon the payment by going back to the previous page$/) do
