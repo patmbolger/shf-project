@@ -33,7 +33,7 @@ Feature: Member pays membership fee
       | emma@mutts.com | image.png | Image of a class completion certification |
 
 
-  @time_adjust
+  @time_adjust @selenium
   Scenario: Member pays membership fee after term expires (after prior payment expiration date)
     Given the date is set to "2019-02-12"
     And I am logged in as "emma@mutts.com"
@@ -41,7 +41,6 @@ Feature: Member pays membership fee
 #    And I should see t("payors.past_due")
     Then I click on t("users.show_for_applicant.pay_membership")
     And I complete the membership payment
-    And I should see t("payments.success.success")
     Then the user is paid through "2020-02-11"
     And I should see "1001"
 
@@ -54,7 +53,6 @@ Feature: Member pays membership fee
     And I should see t("payors.due_by", due_date: '2018-12-31')
     Then I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    And I should see t("payments.success.success")
     Then the user is paid through "2019-12-31"
     #And I should see t("payors.paying_now_extends_until", fee_name: 'membership fee', term_name: 'membership', extended_end_date: '2019-12-31')
 
@@ -67,7 +65,6 @@ Feature: Member pays membership fee
     And I should see "1001"
     Then I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    And I should see t("payments.success.success")
     Then the user is paid through "2019-12-31"
 
 
@@ -93,15 +90,4 @@ Feature: Member pays membership fee
     And I should see "1001"
     When I click on t("menus.nav.members.pay_membership")
     And I abandon the payment by going back to the previous page
-    Then I should not see t("payments.success.success")
     And the user is paid through "2018-12-31"
-
-  Scenario: Member incurs error in payment processing so no payment is made
-    Given the date is set to "2018-12-30"
-    And I am logged in as "emma@mutts.com"
-    And I am on the "user account" page for "emma@mutts.com"
-    And I should see "1001"
-    Then I click on t("menus.nav.members.pay_membership")
-    And I incur an error in payment processing
-    And I should see t("payments.error.error")
-    Then the user is paid through "2018-12-31"
