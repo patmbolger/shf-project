@@ -25,14 +25,23 @@ And(/^I complete the membership payment$/) do
   #       in your feature "Background" section should be created with
   #       appropriate dates (using step "Given the date is set to <date>").
 
-  start_date, expire_date = User.next_membership_payment_dates(@user.id)
+  RSpec::Mocks.with_temporary_scope do
+    allow(KlarnaService).to receive(:get_checkout_order)
+      .and_return({ 'order_amount' => 30000, 'status' => 'checkout_complete' })
+    allow(KlarnaService).to receive(:acknowledge_order)
+    allow(KlarnaService).to receive(:capture_order)
+    allow_any_instance_of(PaymentsController).to receive(:log_klarna_activity)
 
-  payment = FactoryBot.create(:payment, user: @user,
-                              payment_type: 'member_fee',
-                              status: Payment.order_to_payment_status('successful'),
-                              start_date: start_date, expire_date: expire_date)
+    start_date, expire_date = User.next_membership_payment_dates(@user.id)
 
-  visit payment_success_path(user_id: @user.id, id: payment.id)
+    payment = FactoryBot.create(:payment, user: @user,
+                                payment_type: 'member_fee',
+                                status: Payment.order_to_payment_status('checkout_incomplete'),
+                                start_date: start_date, expire_date: expire_date)
+
+    visit payment_confirmation_path(user_id: @user.id, id: payment.id,
+                                    klarna_id: 'klarna_id')
+  end
 end
 
 And(/^I complete the branding payment for "([^"]*)"$/) do |company_name|
