@@ -1,4 +1,4 @@
-Given(/^the following payments exist$/) do |table|
+Given(/^the following payments exist(?:[:])?$/) do |table|
   table.hashes.each do |payment|
     user_email = payment.delete('user_email')
     company_name = payment.delete('company_name')
@@ -16,6 +16,7 @@ Given(/^the following payments exist$/) do |table|
     FactoryBot.create(:payment, payment.merge(user: user, company: company))
   end
 end
+
 
 And(/^I complete the membership payment$/) do
   # Emulate webhook payment-update and direct to "success" action
@@ -80,7 +81,7 @@ And(/^I incur an error in payment processing$/) do
   unless payment
     user_id = @user.id
     start_date, expire_date = User.next_membership_payment_dates(user_id)
-    payment = Payment.create(payment_type: Payment::PAYMENT_TYPE_MEMBER,
+    payment = Payment.create(payment_type: Payment.membership_payment_type,
                               user_id: user_id,
                               company_id: nil,
                               status: Payment.order_to_payment_status(nil),

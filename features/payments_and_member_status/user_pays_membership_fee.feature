@@ -30,9 +30,13 @@ Feature: User pays membership fee
   Scenario: User pays membership fee (post-2017)
     Given the date is set to "2018-7-01"
     And I am logged in as "emma-applicant@mutts.com"
+    And I have met all the non-payment requirements for membership
     And I am on the "user account" page for "emma-applicant@mutts.com"
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
+    Then I should see t("payments.success.success")
+    And I should be a current member
+    And I should see "2019-06-30"
     And the user is paid through "2019-06-30"
 
 

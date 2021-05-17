@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 2021_04_04_015347) do
     t.integer "site_meta_image_height", default: 0, null: false
     t.string "og_type", default: "website", null: false
     t.string "twitter_card_type", default: "summary", null: false
-    t.bigint "facebook_app_id", default: 0, null: false
+    t.bigint "facebook_app_id", default: 1292810030791186, null: false
     t.string "site_meta_image_file_name"
     t.string "site_meta_image_content_type"
     t.bigint "site_meta_image_file_size"
