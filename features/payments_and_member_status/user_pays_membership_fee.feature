@@ -34,8 +34,9 @@ Feature: User pays membership fee
     And I am on the "user account" page for "emma-applicant@mutts.com"
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    Then I should see t("payments.success.success")
+    #Then I should see t("payments.success.success")
     And I should be a current member
+    Then I am on the "user account" page
     And I should see "2019-06-30"
     And the user is paid through "2019-06-30"
 

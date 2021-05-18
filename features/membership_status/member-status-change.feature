@@ -69,8 +69,8 @@ Feature: Membership status updated due to payments or expiration
     Then I should see "1001"
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    Then I should see t("payments.success.success")
     And my membership expiration date should be 2019-12-31
+    Then I am on the "user account" page
     And I should see "2019-12-31"
 
 
@@ -82,8 +82,8 @@ Feature: Membership status updated due to payments or expiration
     And I am not a member
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    Then I should see t("payments.success.success")
     And I should be a current member
+    Then I am on the "user account" page
     And I should see "2019-12-31"
 
 
@@ -96,7 +96,7 @@ Feature: Membership status updated due to payments or expiration
     And I am not a member
     Then I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    And I should see t("payments.success.success")
+    Then I am on the "user account" page
     And I should see "2019-12-31"
     And I should be a member
     And my membership expiration date should be 2019-12-31
@@ -110,7 +110,7 @@ Feature: Membership status updated due to payments or expiration
     And I am in the grace period
     Then I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    And I should see t("payments.success.success")
+    Then I am on the "user account" page
     And I should see "2019-12-31"
     And I should be a member
     And my membership expiration date should be 2019-12-31
@@ -124,9 +124,9 @@ Feature: Membership status updated due to payments or expiration
     And I am not a member
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    Then I should see t("payments.success.success")
     And I should be a member
     And my membership expiration date should be 2021-12-31
+    Then I am on the "user account" page
     And I should see "2021-12-31"
 
 
@@ -141,4 +141,3 @@ Feature: Membership status updated due to payments or expiration
 
 
   # CODE OF CONDUCT (TBD)
-
