@@ -5,8 +5,6 @@ gem 'dotenv-rails'
 gem 'rails', '~> 5.2'
 gem 'bootsnap', require: false
 
-gem 'mimemagic', '= 0.3.5' # https://dev.to/cseeman/what-s-up-with-mimemagic-breaking-everything-he1
-
 gem 'pg', '~> 1.2'
 gem 'puma', '~> 5.0'
 gem 'sass-rails'

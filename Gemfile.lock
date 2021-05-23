@@ -623,7 +623,6 @@ DEPENDENCIES
   libv8 (< 8.0)
   mailgun-ruby
   meta-tags
-  mimemagic (= 0.3.5)
   mini_magick
   mini_racer (~> 0.2.1)
   nokogiri

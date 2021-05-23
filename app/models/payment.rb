@@ -65,8 +65,8 @@ class Payment < ApplicationRecord
 
   # PENDING = ORDER_PAYMENT_STATUS['pending']
   # SUCCESSFUL = ORDER_PAYMENT_STATUS['successful']
-  # EXPIRED = ORDER_PAYMENT_STATUS['expired']
-  # AWAITING_PAYMENTS = ORDER_PAYMENT_STATUS['awaiting_payments']
+  EXPIRED = ORDER_PAYMENT_STATUS['expired']
+  AWAITING_PAYMENTS = ORDER_PAYMENT_STATUS['awaiting_payments']
 
 
   NO_HIPS_ID = 'none'
