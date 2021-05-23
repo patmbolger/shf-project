@@ -17,7 +17,7 @@ describe KlarnaService do
       type: Payment::PAYMENT_TYPE_MEMBER,
       currency: 'SEK',
       item_price: SHF_MEMBER_FEE,
-      paid_item: paid_item = I18n.t('payment.payment_type.member_fee'),
+      paid_item: I18n.t('payment.payment_type.member_fee'),
       urls:  urls }
   end
 

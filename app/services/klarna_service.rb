@@ -103,14 +103,12 @@ class KlarnaService
 
   def self.process_api_error(response)
 
-    parsed_response = response.parsed_response
-
     if response.code.in? [401, 404]
       raise "KlarnaService code: #{response.code} #{response.msg}"
     else
       parsed_response = response.parsed_response
 
-      if error = parsed_response&.fetch('error', nil)
+      if (error = parsed_response&.fetch('error', nil))
         raise "KlarnaService error: #{error['type']}, #{error['message']}"
       else
         raise 'Unknown error'
@@ -153,7 +151,7 @@ class KlarnaService
           unit_price: payment_data[:item_price],
           tax_rate: 0,
           total_amount: payment_data[:item_price],
-          total_tax_amount: 0,
+          total_tax_amount: 0
         } ],
       merchant_urls: {
         terms: 'https://hitta.sverigeshundforetagare.se/dokument/innehall/hmarket',
