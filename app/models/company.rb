@@ -127,7 +127,7 @@ class Company < ApplicationRecord
 
   # TODO: yuck
   def self.with_members
-    where(id: CompanyApplication.where(shf_application: [ShfApplication.where(user: User.members)]).pluck(:company_id))
+    where(id: CompanyApplication.where(shf_application: [ShfApplication.where(user: User.current_member)]).pluck(:company_id))
   end
 
   # Criteria limiting visibility of companies to non-admin users

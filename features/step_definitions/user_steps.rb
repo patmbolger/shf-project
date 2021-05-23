@@ -44,6 +44,8 @@ Given(/^the following users exist(?:[:])?$/) do |table|
     AdminOnly::UserChecklistFactory.create_member_guidelines_checklist_for(new_user)
     user_agrees_to_membership_guidelines(new_user) if user_agreed_to_membership_guidelines
     new_user
+
+    new_user.start_membership!(send_email: false) if new_user.member?
   end
 end
 
