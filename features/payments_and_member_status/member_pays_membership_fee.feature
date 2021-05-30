@@ -55,7 +55,6 @@ Feature: Member pays membership fee
     Then I should see t("users.renewal.renewal_overdue_warning")
     When I click on t("users.renewal.pay_membership")
     And I complete the membership payment
-    #Then I should see t("payments.success.success")
     And my membership expiration date should be 2020-01-01
     And I should be a current member
 
@@ -70,7 +69,6 @@ Feature: Member pays membership fee
     Then I should see "2018-12-31"
     When I click on t("menus.nav.members.pay_membership")
     And I complete the membership payment
-    #Then I should see t("payments.success.success")
     And I should be a current member
     And my membership expiration date should be 2019-12-31
     #And I should see t("payors.paying_now_extends_until", fee_name: 'membership fee', term_name: 'membership', extended_end_date: '2019-12-31')
@@ -84,5 +82,5 @@ Feature: Member pays membership fee
     Then I should see "1001"
     When I click on t("menus.nav.members.pay_membership")
     And I abandon the payment by going back to the previous page
-    Then I should not see t("payments.success.success")
+    Then I should not see t("payments.confirmation.success_html")
     And my membership expiration date should be 2018-12-31
