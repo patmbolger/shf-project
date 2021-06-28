@@ -154,7 +154,7 @@ class KlarnaService
           total_tax_amount: 0
         } ],
       merchant_urls: {
-        terms: 'https://hitta.sverigeshundforetagare.se/dokument/innehall/hmarket',
+        terms: 'https://sverigeshundforetagare.se/aterbetalningsvillkor/',
         checkout: payment_data[:urls][:checkout],
         confirmation: payment_data[:urls][:confirmation],
         push: payment_data[:urls][:push]
