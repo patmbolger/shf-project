@@ -95,7 +95,7 @@ module PathHelpers
 
       when 'upload a new file'
         u = user.nil? ? Visitor.new : user
-        path = new_user_uploaded_file_path(u)
+        path = user_new_uploaded_file_path(u)
 
 
       # ==================================================
@@ -120,7 +120,7 @@ module PathHelpers
       # Application configuration
       when 'admin edit app configuration'
         path = admin_only_edit_app_configuration_path(AdminOnly::AppConfiguration.config_to_use)
-      when 'admin show app configuration'
+      when 'admin show app configuration', 'admin app configuration', 'app configuration'
         path = admin_only_app_configuration_path
 
       # Reasons SHF is waiting for more application info
