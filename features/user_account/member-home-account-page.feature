@@ -58,6 +58,10 @@ Feature:  Member home (account) page
       | email                   | first_day | last_day   | notes |
       | emma-member@example.com | 2018-01-1 | 2018-12-31 |       |
 
+    And the following users have agreed to the Membership Ethical Guidelines:
+      | email                   | date agreed to |
+      | emma-member@example.com | 2018-01-1      |
+
     Given I am logged in as "emma-member@example.com"
     And I am on the "user account" page for "emma-member@example.com"
     Then I am a current member
@@ -92,7 +96,7 @@ Feature:  Member home (account) page
     And I should see t("users.show.is_a_member")
     And I should see t("users.show.membership_term_last_day")
     And the user is paid through "2018-12-31"
-#   TODO And user membership last day is "2018-12-31"
+    And the last day of membership for "emma-member@example.com" should be 2018-12-31
 
 
   # =======================

@@ -46,8 +46,8 @@ Feature: Member pays membership fee
   # -----------------------------------------------------------------------------------------------
 
 
-  @time_adjust @selenium
-  Scenario: Member pays membership fee after term expires (after prior payment expiration date)
+  @time_adjust
+  Scenario: Member pays membership fee after term expires (in grace pd)
     Given the date is set to "2019-01-02"
     And I am logged in as "emma@mutts.com"
     And I have met all the non-payment requirements for renewing my membership
@@ -67,11 +67,7 @@ Feature: Member pays membership fee
     And I have met all the non-payment requirements for membership
     When I am on the "user account" page
     Then I should see "2018-12-31"
-    When I click on t("menus.nav.members.pay_membership")
-    And I complete the membership payment
-    And I should be a current member
-    And my membership expiration date should be 2019-12-31
-    #And I should see t("payors.paying_now_extends_until", fee_name: 'membership fee', term_name: 'membership', extended_end_date: '2019-12-31')
+    Then the link button t("users.show.pay_membership") should not be disabled
 
 
   @selenium
